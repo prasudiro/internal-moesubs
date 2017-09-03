@@ -1,0 +1,16 @@
+/node_modules
+/vendor
+/database
+/storage
+/bootstrap
+/config
+/tests
+/.idea
+Homestead.json
+Homestead.yaml
+.env
+composer.lock
+artisan
+phpunit.xml
+server.php
+.env.example
