@@ -4,6 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
+use Session;
+use Auth;
+
+//Call table
+use App\User;
 
 class LoginController extends Controller
 {
@@ -25,7 +33,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -35,5 +43,51 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function index()
+    {
+        return view('login');
+    }
+
+    public function login(Request $request)
+    {
+
+        $login_with_username = array(
+            'name'     => $request['name'],
+            'password' => $request['password'],
+        );
+
+        $login_with_email = array(
+            'email'     => $request['name'],
+            'password' => $request['password'],
+        );
+
+        if (Auth::attempt($login_with_username)) 
+        {
+            return redirect()->intended('/')->with('message', 'You have been successfully login.');
+        }
+        elseif (Auth::attempt($login_with_email)) 
+        {
+            return redirect()->intended('/')->with('message', 'You have been successfully login.');
+        }
+        
+        return redirect('login')->with('error_msg', 'Tidak punya SIM dan STNK berlaku? Anda saya tilang!');
+    }
+
+    public function logout()
+    {
+        if (Auth::user()) 
+        {
+            Auth::logout();
+            Session::flush();
+
+            return redirect('login')->with('success_msg', 'Terima kasih dan silakan pergi!');
+        }
+        else
+        {
+            return redirect('login')->with('error_msg', 'Menunjukkan SIM dan STNK saja belum, tapi sudah mau pergi?!');
+        }
+        
     }
 }
