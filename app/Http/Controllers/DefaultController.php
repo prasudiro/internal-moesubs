@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class DefaultController extends Controller
 {
@@ -15,6 +16,9 @@ class DefaultController extends Controller
     //Get homepage with template
     public function index()
     {
-    	return view('themes.default');
+        $user_info = Auth::user();
+
+    	return view('themes.default')
+                ->with('user_info', $user_info);
     }
 }

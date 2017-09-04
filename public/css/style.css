@@ -164,7 +164,7 @@ h5 {
   transition: all 0.5s;
 }
 .nav > li.active {
-  border-left: 4px solid #19aa8d;
+  border-left: 4px solid #bc2134;
   background: #293846;
 }
 .nav.nav-second-level > li.active {
@@ -4938,7 +4938,7 @@ body.skin-3 {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
-    min-height: 1200px;
+    min-height: 900px;
   }
   .navbar-static-side {
     z-index: 101;
