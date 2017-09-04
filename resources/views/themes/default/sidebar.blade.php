@@ -1,4 +1,3 @@
-
 <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
@@ -45,8 +44,8 @@
                     <li>
                         <a href="#" title="Setoran"><i class="fa fa-book"></i> <span class="nav-label">Setoran</span><span class="fa arrow"></span></a></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="#" title="Siap Edit">Siap Edit</a></li>
-                            <li><a href="#" title="Siap QC">Siap QC</a></li>
+                            <li><a href="{{ URL('setoran/edit')}}" title="Siap Edit">Siap Edit</a></li>
+                            <li><a href="{{ URL('setoran/qc')}}" title="Siap QC">Siap QC</a></li>
                         </ul>
                     </li>
                     <li>

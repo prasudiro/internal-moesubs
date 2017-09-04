@@ -8,17 +8,17 @@
 
     <title>@yield('judul') Internal | [Moesubs] Jagonya Ngesub</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="{{ URL('css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ URL('font-awesome/css/font-awesome.css')}}" rel="stylesheet">
 
     <!-- Toastr style -->
-    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="{{ URL('css/plugins/toastr/toastr.min.css')}}" rel="stylesheet">
 
     <!-- Gritter -->
-    <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    <link href="{{ URL('js/plugins/gritter/jquery.gritter.css')}}" rel="stylesheet">
 
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{ URL('css/animate.css')}}" rel="stylesheet">
+    <link href="{{ URL('css/style.css')}}" rel="stylesheet">
 
 </head>
 
@@ -84,15 +84,7 @@
         </nav>
         </div>
 
-					<div class="row  border-bottom white-bg dashboard-header">
-						<div class="col-md-12">
-							<h1 class="text-center"><b>Panduan Penggunaan</b></h1>
-							<hr>
-							<center>
-								Akan segera diperbarui.
-							</center>
-						</div>
-					</div>
+			@yield('content')
 
 					<div class="footer">
             <div class="pull-right">
@@ -107,57 +99,57 @@
   </div>
 
     <!-- Mainly scripts -->
-    <script src="js/jquery-2.1.1.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="{{ URL('js/jquery-2.1.1.js')}}"></script>
+    <script src="{{ URL('js/bootstrap.min.js')}}"></script>
+    <script src="{{ URL('js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
+    <script src="{{ URL('js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
 
     <!-- Flot -->
-    <script src="js/plugins/flot/jquery.flot.js"></script>
-    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="js/plugins/flot/jquery.flot.spline.js"></script>
-    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
+    <script src="{{ URL('js/plugins/flot/jquery.flot.js')}}"></script>
+    <script src="{{ URL('js/plugins/flot/jquery.flot.tooltip.min.js')}}"></script>
+    <script src="{{ URL('js/plugins/flot/jquery.flot.spline.js')}}"></script>
+    <script src="{{ URL('js/plugins/flot/jquery.flot.resize.js')}}"></script>
+    <script src="{{ URL('js/plugins/flot/jquery.flot.pie.js')}}"></script>
 
     <!-- Peity -->
-    <script src="js/plugins/peity/jquery.peity.min.js"></script>
-    <script src="js/demo/peity-demo.js"></script>
+    <script src="{{ URL('js/plugins/peity/jquery.peity.min.js')}}"></script>
+    <script src="{{ URL('js/demo/peity-demo.js')}}"></script>
 
     <!-- Custom and plugin javascript -->
-    <script src="js/inspinia.js"></script>
-    <script src="js/plugins/pace/pace.min.js"></script>
+    <script src="{{ URL('js/inspinia.js')}}"></script>
+    <script src="{{ URL('js/plugins/pace/pace.min.js')}}"></script>
 
     <!-- jQuery UI -->
-    <script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="{{ URL('js/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 
     <!-- GITTER -->
-    <script src="js/plugins/gritter/jquery.gritter.min.js"></script>
+    <script src="{{ URL('js/plugins/gritter/jquery.gritter.min.js')}}"></script>
 
     <!-- Sparkline -->
-    <script src="js/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="{{ URL('js/plugins/sparkline/jquery.sparkline.min.js')}}"></script>
 
     <!-- Sparkline demo data  -->
-    <script src="js/demo/sparkline-demo.js"></script>
+    <script src="{{ URL('js/demo/sparkline-demo.js')}}"></script>
 
     <!-- ChartJS-->
-    <script src="js/plugins/chartJs/Chart.min.js"></script>
+    <script src="{{ URL('js/plugins/chartJs/Chart.min.js')}}"></script>
 
     <!-- Toastr -->
-    <script src="js/plugins/toastr/toastr.min.js"></script>
+    <script src="{{ URL('js/plugins/toastr/toastr.min.js')}}"></script>
 
 
     <script>
         $(document).ready(function() {
-            setTimeout(function() {
-                toastr.options = {
-                    closeButton: true,
-                    progressBar: true,
-                    showMethod: 'slideDown',
-                    timeOut: 4000
-                };
-                toastr.error('Jagonya Ngesub; Jagonya Fansub', 'Selamat datang, {{ $user_info["name"] }}');
+            // setTimeout(function() {
+            //     toastr.options = {
+            //         closeButton: true,
+            //         progressBar: true,
+            //         showMethod: 'slideDown',
+            //         timeOut: 4000
+            //     };
+            //     toastr.error('Jagonya Ngesub; Jagonya Fansub', 'Selamat datang, {{ $user_info["name"] }}');
 
-            }, 1300);
+            // }, 1300);
 
 
             var data1 = [

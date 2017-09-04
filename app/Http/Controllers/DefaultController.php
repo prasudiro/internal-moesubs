@@ -18,7 +18,7 @@ class DefaultController extends Controller
     {
         $user_info = Auth::user();
 
-    	return view('themes.default')
+    	return view('html.index')
                 ->with('user_info', $user_info);
     }
 }
