@@ -18,9 +18,24 @@ Route::get('logout', 'Auth\LoginController@logout');
 |--------------------------------------------------------------------------
 */
 Route::get('setoran', 'SetoranController@index');
+Route::get('setoran/download/{id}', 'SetoranController@download_setoran');
 
+//Setoran Edit
 Route::get('setoran/edit', 'SetoranController@list_edit');
 Route::get('setoran/edit/add', 'SetoranController@add_edit');
-Route::post('setoran/edit/add', 'SetoranController@store_edit');
+Route::post('setoran/edit/add', 'SetoranController@store');
 
+//Setoran QC
 Route::get('setoran/qc', 'SetoranController@list_qc');
+Route::get('setoran/qc/add', 'SetoranController@add_qc');
+Route::post('setoran/qc/add', 'SetoranController@store');
+
+/*
+|--------------------------------------------------------------------------
+| Laporan Route
+|--------------------------------------------------------------------------
+*/
+Route::get('laporan', 'LaporanController@index');
+Route::get('laporan/add', 'LaporanController@add');
+Route::post('laporan/add', 'LaporanController@store');
+Route::get('laporan/edit/{id}', 'LaporanController@edit');

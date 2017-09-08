@@ -18,8 +18,8 @@
                              <b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a href="#">Profil</a></li>
-                                <li><a href="#">Pengaturan</a></li>
                                 <li><a href="#">Pesan</a></li>
+                                <li><a href="#">Pengaturan</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{{ URL('logout')}}">Keluar</a></li>
                             </ul>
@@ -49,7 +49,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#" title="Laporan QC"><i class="fa fa-desktop"></i> <span class="nav-label">Laporan QC</span></a>
+                        <a href="{{ URL('laporan')}}" title="Laporan QC"><i class="fa fa-desktop"></i> <span class="nav-label">Laporan QC</span></a>
                     </li>
                     <li>
                         <a href="#" title="Pengaturan"><i class="fa fa-gear"></i> <span class="nav-label">Pengaturan</span><span class="fa arrow"></span></a>

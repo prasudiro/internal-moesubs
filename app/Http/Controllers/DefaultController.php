@@ -18,7 +18,7 @@ class DefaultController extends Controller
     {
         $user_info = Auth::user();
 
-    	return view('html.index')
+    	return view('html.dasbor.index')
                 ->with('user_info', $user_info);
     }
 }

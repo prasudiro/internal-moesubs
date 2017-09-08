@@ -1,6 +1,6 @@
 @extends('themes.default')
 
-@section('title')
+@section('judul')
 
 Setoran
 

@@ -510,11 +510,11 @@
             return true;
         };
 
-        AbstractChosen.default_multiple_text = "Select Some Options";
+        AbstractChosen.default_multiple_text = "Pilih beberapa";
 
-        AbstractChosen.default_single_text = "Select an Option";
+        AbstractChosen.default_single_text = "Pilih salah satu";
 
-        AbstractChosen.default_no_result_text = "No results match";
+        AbstractChosen.default_no_result_text = "Tidak ditemukan";
 
         return AbstractChosen;
 
@@ -578,7 +578,7 @@
             } else {
                 this.container.html('<a class="chosen-single chosen-default" tabindex="-1"><span>' + this.default_text + '</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off" /></div><ul class="chosen-results"></ul></div>');
             }
-            this.form_field_jq.hide().after(this.container);
+            this.form_field_jq.css('position', 'absolute').css('opacity', 0).after(this.container);
             this.dropdown = this.container.find('div.chosen-drop').first();
             this.search_field = this.container.find('input').first();
             this.search_results = this.container.find('ul.chosen-results').first();

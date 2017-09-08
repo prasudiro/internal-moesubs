@@ -2,7 +2,7 @@
 
 @section('judul')
 
-Tambah Setoran Edit
+Tambah Setoran QC
 
 @endsection
 
@@ -13,16 +13,16 @@ Tambah Setoran Edit
         <div class="ibox float-e-margins">
             <div class="ibox-title">
 	            <div class="col-md-6">
-		        		<h5>Tambah Setoran Edit <small>(hanya untuk skrip yang selesai diterjemahkan).</small></h5>
+		        		<h5>Tambah Setoran QC <small>(hanya untuk skrip yang siap dicek).</small></h5>
 				      </div>
 				      <div class="col-md-6 text-right">
-				        <a href="{{ URL('setoran/edit')}}" class="btn-sm btn-danger"><i class="fa fa-chevron-left"></i> Kembali</a>
+				        <a href="{{ URL('setoran/qc')}}" class="btn-sm btn-danger"><i class="fa fa-chevron-left"></i> Kembali</a>
 				      </div>
             </div>
             <div class="ibox-content">
-                <form class="form-horizontal" role="form" method="post" action="{{ URL('setoran/edit/add')}}" accept-charset="utf-8" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" method="post" action="{{ URL('setoran/qc/add')}}" accept-charset="utf-8" enctype="multipart/form-data">
                 {{ csrf_field()}}
-                <input type="hidden" name="setoran_type" value="0">
+                <input type="hidden" name="setoran_type" value="1">
                 <input type="hidden" name="user_id" value="{{ $user_info['id']}}">
                     <div class="form-group"><label class="col-sm-2 control-label">Judul Kartun</label>
 	                    <div class="col-sm-8">

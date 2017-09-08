@@ -14,11 +14,65 @@
     <!-- Toastr style -->
     <link href="{{ URL('css/plugins/toastr/toastr.min.css')}}" rel="stylesheet">
 
+    <!-- Chosen -->
+    <link href="{{ URL('css/plugins/chosen/chosen.css')}}" rel="stylesheet">
+
     <!-- Gritter -->
     <link href="{{ URL('js/plugins/gritter/jquery.gritter.css')}}" rel="stylesheet">
 
+    <!-- Data Tables -->
+    <link href="{{ URL('css/plugins/dataTables/dataTables.bootstrap.css')}}" rel="stylesheet">
+    <link href="{{ URL('css/plugins/dataTables/dataTables.responsive.css')}}" rel="stylesheet">
+    <link href="{{ URL('css/plugins/dataTables/dataTables.tableTools.min.css')}}" rel="stylesheet">
+
+    <!-- Summernote -->
+    <link href="{{ URL('css/plugins/summernote/summernote.css')}}" rel="stylesheet">
+    <link href="{{ URL('css/plugins/summernote/summernote-bs3.css')}}" rel="stylesheet">
+
     <link href="{{ URL('css/animate.css')}}" rel="stylesheet">
     <link href="{{ URL('css/style.css')}}" rel="stylesheet">
+
+    <style type="text/css">
+        .modal-dialog {
+          position: relative;
+          width: auto;
+          max-width: 600px;
+          margin: 10px;
+        }
+        .modal-sm {
+          max-width: 300px;
+        }
+        .modal-lg {
+          max-width: 900px;
+        }
+        @media (min-width: 768px) {
+          .modal-dialog {
+            margin: 30px auto;
+          }
+        }
+        @media (min-width: 320px) {
+          .modal-sm {
+            margin-right: auto;
+            margin-left: auto;
+          }
+        }
+        @media (min-width: 620px) {
+          .modal-dialog {
+            margin-right: auto;
+            margin-left: auto;
+          }
+          .modal-lg {
+            margin-right: 10px;
+            margin-left: 10px;
+          }
+        }
+        @media (min-width: 920px) {
+          .modal-lg {
+            margin-right: auto;
+            margin-left: auto;
+          }
+        }
+    </style>
 
 </head>
 
@@ -100,6 +154,7 @@
 
     <!-- Mainly scripts -->
     <script src="{{ URL('js/jquery-2.1.1.js')}}"></script>
+    <script src="{{ URL('js/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{ URL('js/bootstrap.min.js')}}"></script>
     <script src="{{ URL('js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
     <script src="{{ URL('js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
@@ -119,8 +174,6 @@
     <script src="{{ URL('js/inspinia.js')}}"></script>
     <script src="{{ URL('js/plugins/pace/pace.min.js')}}"></script>
 
-    <!-- jQuery UI -->
-    <script src="{{ URL('js/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 
     <!-- GITTER -->
     <script src="{{ URL('js/plugins/gritter/jquery.gritter.min.js')}}"></script>
@@ -137,20 +190,104 @@
     <!-- Toastr -->
     <script src="{{ URL('js/plugins/toastr/toastr.min.js')}}"></script>
 
+    <!-- Chosen -->
+    <script src="{{ URL('js/plugins/chosen/chosen.jquery.js')}}"></script>
+
+    <!-- Data Tables -->
+    <script src="{{ URL('js/plugins/dataTables/jquery.dataTables.js')}}"></script>
+    <script src="{{ URL('js/plugins/dataTables/dataTables.bootstrap.js')}}"></script>
+    <script src="{{ URL('js/plugins/dataTables/dataTables.responsive.js')}}"></script>
+    <script src="{{ URL('js/plugins/dataTables/dataTables.tableTools.min.js')}}"></script>
+
+    <!-- SUMMERNOTE -->
+    <script src="{{ URL('js/plugins/summernote/summernote.min.js')}}"></script>
+
 
     <script>
         $(document).ready(function() {
-            // setTimeout(function() {
-            //     toastr.options = {
-            //         closeButton: true,
-            //         progressBar: true,
-            //         showMethod: 'slideDown',
-            //         timeOut: 4000
-            //     };
-            //     toastr.error('Jagonya Ngesub; Jagonya Fansub', 'Selamat datang, {{ $user_info["name"] }}');
+            @if(Session::has('error_msg'))
+                setTimeout(function() {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.warning('{!! Session::get("error_msg") !!}');
 
-            // }, 1300);
+                    }, 500);
+            @elseif(Session::has('success_msg'))
+                setTimeout(function() {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.error('{!! Session::get("success_msg") !!}');
 
+                }, 500);
+            @endif
+
+            $('.dataTables-setoran').dataTable({
+                responsive: true,
+                "order": [[ 2, "desc" ]],
+                "columnDefs": [
+                  { "targets": [3], "orderable": false }
+                ],
+                "language": {
+                    "zeroRecords": "<center><h3><b>Tidak ada data</b></h3><center>",
+                    "paginate": {
+                        "first":    'Pertama',
+                        "previous": 'Mundur',
+                        "next":     'Maju',
+                        "last":     'Terakhir'
+                    },
+                    "search": "",
+                    "searchPlaceholder": "Pencarian",
+                    "lengthMenu": '<select class=form-control>'+
+                      '<option value="10">10</option>'+
+                      '<option value="30">30</option>'+
+                      '<option value="50">50</option>'+
+                      '<option value="100">100</option>'+
+                      '<option value="-1">Semua</option>'+
+                      '</select>&nbsp;&nbsp;data per halaman',
+                    "info": "Total _TOTAL_ data",
+                    "infoEmpty": "",
+                    "infoFiltered": ""
+                }
+            });   
+
+            $('.dataTables-laporan').dataTable({
+                responsive: true,
+                "order": [[ 2, "desc" ]],
+                "language": {
+                    "zeroRecords": "<center><h3><b>Tidak ada data</b></h3><center>",
+                    "paginate": {
+                        "first":    'Pertama',
+                        "previous": 'Mundur',
+                        "next":     'Maju',
+                        "last":     'Terakhir'
+                    },
+                    "search": "",
+                    "searchPlaceholder": "Pencarian",
+                    "lengthMenu": '<select class=form-control>'+
+                      '<option value="10">10</option>'+
+                      '<option value="30">30</option>'+
+                      '<option value="50">50</option>'+
+                      '<option value="100">100</option>'+
+                      '<option value="-1">Semua</option>'+
+                      '</select>&nbsp;&nbsp;data per halaman',
+                    "info": "Total _TOTAL_ data",
+                    "infoEmpty": "",
+                    "infoFiltered": ""
+                }
+
+            });
+
+            $('.summernote').summernote();
+
+            $('[data-toggle="tooltip"]').tooltip();
 
             var data1 = [
                 [0,4],[1,8],[2,5],[3,10],[4,4],[5,16],[6,5],[7,11],[8,6],[9,11],[10,30],[11,10],[12,13],[13,4],[14,3],[15,3],[16,6]
@@ -196,81 +333,19 @@
                     }
             );
 
-            var doughnutData = [
-                {
-                    value: 300,
-                    color: "#a3e1d4",
-                    highlight: "#1ab394",
-                    label: "App"
-                },
-                {
-                    value: 50,
-                    color: "#dedede",
-                    highlight: "#1ab394",
-                    label: "Software"
-                },
-                {
-                    value: 100,
-                    color: "#b5b8cf",
-                    highlight: "#1ab394",
-                    label: "Laptop"
-                }
-            ];
-
-            var doughnutOptions = {
-                segmentShowStroke: true,
-                segmentStrokeColor: "#fff",
-                segmentStrokeWidth: 2,
-                percentageInnerCutout: 45, // This is 0 for Pie charts
-                animationSteps: 100,
-                animationEasing: "easeOutBounce",
-                animateRotate: true,
-                animateScale: false,
-            };
-
-            var ctx = document.getElementById("doughnutChart").getContext("2d");
-            var DoughnutChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
-
-            var polarData = [
-                {
-                    value: 300,
-                    color: "#a3e1d4",
-                    highlight: "#1ab394",
-                    label: "App"
-                },
-                {
-                    value: 140,
-                    color: "#dedede",
-                    highlight: "#1ab394",
-                    label: "Software"
-                },
-                {
-                    value: 200,
-                    color: "#b5b8cf",
-                    highlight: "#1ab394",
-                    label: "Laptop"
-                }
-            ];
-
-            var polarOptions = {
-                scaleShowLabelBackdrop: true,
-                scaleBackdropColor: "rgba(255,255,255,0.75)",
-                scaleBeginAtZero: true,
-                scaleBackdropPaddingY: 1,
-                scaleBackdropPaddingX: 1,
-                scaleShowLine: true,
-                segmentShowStroke: true,
-                segmentStrokeColor: "#fff",
-                segmentStrokeWidth: 2,
-                animationSteps: 100,
-                animationEasing: "easeOutBounce",
-                animateRotate: true,
-                animateScale: false,
-            };
-            var ctx = document.getElementById("polarChart").getContext("2d");
-            var Polarchart = new Chart(ctx).PolarArea(polarData, polarOptions);
-
         });
+
+            var config = {
+                '.chosen-select'           : {},
+                '.chosen-select-deselect'  : {allow_single_deselect:true},
+                '.chosen-select-no-single' : {disable_search_threshold:10},
+                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                '.chosen-select-width'     : {width:"95%"}
+            }
+            for (var selector in config) {
+                $(selector).chosen(config[selector]);
+            }
     </script>
+
 </body>
 </html>

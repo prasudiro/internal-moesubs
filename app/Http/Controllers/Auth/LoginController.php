@@ -65,11 +65,11 @@ class LoginController extends Controller
 
         if (Auth::attempt($login_with_username)) 
         {
-            return redirect()->intended('/')->with('message', 'You have been successfully login.');
+            return redirect()->intended('/')->with('success_msg', '<b>Selamat datang, '.Auth::user()['name'].'!</b><br>Jangan lupa ajukan saran dan masukan melalui menu Pesan.');
         }
         elseif (Auth::attempt($login_with_email)) 
         {
-            return redirect()->intended('/')->with('message', 'You have been successfully login.');
+            return redirect()->intended('/')->with('success_msg', '<b>Selamat datang, '.Auth::user()['name'].'!</b><br>Jangan lupa ajukan saran dan masukan melalui menu Pesan.');
         }
         
         return redirect('login')->with('error_msg', 'Tidak punya SIM dan STNK berlaku? Anda saya tilang!');
