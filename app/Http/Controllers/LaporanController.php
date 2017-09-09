@@ -24,13 +24,13 @@ class LaporanController extends Controller
     public function index()
     {
       $user_info	 = Auth::user();
-      $laporan 		 = Laporan::get()->toArray();
+      $laporan 		 = Laporan::get()->where('status', '=', 0)->toArray();
       $laporan_isi = LaporanIsi::leftjoin('users', 'users.id', '=', 'laporan_isi.user_id')
       												 	 ->leftjoin('laporan', 'laporan.laporan_id', '=', 'laporan_isi.laporan_id')
 	    													 ->orderBy('laporan_isi.laporan_isi_id', 'ASC')
 	    													 ->get()
 	    													 ->toArray();
-	    													 
+
     	return view('html.laporan.index')
                 ->with('user_info', $user_info)
                 ->with('laporan', $laporan)
@@ -78,6 +78,31 @@ class LaporanController extends Controller
 
 	    	if (count($get_laporan) > 0)
 	    	{
+	    			//Check if laporan already deleted then restore it
+	    			if ($get_laporan['status'] == 1) 
+	    			{	
+	    				$new_laporan 		 = Laporan::where('laporan_id', '=', $get_laporan['laporan_id'])->update(array('status' => '0'));
+
+	    				//Update laporan isi to the new one
+	    				$get_laporan_isi = LaporanIsi::where('laporan_id', '=', $get_laporan['laporan_id'])
+	    																		->where('user_id', '=', $request['user_id'])
+	    																		->update(array('laporan_isi_detail' => base64_encode($request['laporan_isi'])));
+
+		    			return redirect('laporan')->with('success_msg', 'Laporan berhasil ditambahkan!');
+	    			}
+	    			//End of check if laporan already deleted then restore it
+
+		    		//Check if user already reported that project
+	    			$get_laporan_isi = LaporanIsi::where('laporan_id', '=', $get_laporan['laporan_id'])
+	    																		->where('user_id', '=', $request['user_id'])
+	    																		->first();
+
+		    			if (count($get_laporan_isi) > 0) 
+		    			{
+		    				return redirect()->back()->withInput()->with('error_msg', 'Sehat? Anda sudah pernah melapor!');
+		    			}
+		    		//End of check if user already reported that project
+
 	    			$laporan_isi = array("laporan_id"			=> $get_laporan['laporan_id'],
 	    											 "laporan_isi_detail" => base64_encode($request['laporan_isi']),
 	    											 "user_id"						=> $request['user_id'],
@@ -103,7 +128,7 @@ class LaporanController extends Controller
 
     	if (empty($laporan_save))
       {
-      	return redirect()->back()->with('error_msg', 'Keselahan dalam penyimpanan!<br><br>Harap dicoba lagi!');
+      	return redirect()->back()->withInput()->with('error_msg', 'Kesalahan dalam penyimpanan!<br><br>Harap dicoba lagi!');
       }
 
     	$laporan_isi = array("laporan_id"				  => $laporan_save,
@@ -117,7 +142,7 @@ class LaporanController extends Controller
 
     	if (!$laporan_isi_save) 
       {
-      	return redirect()->back()->with('error_msg', 'Keselahan dalam penyimpanan!<br><br>Harap dicoba lagi!');
+      	return redirect()->back()->withInput()->with('error_msg', 'Kesalahan dalam penyimpanan!<br><br>Harap dicoba lagi!');
       }
 
       return redirect('laporan')->with('success_msg', 'Laporan berhasil ditambahkan!');
@@ -127,7 +152,33 @@ class LaporanController extends Controller
     //Get data and edit laporan
     public function edit($id)
     {
-    	print_r($id);
-    	exit();
+    	$user_info = Auth::user();
+      $kategori  = Kategori::orderBy('judul', 'asc')->get()->toArray();
+    	$get_id = preg_replace("/[^0-9]/", "", base64_decode($id));
+    	$laporan_isi = LaporanIsi::leftjoin('laporan', 'laporan.laporan_id', '=', 'laporan_isi.laporan_id')
+    														->leftjoin('tags', 'tags.id', '=', 'laporan.laporan_category')
+    														->where('laporan_isi.laporan_isi_id', '=', $get_id)
+    														->first();
+
+    	return view('html.laporan.edit')
+                ->with('user_info', $user_info)
+                ->with('kategori', $kategori)
+                ->with('laporan_isi', $laporan_isi);
+    }
+
+    //Get data and edit laporan
+    public function update(Request $request)
+    {
+    	$data['laporan_isi_id'] 		= $request['laporan_isi_id'];
+    	$data['laporan_isi_detail'] = base64_encode($request['laporan_isi_detail']);
+
+    	$laporan_isi_update = LaporanIsi::where('laporan_isi_id', '=', $data['laporan_isi_id'])->update(array('laporan_isi_detail' => $data['laporan_isi_detail']));
+
+    	if (!$laporan_isi_update) 
+    	{
+    		return redirect()->back()->withInput()->with('error_msg', 'Kesalahan dalam penyimpanan!<br><br>Harap dicoba lagi!');
+    	}
+
+    	return redirect('laporan')->with('success_msg', 'Laporan berhasil diperbarui!');
     }
 }

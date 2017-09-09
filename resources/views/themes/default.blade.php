@@ -211,7 +211,7 @@
                             closeButton: true,
                             progressBar: true,
                             showMethod: 'slideDown',
-                            timeOut: 4000
+                            timeOut: 4000,
                         };
                         toastr.warning('{!! Session::get("error_msg") !!}');
 

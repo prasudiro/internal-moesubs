@@ -50,7 +50,7 @@ class SetoranController extends Controller
 
       if (!$insert) 
       {
-      	return redirect()->back->with('error_msg', 'Keselahan dalam penyimpanan!<br><br>Harap dicoba lagi!');
+      	return redirect()->back()->withInput()->with('error_msg', 'Kesalahan dalam penyimpanan!<br><br>Harap dicoba lagi!');
       }
 
     	return redirect('setoran/'.$type)->with('success_msg', 'Setoran berhasil ditambahkan!');
@@ -62,7 +62,12 @@ class SetoranController extends Controller
     {
     	$setoran = Setoran::where('setoran_name', '=', base64_decode($id))->first();
 
-      return response()->download($setoran['setoran_file']);
+      if(count($setoran) > 0)
+      {
+        return response()->download($setoran['setoran_file']);
+      }
+
+      return redirect()->back()->withInput()->with('error_msg', 'Berkas tidak ditemukan!');
     }
 
 /*

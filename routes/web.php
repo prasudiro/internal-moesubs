@@ -2,7 +2,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| Main Route
+| Main Route (Dasbor and Auth)
 |--------------------------------------------------------------------------
 */
 Route::get('/', 'DefaultController@index');
@@ -39,3 +39,4 @@ Route::get('laporan', 'LaporanController@index');
 Route::get('laporan/add', 'LaporanController@add');
 Route::post('laporan/add', 'LaporanController@store');
 Route::get('laporan/edit/{id}', 'LaporanController@edit');
+Route::post('laporan/update', 'LaporanController@update');
