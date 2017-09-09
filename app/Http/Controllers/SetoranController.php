@@ -46,6 +46,20 @@ class SetoranController extends Controller
     									'updated_at'				=> date('Y-m-d H:i:s'),
     					);
 
+      //Check if user already add setoran on certain category
+        print"<pre>";
+        $check_setoran = Setoran::where('setoran_type', '=', $request['setoran_type'])
+                                  ->where('setoran_category', '=', $request['setoran_category'])
+                                  ->where('setoran_media', '=', $request['setoran_media'])
+                                  ->where('setoran_episode', '=', $request['setoran_episode'])
+                                  ->where('user_id', '=', $request['user_id'])
+                                  ->first();
+        if (count($check_setoran) > 0) 
+        {
+          return redirect('setoran/'.$type)->with('error_msg', 'Anda sudah pernah menyetor ini!');
+        }
+      //End of check if user already add setoran on certain category
+
       $insert = Setoran::insert($store);
 
       if (!$insert) 
