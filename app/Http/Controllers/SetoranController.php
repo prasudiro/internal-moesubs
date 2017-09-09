@@ -56,7 +56,7 @@ class SetoranController extends Controller
                                   ->first();
         if (count($check_setoran) > 0) 
         {
-          return redirect('setoran/'.$type)->with('error_msg', 'Anda sudah pernah menyetor ini!');
+          return redirect('setoran/'.$type)->with('error_msg', 'Sehat? Anda sudah pernah menyetor!');
         }
       //End of check if user already add setoran on certain category
 
