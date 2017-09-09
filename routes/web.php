@@ -19,6 +19,7 @@ Route::get('logout', 'Auth\LoginController@logout');
 */
 Route::get('setoran', 'SetoranController@index');
 Route::get('setoran/download/{id}', 'SetoranController@download_setoran');
+Route::post('setoran/delete', 'SetoranController@delete_setoran');
 
 //Setoran Edit
 Route::get('setoran/edit', 'SetoranController@list_edit');

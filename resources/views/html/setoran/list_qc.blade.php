@@ -61,7 +61,13 @@ Setoran QC
               	&nbsp;
               	<a href="#" title="Edit"><i class="fa fa-edit text-warning"></i></a>
               	&nbsp;
-              	<a href="#" title="Hapus"><i class="fa fa-trash text-danger"></i></a>
+                @if($user_info['level'] == 3)
+                  <a data-toggle="modal" data-target="#boleh{{ $setor['setoran_id']}}"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
+                @elseif($user_info['level'] != 3 && $setor["user_id"] == $user_info['id'])
+                  <a data-toggle="modal" data-target="#boleh"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
+                @else
+                  <a data-toggle="modal" data-target="#tidakboleh"><i class="fa fa-trash text-muted" data-toggle="tooltip" title="Ini bukan data milik Anda!"></i></a>
+                @endif
               </td>
           </tr>
           @endforeach
@@ -80,5 +86,75 @@ Setoran QC
      </div>
    </div>
 </div>
+
+<div class="modal inmodal" id="tidakboleh" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+    <div class="modal-content animated bounceIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h1 class="text-danger"><b>PERINGATAN!!!</b></h1>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center text-danger"><i class="fa fa-warning" style="font-size:40px;"></i> <br><br>Ini bukan data milik Anda!!!</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@foreach($setoran as $setor2)
+<div class="modal inmodal" id="boleh{{ $setor2['setoran_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+    <div class="modal-content animated bounceIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h1 class="text-danger"><b>PERINGATAN!!!</b></h1>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center text-info"><i class="fa fa-question" style="font-size:40px;"></i> <br><br>Anda yakin ingin menghapusnya?</h3>
+                  <center>
+                    {{ $setor2['judul']}} - {{ $episode_detail}} {{ $setor2["setoran_media"] != 1 ? $setor2["setoran_episode"] < 10 ? "0".$setor2["setoran_episode"] : $setor2["setoran_episode"] :  ""}}
+                  </center>
+            </div>
+            <div class="modal-footer">
+              <div align="center">
+                <a href="#" class="btn btn-primary" data-dismiss="modal">Tidak</a>
+                &nbsp;&nbsp;&nbsp;
+                <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#hapus{{ $setor2['setoran_id']}}">Yakin</a>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
+@foreach($setoran as $setor3)
+<div class="modal inmodal" id="hapus{{ $setor3['setoran_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+    <div class="modal-content animated bounceIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h1 class="text-danger"><b>Apa Anda benar-benar yakin?</b></h1>
+            </div>
+            <div class="modal-body">
+            <form class="form-horizontal" role="form" method="post" action="{{ URL('setoran/delete')}}" accept-charset="utf-8" enctype="multipart/form-data">
+              {{ csrf_field()}}
+              <input name="setoran_id" value="{{ $setor3['setoran_id']}}" type="hidden">
+              <input name="setoran_type" value="qc" type="hidden">
+              <div align="center">
+                <input class="form-control" name="hapus_setoran" value="" type="text" placeholder="Ketik HAPUS pada kolom ini dan tekan ENTER"></div>
+            </form>
+            </div>
+            <div class="modal-footer">
+              <div align="center">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Batal</button>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 @endsection

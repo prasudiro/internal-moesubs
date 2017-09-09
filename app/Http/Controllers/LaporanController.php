@@ -69,39 +69,33 @@ class LaporanController extends Controller
 
     	$kategori = Kategori::where('id', '=', $request['laporan_category'])->first();
 
-	    	//Check if qc report already added
+	    	//Check if laporan qc already added
 	    	$id_now = $request['laporan_category'].$request['laporan_episode'].$request['laporan_media'];
 	    	$get_laporan = Laporan::where('laporan_category', '=', $request['laporan_category'])
 	    													->where('laporan_episode', '=', $request['laporan_episode'])
 	    													->where('laporan_media', '=', $request['laporan_media'])
+                                ->where('status', '=', '0')
 	    													->first();
 
 	    	if (count($get_laporan) > 0)
 	    	{
-	    			//Check if laporan already deleted then restore it
-	    			if ($get_laporan['status'] == 1) 
-	    			{	
-	    				$new_laporan 		 = Laporan::where('laporan_id', '=', $get_laporan['laporan_id'])->update(array('status' => '0'));
+            //Check if user already reported that project
+            $get_laporan_isi = LaporanIsi::where('laporan_id', '=', $get_laporan['laporan_id'])
+                                          ->where('user_id', '=', $request['user_id'])
+                                          ->where('status', '=', '0')
+                                          ->first();
 
-	    				//Update laporan isi to the new one
-	    				$get_laporan_isi = LaporanIsi::where('laporan_id', '=', $get_laporan['laporan_id'])
-	    																		->where('user_id', '=', $request['user_id'])
-	    																		->update(array('laporan_isi_detail' => base64_encode($request['laporan_isi'])));
+              if (count($get_laporan_isi) > 0) 
+              {
+                return redirect('laporan')->with('error_msg', 'Sehat? Anda sudah pernah melapor!');
+              }
+            //End of check if user already reported that project
 
-		    			return redirect('laporan')->with('success_msg', 'Laporan berhasil ditambahkan!');
-	    			}
-	    			//End of check if laporan already deleted then restore it
+	    			// $get_laporan_isi = LaporanIsi::where('laporan_id', '=', $get_laporan['laporan_id'])
+        //                                   ->where('user_id', '=', $request['user_id'])
+        //                                   ->update(array('laporan_isi_detail' => base64_encode($request['laporan_isi'])));
 
-		    		//Check if user already reported that project
-	    			$get_laporan_isi = LaporanIsi::where('laporan_id', '=', $get_laporan['laporan_id'])
-	    																		->where('user_id', '=', $request['user_id'])
-	    																		->first();
-
-		    			if (count($get_laporan_isi) > 0) 
-		    			{
-		    				return redirect()->back()->withInput()->with('error_msg', 'Sehat? Anda sudah pernah melapor!');
-		    			}
-		    		//End of check if user already reported that project
+        //     return redirect('laporan')->with('success_msg', 'Laporan berhasil ditambahkan!');		    		
 
 	    			$laporan_isi = array("laporan_id"			=> $get_laporan['laporan_id'],
 	    											 "laporan_isi_detail" => base64_encode($request['laporan_isi']),

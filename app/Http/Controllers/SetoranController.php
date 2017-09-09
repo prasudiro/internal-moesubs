@@ -53,6 +53,7 @@ class SetoranController extends Controller
                                   ->where('setoran_media', '=', $request['setoran_media'])
                                   ->where('setoran_episode', '=', $request['setoran_episode'])
                                   ->where('user_id', '=', $request['user_id'])
+                                  ->where('status', '=', '0')
                                   ->first();
         if (count($check_setoran) > 0) 
         {
@@ -84,6 +85,20 @@ class SetoranController extends Controller
       return redirect()->back()->withInput()->with('error_msg', 'Berkas tidak ditemukan!');
     }
 
+    //Delete file for setoran
+    public function delete_setoran(Request $request)
+    {
+      if ($request['hapus_setoran'] != "HAPUS") 
+      {
+        return redirect()->back()->with('error_msg', 'Data gagal dihapus!');
+      }
+
+      $hapus_setoran = Setoran::where('setoran_id', '=', $request['setoran_id'])->update(array('status' => '1'));
+      return redirect('setoran/'.$request['setoran_type'])->with('success_msg', 'Setoran berhasil dihapus!');
+
+    }
+
+
 /*
 |--------------------------------------------------------------------------
 | Setoran Edit Functions
@@ -97,7 +112,7 @@ class SetoranController extends Controller
       $setoran   = Setoran::leftjoin('tags', 'tags.id', '=', 'setoran.setoran_category')
       										->leftjoin('users', 'users.id', '=', 'setoran.user_id')
       										->select('*', 'setoran.created_at AS tanggal')
-      										->where('setoran_type', '=', 1)
+      										->where('setoran_type', '=', '0')
       										->where('status', '=', 1)
       										->orderBy('setoran.created_at', 'desc')
       										->get()
@@ -132,7 +147,7 @@ class SetoranController extends Controller
       $setoran   = Setoran::leftjoin('tags', 'tags.id', '=', 'setoran.setoran_category')
       										->leftjoin('users', 'users.id', '=', 'setoran.user_id')
       										->select('*', 'setoran.created_at AS tanggal')
-      										->where('setoran_type', '=', 2)
+      										->where('setoran_type', '=', '1')
       										->where('status', '=', 1)
       										->orderBy('setoran.created_at', 'desc')
       										->get()
