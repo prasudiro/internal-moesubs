@@ -59,12 +59,18 @@ Setoran QC
               <td align="center" style="vertical-align: middle !important;">
               	<a href="#" title="Detail"><i class="fa fa-gamepad text-info"></i></a>
               	&nbsp;
-              	<a href="#" title="Edit"><i class="fa fa-edit text-warning"></i></a>
+              	@if($user_info['level'] == 3)
+                  <a href="#" title="Edit"><i class="fa fa-edit text-warning" data-toggle="tooltip" title="Edit"></i></a>
+                @elseif($user_info['level'] != 3 && $setor["user_id"] == $user_info['id'])
+                  <a href="#" title="Edit"><i class="fa fa-edit text-warning" data-toggle="tooltip" title="Edit"></i></a>
+                @else
+                  <a href="#" title="Edit"><i class="fa fa-edit text-muted" data-toggle="tooltip" title="Ini bukan data milik Anda!"></i></a>
+                @endif
               	&nbsp;
                 @if($user_info['level'] == 3)
                   <a data-toggle="modal" data-target="#boleh{{ $setor['setoran_id']}}"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
                 @elseif($user_info['level'] != 3 && $setor["user_id"] == $user_info['id'])
-                  <a data-toggle="modal" data-target="#boleh"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
+                  <a data-toggle="modal" data-target="#boleh{{ $setor['setoran_id']}}"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
                 @else
                   <a data-toggle="modal" data-target="#tidakboleh"><i class="fa fa-trash text-muted" data-toggle="tooltip" title="Ini bukan data milik Anda!"></i></a>
                 @endif
