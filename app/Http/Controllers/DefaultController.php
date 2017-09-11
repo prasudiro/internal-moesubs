@@ -131,4 +131,9 @@ class DefaultController extends Controller
                 ->with('laporan', $laporan)
                 ->with('rilisan', $rilisan);
     }
+
+    public function tests()
+    {
+        return view('tests.index');
+    }
 }
