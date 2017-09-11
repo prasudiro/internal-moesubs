@@ -68,9 +68,9 @@ Setoran QC
                 @endif
               	&nbsp;
                 @if($user_info['level'] == 3)
-                  <a data-toggle="modal" data-target="#boleh{{ $setor['setoran_id']}}"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
+                  <a data-toggle="modal" data-target="#bolehadmin{{ $setor['setoran_id']}}"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
                 @elseif($user_info['level'] != 3 && $setor["user_id"] == $user_info['id'])
-                  <a data-toggle="modal" data-target="#boleh{{ $setor['setoran_id']}}"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
+                  <a data-toggle="modal" data-target="#bolehproduser{{ $setor['setoran_id']}}"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
                 @else
                   <a data-toggle="modal" data-target="#tidakboleh"><i class="fa fa-trash text-muted" data-toggle="tooltip" title="Ini bukan data milik Anda!"></i></a>
                 @endif
@@ -111,7 +111,11 @@ Setoran QC
 </div>
 
 @foreach($setoran as $setor2)
-<div class="modal inmodal" id="boleh{{ $setor2['setoran_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
+@if($user_info['level'] == 3)
+<div class="modal inmodal" id="bolehadmin{{ $setor2['setoran_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
+@else
+<div class="modal inmodal" id="bolehproduser{{ $setor2['setoran_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
+@endif
     <div class="modal-dialog modal-sm">
     <div class="modal-content animated bounceIn">
             <div class="modal-header">
