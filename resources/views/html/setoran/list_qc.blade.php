@@ -113,7 +113,7 @@ Setoran QC
 @foreach($setoran as $setor2)
 @if($user_info['level'] == 3)
 <div class="modal inmodal" id="bolehadmin{{ $setor2['setoran_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
-@elseif($user_info['level'] != 3 && $setor["user_id"] == $user_info['id'])
+@else
 <div class="modal inmodal" id="bolehproduser{{ $setor2['setoran_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
 @endif
     <div class="modal-dialog modal-sm">
