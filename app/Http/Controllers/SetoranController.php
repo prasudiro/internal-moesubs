@@ -78,11 +78,27 @@ class SetoranController extends Controller
       //Send email notification
         $emails = User::select('name','email')->where('level', '>', 1)->where('email', 'NOT LIKE', '%change.me%')->get()->toArray();
 
+        $episode_detail = "Episode";
+              if ($store["setoran_media"] == 1) 
+                {
+                  $episode_detail = "Film Layar Lebar";
+                }
+              elseif ($store["setoran_media"] == 2) 
+                {
+                  $episode_detail = "OVA";
+                }
+              elseif ($store["setoran_media"] == 3) 
+                {
+                  $episode_detail = "SP";
+                }
+
+        $setoran_episode = $store["setoran_media"] != 1 ? $store["setoran_episode"] < 10 ? "0".$store["setoran_episode"] : $store["setoran_episode"] :  "";
+
         foreach ($emails as $key => $value) 
         { 
-          Mail::send('html.mail.setoran', ['data' => $store, 'user' => $value, 'type' => $type, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $type) {
+          Mail::send('html.mail.setoran', ['data' => $store, 'user' => $value, 'type' => $type, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $type, $store, $kategori, $episode_detail, $setoran_episode, $user_info) {
             $m->from('admin@moesubs.com', 'Moesubs');
-            $m->to($value['email'], $value['name'])->subject('Setoran Siap '.strtoupper($type));
+            $m->to($value['email'], $value['name'])->subject('(Testing Mail) [Setoran Siap '.strtoupper($type).'] '.$kategori["judul"].' - '.$episode_detail.' '.$setoran_episode.' ['.$user_info["name"].']');
           });
         }
       //End of send email notification

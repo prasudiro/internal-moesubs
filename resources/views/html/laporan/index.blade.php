@@ -67,7 +67,12 @@ Laporan
 		                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 		                <img src="{{ URL($isi['avatar']) }}" class="img-circle" width="96" alt="Laporan dari {{ $isi['name']}}">
 		                <h3>Laporan QC dari <b>{{ $isi['name']}}</b></h3>
-		                	{{ $isi['laporan_name']}} <a href="{{ URL('laporan/edit/'.base64_encode('laporan'.$isi['laporan_isi_id'].'qc'))}}" data-toggle="tooltip" title="Edit laporan {{ $isi['name']}}"><i class="fa fa-edit text-danger"></i></a>
+                    @if($user_info['level'] == 3)
+                      {{ $isi['laporan_name']}} <a href="{{ URL('laporan/edit/'.base64_encode('laporan'.$isi['laporan_isi_id'].'qc'))}}" data-toggle="tooltip" title="Edit laporan {{ $isi['name']}}"><i class="fa fa-edit text-danger"></i></a>
+                    @elseif($user_info['level'] != 3 && $isi["user_id"] == $user_info['id'])
+                     {{ $isi['laporan_name']}} <a href="{{ URL('laporan/edit/'.base64_encode('laporan'.$isi['laporan_isi_id'].'qc'))}}" data-toggle="tooltip" title="Edit laporan {{ $isi['name']}}"><i class="fa fa-edit text-danger"></i></a>
+                    @else
+                    @endif
 		            </div>
 		            <div class="modal-body">
 		                {!! base64_decode($isi['laporan_isi_detail']) !!}

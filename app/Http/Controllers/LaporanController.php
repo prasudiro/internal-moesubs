@@ -88,6 +88,15 @@ class LaporanController extends Controller
                                 ->where('status', '=', '0')
 	    													->first();
 
+        if ($laporan['laporan_media'] == 1)
+        {
+          $get_laporan = Laporan::where('laporan_category', '=', $request['laporan_category'])
+                                // ->where('laporan_episode', '=', $request['laporan_episode'])
+                                ->where('laporan_media', '=', $request['laporan_media'])
+                                ->where('status', '=', '0')
+                                ->first();
+        }
+
 	    	if (count($get_laporan) > 0)
 	    	{
             //Check if user already reported that project
@@ -104,11 +113,27 @@ class LaporanController extends Controller
             //Send email notification
               $emails = User::select('name','email')->where('level', '>', 1)->where('email', 'NOT LIKE', '%change.me%')->get()->toArray();
 
+              $episode_detail = "Episode";
+              if ($laporan["laporan_media"] == 1) 
+                {
+                  $episode_detail = "Film Layar Lebar";
+                }
+              elseif ($laporan["laporan_media"] == 2) 
+                {
+                  $episode_detail = "OVA";
+                }
+              elseif ($laporan["laporan_media"] == 3) 
+                {
+                  $episode_detail = "SP";
+                }
+
+              $laporan_episode = $laporan["laporan_media"] != 1 ? $laporan["laporan_episode"] < 10 ? '0'.$laporan["laporan_episode"] : $laporan["laporan_episode"] :  '';
+
               foreach ($emails as $key => $value) 
               { 
-                Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value) {
+                Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $laporan, $kategori, $episode_detail, $laporan_episode, $user_info) {
                   $m->from('admin@moesubs.com', 'Moesubs');
-                  $m->to($value['email'], $value['name'])->subject('Laporan QC');
+                  $m->to($value['email'], $value['name'])->subject('[Laporan QC] '.$kategori['judul'].' - '.$episode_detail.' '.$laporan_episode.' ['.$user_info["name"].']');
                 });
               }
             //End of send email notification		    		
@@ -150,11 +175,27 @@ class LaporanController extends Controller
       //Send email notification
         $emails = User::select('name','email')->where('level', '>', 1)->where('email', 'NOT LIKE', '%change.me%')->get()->toArray();
 
+        $episode_detail = "Episode";
+        if ($laporan["laporan_media"] == 1) 
+          {
+            $episode_detail = "Film Layar Lebar";
+          }
+        elseif ($laporan["laporan_media"] == 2) 
+          {
+            $episode_detail = "OVA";
+          }
+        elseif ($laporan["laporan_media"] == 3) 
+          {
+            $episode_detail = "SP";
+          }
+
+        $laporan_episode = $laporan["laporan_media"] != 1 ? $laporan["laporan_episode"] < 10 ? '0'.$laporan["laporan_episode"] : $laporan["laporan_episode"] :  '';
+
         foreach ($emails as $key => $value) 
         { 
-          Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value) {
+          Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $laporan, $kategori, $episode_detail, $laporan_episode, $user_info) {
             $m->from('admin@moesubs.com', 'Moesubs');
-            $m->to($value['email'], $value['name'])->subject('Laporan QC');
+            $m->to($value['email'], $value['name'])->subject('(Testing Mail) [Laporan QC] '.$kategori['judul'].' - '.$episode_detail.' '.$laporan_episode.' ['.$user_info["name"].']');
           });
         }
       //End of send email notification
