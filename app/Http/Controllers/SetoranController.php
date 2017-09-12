@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use Mail;
 
 //Call table
 use App\Kategori;
+use App\Proyek;
 use App\Setoran;
+use App\User;
 
 class SetoranController extends Controller
 {
@@ -46,6 +49,10 @@ class SetoranController extends Controller
     									'updated_at'				=> date('Y-m-d H:i:s'),
     					);
 
+      $kategori   = Kategori::where('id', '=', $request['setoran_category'])->first();
+      $proyek     = Proyek::where('tags_id', '=', $request['setoran_category'])->first();
+      $user_info  = User::where('id', '=', $request['user_id'])->first();
+
       //Check if user already add setoran on certain category
         print"<pre>";
         $check_setoran = Setoran::where('setoran_type', '=', $request['setoran_type'])
@@ -68,6 +75,18 @@ class SetoranController extends Controller
       	return redirect()->back()->withInput()->with('error_msg', 'Kesalahan dalam penyimpanan!<br><br>Harap dicoba lagi!');
       }
 
+      //Send email notification
+        $emails = User::select('name','email')->where('level', '>', 1)->where('email', 'NOT LIKE', '%change.me%')->get()->toArray();
+
+        foreach ($emails as $key => $value) 
+        { 
+          Mail::send('html.mail.setoran', ['data' => $store, 'user' => $value, 'type' => $type, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $type) {
+            $m->from('admin@moesubs.com', 'Moesubs');
+            $m->to($value['email'], $value['name'])->subject('(Testing Mail) Setoran Siap '.strtoupper($type));
+          });
+        }
+      //End of send email notification
+      
     	return redirect('setoran/'.$type)->with('success_msg', 'Setoran berhasil ditambahkan!');
 
     }

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailable;
 use Carbon\Carbon;
 use Auth;
+use Mail;
 use App\Setoran;
 use App\Laporan;
 use App\LaporanIsi;
@@ -134,6 +136,11 @@ class DefaultController extends Controller
 
     public function tests()
     {
-        return view('tests.index');
+        $user_info = Auth::user();
+
+        Mail::send(['test' => 'testing'], ['user' => $user_info], function ($m) use ($user_info) {
+            $m->from('admin@moesubs.com', 'Moesubs');
+            $m->to($user_info['email'], $user_info['name'])->subject('Testing Mail!');
+        });
     }
 }

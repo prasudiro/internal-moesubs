@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use Mail;
 
 //Call table
-use App\User;
 use App\Kategori;
-use App\Setoran;
+use App\Proyek;
+use App\User;
 use App\Laporan;
 use App\LaporanIsi;
 
@@ -67,7 +68,17 @@ class LaporanController extends Controller
 
       $episode = $request['laporan_media'] != 1 ? $request['laporan_episode'] < 10 ? "0".$request['laporan_episode'] : $request['laporan_episode'] :  "";
 
-    	$kategori = Kategori::where('id', '=', $request['laporan_category'])->first();
+    	$kategori   = Kategori::where('id', '=', $request['laporan_category'])->first();
+      $proyek     = Proyek::where('tags_id', '=', $request['laporan_category'])->first();
+      $user_info  = User::where('id', '=', $request['user_id'])->first();
+
+      $laporan = array("laporan_name"     => $kategori['judul'].' - '.$episode_detail.' '.$episode,
+                       "laporan_category" => $request['laporan_category'],    
+                       "laporan_episode"  => $request['laporan_episode'],
+                       "laporan_media"    => $request['laporan_media'],
+                       "created_at"       => date('Y-m-d H:i:s'),
+                       "updated_at"       => date('Y-m-d H:i:s'),
+                       );
 
 	    	//Check if laporan qc already added
 	    	$id_now = $request['laporan_category'].$request['laporan_episode'].$request['laporan_media'];
@@ -89,13 +100,18 @@ class LaporanController extends Controller
               {
                 return redirect('laporan')->with('error_msg', 'Sehat? Anda sudah pernah melapor!');
               }
-            //End of check if user already reported that project
+            
+            //Send email notification
+              $emails = User::select('name','email')->where('level', '>', 1)->where('email', 'NOT LIKE', '%change.me%')->get()->toArray();
 
-	    			// $get_laporan_isi = LaporanIsi::where('laporan_id', '=', $get_laporan['laporan_id'])
-        //                                   ->where('user_id', '=', $request['user_id'])
-        //                                   ->update(array('laporan_isi_detail' => base64_encode($request['laporan_isi'])));
-
-        //     return redirect('laporan')->with('success_msg', 'Laporan berhasil ditambahkan!');		    		
+              foreach ($emails as $key => $value) 
+              { 
+                Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value) {
+                  $m->from('admin@moesubs.com', 'Moesubs');
+                  $m->to($value['email'], $value['name'])->subject('(Testing Mail) Laporan QC');
+                });
+              }
+            //End of send email notification		    		
 
 	    			$laporan_isi = array("laporan_id"			=> $get_laporan['laporan_id'],
 	    											 "laporan_isi_detail" => base64_encode($request['laporan_isi']),
@@ -109,14 +125,6 @@ class LaporanController extends Controller
 	    			return redirect('laporan')->with('success_msg', 'Laporan berhasil ditambahkan!');
 	    	}
 	    	//End of check if qc report already added
-
-    	$laporan = array("laporan_name"			=> $kategori['judul'].' - '.$episode_detail.' '.$episode,
-    									 "laporan_category"	=> $request['laporan_category'],		
-    									 "laporan_episode"	=> $request['laporan_episode'],
-    									 "laporan_media"		=> $request['laporan_media'],
-    									 "created_at"				=> date('Y-m-d H:i:s'),
-    									 "updated_at"			  => date('Y-m-d H:i:s'),
-    									 );
 
     	$laporan_save = Laporan::insertGetId($laporan);
 
@@ -138,6 +146,18 @@ class LaporanController extends Controller
       {
       	return redirect()->back()->withInput()->with('error_msg', 'Kesalahan dalam penyimpanan!<br><br>Harap dicoba lagi!');
       }
+
+      //Send email notification
+        $emails = User::select('name','email')->where('level', '>', 1)->where('email', 'NOT LIKE', '%change.me%')->get()->toArray();
+
+        foreach ($emails as $key => $value) 
+        { 
+          Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value) {
+            $m->from('admin@moesubs.com', 'Moesubs');
+            $m->to($value['email'], $value['name'])->subject('(Testing Mail) Laporan QC');
+          });
+        }
+      //End of send email notification
 
       return redirect('laporan')->with('success_msg', 'Laporan berhasil ditambahkan!');
 
