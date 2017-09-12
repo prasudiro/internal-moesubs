@@ -82,7 +82,7 @@ class SetoranController extends Controller
         { 
           Mail::send('html.mail.setoran', ['data' => $store, 'user' => $value, 'type' => $type, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $type) {
             $m->from('admin@moesubs.com', 'Moesubs');
-            $m->to($value['email'], $value['name'])->subject('(Testing Mail) Setoran Siap '.strtoupper($type));
+            $m->to($value['email'], $value['name'])->subject('Setoran Siap '.strtoupper($type));
           });
         }
       //End of send email notification

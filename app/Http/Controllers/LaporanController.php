@@ -108,7 +108,7 @@ class LaporanController extends Controller
               { 
                 Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value) {
                   $m->from('admin@moesubs.com', 'Moesubs');
-                  $m->to($value['email'], $value['name'])->subject('(Testing Mail) Laporan QC');
+                  $m->to($value['email'], $value['name'])->subject('Laporan QC');
                 });
               }
             //End of send email notification		    		
@@ -154,7 +154,7 @@ class LaporanController extends Controller
         { 
           Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value) {
             $m->from('admin@moesubs.com', 'Moesubs');
-            $m->to($value['email'], $value['name'])->subject('(Testing Mail) Laporan QC');
+            $m->to($value['email'], $value['name'])->subject('Laporan QC');
           });
         }
       //End of send email notification
