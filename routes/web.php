@@ -6,6 +6,8 @@
 |--------------------------------------------------------------------------
 */
 Route::get('/', 'DefaultController@index');
+Route::get('dasbor', 'DefaultController@index');
+Route::get('home', 'DefaultController@index');
 
 Route::get('tests', 'DefaultController@tests');
 

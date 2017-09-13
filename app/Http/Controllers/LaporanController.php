@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Auth;
 use Mail;
+use View;
 
 //Call table
 use App\Kategori;
 use App\Proyek;
 use App\User;
+use App\UserSession;
+use App\Setoran;
 use App\Laporan;
 use App\LaporanIsi;
 
@@ -19,10 +23,52 @@ class LaporanController extends Controller
     public function __construct()
     {
       $this->middleware('auth');
+
+      $setoran_edit     = Setoran::where('setoran_type', '=', '0')
+                              ->where('status', '=', '0')
+                              ->where('updated_at', '>=', Carbon::today())
+                              ->get()
+                              ->count();
+
+      $tanggal_edit     = Setoran::where('setoran_type', '=', '0')
+                              ->where('status', '=', '0')
+                              ->where('updated_at', '>=', Carbon::today())
+                              ->orderBy('updated_at', 'desc')
+                              ->first();
+
+      $setoran_qc       = Setoran::where('setoran_type', '=', '1')
+                              ->where('status', '=', '0')
+                              ->where('updated_at', '>=', Carbon::today())
+                              ->count();
+
+      $tanggal_qc       = Setoran::where('setoran_type', '=', '1')
+                              ->where('status', '=', '0')
+                              ->where('updated_at', '>=', Carbon::today())
+                              ->orderBy('updated_at', 'desc')
+                              ->first();
+
+      $laporan_qc       = LaporanIsi::where('updated_at', '>=', Carbon::today())
+                              ->where('status', '=', '0')
+                              ->count();
+
+      $tanggal_laporan  = LaporanIsi::where('updated_at', '>=', Carbon::today())
+                              ->where('status', '=', '0')
+                              ->orderBy('updated_at', 'desc')
+                              ->first();
+
+      $total_pemberitahuan = $setoran_edit + $setoran_qc + $laporan_qc;
+
+      View::share('setoran_edit', $setoran_edit);
+      View::share('setoran_qc', $setoran_qc);
+      View::share('laporan_qc', $laporan_qc);
+      View::share('total_pemberitahuan', $total_pemberitahuan);
+      View::share('tanggal_edit', $tanggal_edit);
+      View::share('tanggal_qc', $tanggal_qc);
+      View::share('tanggal_laporan', $tanggal_laporan);
     }
 
     //Get homepage with template
-    public function index()
+    public function index(Request $request)
     {
       $user_info	 = Auth::user();
       $laporan 		 = Laporan::get()->where('status', '=', 0)->toArray();
@@ -32,6 +78,36 @@ class LaporanController extends Controller
 	    													 ->get()
 	    													 ->toArray();
 
+      //Update session
+        $session_detail = array(
+                                "full_url"        => base64_encode($request->fullUrl()),
+                          );
+
+        $data_session   = array(
+                                "users_sessions_detail" => json_encode($session_detail),
+                                "user_id"               => $user_info['id'],
+                                "users_sessions_time"   => date('Y-m-d H:i:s'),
+                                "users_sessions_module" => 'Laporan QC',
+                                "users_sessions_action" => 'visit',
+                          );
+
+        $check_session = UserSession::where('user_id', '=', $data_session['user_id'])
+                                      ->where('users_sessions_module', '=', 'Laporan QC')
+                                      ->where('users_sessions_action', '=', 'visit')
+                                      ->first();
+
+          //Check if this session's page already exists, update it or just create a now of it
+          if (count($check_session) > 0)
+          {
+              $update_session = UserSession::where('users_sessions_id', '=', $check_session['users_sessions_id'])->update(array('users_sessions_time' => date('Y-m-d H:i:s')));
+          }
+          else
+          {
+              $create_session = UserSession::insert($data_session);
+          }
+          //End of it
+      //End of update session
+
     	return view('html.laporan.index')
                 ->with('user_info', $user_info)
                 ->with('laporan', $laporan)
@@ -39,10 +115,40 @@ class LaporanController extends Controller
     }
 
     //Create a new laporan
-    public function add()
+    public function add(Request $request)
     {
       $user_info = Auth::user();
       $kategori  = Kategori::orderBy('judul', 'asc')->get()->toArray();
+
+      //Update session
+        $session_detail = array(
+                                "full_url"        => base64_encode($request->fullUrl()),
+                          );
+
+        $data_session   = array(
+                                "users_sessions_detail" => json_encode($session_detail),
+                                "user_id"               => $user_info['id'],
+                                "users_sessions_time"   => date('Y-m-d H:i:s'),
+                                "users_sessions_module" => 'Laporan QC',
+                                "users_sessions_action" => 'form',
+                          );
+
+        $check_session = UserSession::where('user_id', '=', $data_session['user_id'])
+                                      ->where('users_sessions_module', '=', 'Laporan QC')
+                                      ->where('users_sessions_action', '=', 'form')
+                                      ->first();
+
+          //Check if this session's page already exists, update it or just create a now of it
+          if (count($check_session) > 0)
+          {
+              $update_session = UserSession::where('users_sessions_id', '=', $check_session['users_sessions_id'])->update(array('users_sessions_time' => date('Y-m-d H:i:s')));
+          }
+          else
+          {
+              $create_session = UserSession::insert($data_session);
+          }
+          //End of it
+      //End of update session
 
     	return view('html.laporan.add')
                 ->with('user_info', $user_info)
@@ -205,15 +311,53 @@ class LaporanController extends Controller
     }
 
     //Get data and edit laporan
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-    	$user_info = Auth::user();
-      $kategori  = Kategori::orderBy('judul', 'asc')->get()->toArray();
-    	$get_id = preg_replace("/[^0-9]/", "", base64_decode($id));
+    	$user_info   = Auth::user();
+      $kategori    = Kategori::orderBy('judul', 'asc')->get()->toArray();
+    	$get_id      = preg_replace("/[^0-9]/", "", base64_decode($id));
     	$laporan_isi = LaporanIsi::leftjoin('laporan', 'laporan.laporan_id', '=', 'laporan_isi.laporan_id')
     														->leftjoin('tags', 'tags.id', '=', 'laporan.laporan_category')
     														->where('laporan_isi.laporan_isi_id', '=', $get_id)
     														->first();
+
+      $laporan_isi_name  = $laporan_isi['laporan_name'];
+      $laporan_isi_owner = User::where('id', '=', $laporan_isi['user_id'])->first();
+
+      //Update session
+        $session_detail = array(
+                                "full_url"        => base64_encode($request->fullUrl()),
+                                "laporan_isi"     => array(
+                                                          "laporan_name" => $laporan_isi_name,
+                                                          "laporan_owner"=> $laporan_isi_owner['name'],
+                                                      ),
+                          );
+
+        $data_session   = array(
+                                "users_sessions_detail" => json_encode($session_detail),
+                                "user_id"               => $user_info['id'],
+                                "users_sessions_time"   => date('Y-m-d H:i:s'),
+                                "users_sessions_module" => 'Laporan QC',
+                                "users_sessions_action" => 'edit',
+                          );
+
+        $check_session = UserSession::where('user_id', '=', $data_session['user_id'])
+                                      ->where('users_sessions_module', '=', 'Laporan QC')
+                                      ->where('users_sessions_action', '=', 'edit')
+                                      ->where('users_sessions_detail', json_encode($session_detail))
+                                      ->first();
+
+          //Check if this session's page already exists, update it or just create a now of it
+          if (count($check_session) > 0)
+          {
+              $update_session = UserSession::where('users_sessions_id', '=', $check_session['users_sessions_id'])->update(array('users_sessions_time' => date('Y-m-d H:i:s')));
+          }
+          else
+          {
+              $create_session = UserSession::insert($data_session);
+          }
+          //End of it
+      //End of update session
 
     	return view('html.laporan.edit')
                 ->with('user_info', $user_info)
