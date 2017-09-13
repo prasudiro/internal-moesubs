@@ -242,7 +242,38 @@ class LaporanController extends Controller
                   $m->to($value['email'], $value['name'])->subject('[Laporan QC] '.$kategori['judul'].' - '.$episode_detail.' '.$laporan_episode.' ['.$user_info["name"].']');
                 });
               }
-            //End of send email notification		    		
+            //End of send email notification
+
+            //Update session
+              $session_detail = array(
+                                      "laporan_name"        => $kategori['judul']." ".$episode_detail." ".$laporan_episode,
+                                );
+
+              $data_session   = array(
+                                      "users_sessions_detail" => json_encode($session_detail),
+                                      "user_id"               => $user_info['id'],
+                                      "users_sessions_time"   => date('Y-m-d H:i:s'),
+                                      "users_sessions_module" => 'Laporan QC',
+                                      "users_sessions_action" => 'lapor',
+                                );
+
+              $check_session = UserSession::where('user_id', '=', $data_session['user_id'])
+                                            ->where('users_sessions_module', '=', 'Laporan QC')
+                                            ->where('users_sessions_action', '=', 'lapor')
+                                            ->where('users_sessions_detail', json_encode($session_detail))
+                                            ->first();
+
+                //Check if this session's page already exists, update it or just create a now of it
+                if (count($check_session) > 0)
+                {
+                    $update_session = UserSession::where('users_sessions_id', '=', $check_session['users_sessions_id'])->update(array('users_sessions_time' => date('Y-m-d H:i:s')));
+                }
+                else
+                {
+                    $create_session = UserSession::insert($data_session);
+                }
+                //End of it
+            //End of update session		    		
 
 	    			$laporan_isi = array("laporan_id"			=> $get_laporan['laporan_id'],
 	    											 "laporan_isi_detail" => base64_encode($request['laporan_isi']),
@@ -305,6 +336,37 @@ class LaporanController extends Controller
           });
         }
       //End of send email notification
+
+      //Update session
+        $session_detail = array(
+                                "laporan_name"        => $kategori['judul']." ".$episode_detail." ".$laporan_episode,
+                          );
+
+        $data_session   = array(
+                                "users_sessions_detail" => json_encode($session_detail),
+                                "user_id"               => $user_info['id'],
+                                "users_sessions_time"   => date('Y-m-d H:i:s'),
+                                "users_sessions_module" => 'Laporan QC',
+                                "users_sessions_action" => 'lapor',
+                          );
+
+        $check_session = UserSession::where('user_id', '=', $data_session['user_id'])
+                                      ->where('users_sessions_module', '=', 'Laporan QC')
+                                      ->where('users_sessions_action', '=', 'lapor')
+                                      ->where('users_sessions_detail', json_encode($session_detail))
+                                      ->first();
+
+          //Check if this session's page already exists, update it or just create a now of it
+          if (count($check_session) > 0)
+          {
+              $update_session = UserSession::where('users_sessions_id', '=', $check_session['users_sessions_id'])->update(array('users_sessions_time' => date('Y-m-d H:i:s')));
+          }
+          else
+          {
+              $create_session = UserSession::insert($data_session);
+          }
+          //End of it
+      //End of update session
 
       return redirect('laporan')->with('success_msg', 'Laporan berhasil ditambahkan!');
 

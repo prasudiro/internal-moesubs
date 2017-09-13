@@ -188,6 +188,48 @@ Dasbor
                           </div>
                       </div>
                   </div>
+                  @elseif($list['users_sessions_action'] == 'add')
+                  <div class="timeline-item">
+                      <div class="row">
+                          <div class="col-xs-3 date">
+                              <i class="fa fa-edit"></i>
+                              {{ date("d M Y", strtotime($list['users_sessions_time']))}}<br/>
+                              <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
+                          </div>
+                          <div class="col-xs-9 content no-top-border">
+                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong></p>
+                              Menyelesaikan formulir untuk menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ $detail['setoran_name']}}</i></b> milik <b>{{ $detail['setoran_type']}}</b>.<br>
+                          </div>
+                      </div>
+                  </div>
+                  @elseif($list['users_sessions_action'] == 'lapor')
+                  <div class="timeline-item">
+                      <div class="row">
+                          <div class="col-xs-3 date">
+                              <i class="fa fa-edit"></i>
+                              {{ date("d M Y", strtotime($list['users_sessions_time']))}}<br/>
+                              <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
+                          </div>
+                          <div class="col-xs-9 content no-top-border">
+                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong></p>
+                              Menyelesaikan formulir untuk menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ $detail['laporan_name']}}</i></b>.<br>
+                          </div>
+                      </div>
+                  </div>
+                  @elseif($list['users_sessions_action'] == 'delete')
+                  <div class="timeline-item">
+                      <div class="row">
+                          <div class="col-xs-3 date">
+                              <i class="fa fa-edit"></i>
+                              {{ date("d M Y", strtotime($list['users_sessions_time']))}}<br/>
+                              <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
+                          </div>
+                          <div class="col-xs-9 content no-top-border">
+                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong></p>
+                              Menghapus setoran {{ $list['users_sessions_module']}} dengan judul <b><i>{{ $detail['setoran_name']}}</i></b> milik <b>{{ $detail['setoran_owner']}}</b>.<br>
+                          </div>
+                      </div>
+                  </div>
                   @endif
                 @endforeach
               @else

@@ -149,6 +149,39 @@ class SetoranController extends Controller
           });
         }
       //End of send email notification
+
+      //Update session
+        $type_add = $type == "qc" ? strtoupper($type) : ucfirst($type);
+        $session_detail = array(
+                                "setoran_name"        => $kategori['judul']." ".$episode_detail." ".$setoran_episode,
+                                "setoran_type"        => "Setoran Siap ".$type_add,
+                          );
+
+        $data_session   = array(
+                                "users_sessions_detail" => json_encode($session_detail),
+                                "user_id"               => $user_info['id'],
+                                "users_sessions_time"   => date('Y-m-d H:i:s'),
+                                "users_sessions_module" => 'Setoran '.$type_add,
+                                "users_sessions_action" => 'add',
+                          );
+
+        $check_session = UserSession::where('user_id', '=', $data_session['user_id'])
+                                      ->where('users_sessions_module', '=', 'Setoran '.$type_add)
+                                      ->where('users_sessions_action', '=', 'add')
+                                      ->where('users_sessions_detail', json_encode($session_detail))
+                                      ->first();
+
+          //Check if this session's page already exists, update it or just create a now of it
+          if (count($check_session) > 0)
+          {
+              $update_session = UserSession::where('users_sessions_id', '=', $check_session['users_sessions_id'])->update(array('users_sessions_time' => date('Y-m-d H:i:s')));
+          }
+          else
+          {
+              $create_session = UserSession::insert($data_session);
+          }
+          //End of it
+      //End of update session
       
     	return redirect('setoran/'.$type)->with('success_msg', 'Setoran berhasil ditambahkan!');
 
@@ -174,6 +207,62 @@ class SetoranController extends Controller
       {
         return redirect()->back()->with('error_msg', 'Data gagal dihapus!');
       }
+
+      //Update session
+        $user_info      = Auth::user();
+        $check_setoran  = Setoran::where('setoran_id', '=', $request['setoran_id'])->first();
+        $kategori       = Kategori::where('id', '=', $check_setoran['setoran_category'])->first();
+        $setoran_owner  = User::where('id', '=', $check_setoran['user_id'])->first();
+        $setoran_type   = $check_setoran['setoran_type'] == 0 ? "Edit" : "QC";
+
+        $episode_detail = "Episode";
+            if ($check_setoran["setoran_media"] == 1) 
+              {
+                $episode_detail = "Film Layar Lebar";
+              }
+            elseif ($check_setoran["setoran_media"] == 2) 
+              {
+                $episode_detail = "OVA";
+              }
+            elseif ($check_setoran["setoran_media"] == 3) 
+              {
+                $episode_detail = "SP";
+              }
+
+        $setoran_episode = $check_setoran["setoran_media"] != 1 ? $check_setoran["setoran_episode"] < 10 ? "0".$check_setoran["setoran_episode"] : $check_setoran["setoran_episode"] :  "";
+        $setoran_name    = $kategori['judul']." - ".$episode_detail." ".$setoran_episode;
+
+        $session_detail = array(
+                                "setoran_name"        => $setoran_name,
+                                "setoran_type"        => $setoran_type,
+                                "setoran_owner"       => $setoran_owner['name'],
+                          );
+
+        $data_session   = array(
+                                "users_sessions_detail" => json_encode($session_detail),
+                                "user_id"               => $user_info['id'],
+                                "users_sessions_time"   => date('Y-m-d H:i:s'),
+                                "users_sessions_module" => 'Setoran '.$setoran_type,
+                                "users_sessions_action" => 'delete',
+                          );
+
+        $check_session = UserSession::where('user_id', '=', $data_session['user_id'])
+                                      ->where('users_sessions_module', '=', 'Setoran '.$setoran_type)
+                                      ->where('users_sessions_action', '=', 'delete')
+                                      ->where('users_sessions_detail', json_encode($session_detail))
+                                      ->first();
+
+          //Check if this session's page already exists, update it or just create a now of it
+          if (count($check_session) > 0)
+          {
+              $update_session = UserSession::where('users_sessions_id', '=', $check_session['users_sessions_id'])->update(array('users_sessions_time' => date('Y-m-d H:i:s')));
+          }
+          else
+          {
+              $create_session = UserSession::insert($data_session);
+          }
+          //End of it
+      //End of update session
 
       $hapus_setoran = Setoran::where('setoran_id', '=', $request['setoran_id'])->update(array('status' => '1'));
       return redirect('setoran/'.$request['setoran_type'])->with('success_msg', 'Setoran berhasil dihapus!');

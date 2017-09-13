@@ -53,7 +53,7 @@
 										<tr>
 					<td valign="top" bgcolor="#17212e" style="padding-top: 10px;">
 						<span style="font-size: 10px; color: #CCC8BF; font-family: Arial, Helvetica, sans-serif; text-transform: uppercase">
-							<a href="http://internal.moesubs.com/setoran/{{ $type}}"><img src="{{ isset($proyek['gambar']) ? $proyek['gambar'] : 'https://puu.sh/xxK7d.png' }}" alt="The Labyrinth of Grisaia" border="0" style="margin: 0; padding: 0;" width="100%"></a>
+							<a href="http://internal.moesubs.com/setoran/{{ $type}}"><img src="{{ isset($proyek['gambar']) ? $proyek['gambar'] : 'https://puu.sh/xxK7d.png' }}" alt="Setoran Baru" border="0" style="margin: 0; padding: 0;" width="100%"></a>
 						</span>
 					</td>
 				</tr>
