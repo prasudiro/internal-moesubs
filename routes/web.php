@@ -18,6 +18,16 @@ Route::get('logout', 'Auth\LoginController@logout');
 
 /*
 |--------------------------------------------------------------------------
+| Kategori Route
+|--------------------------------------------------------------------------
+*/
+
+Route::get('kategori', 'KategoriController@index');
+Route::get('kategori/add', 'KategoriController@add');
+Route::post('kategori/add', 'KategoriController@store');
+
+/*
+|--------------------------------------------------------------------------
 | Setoran Route
 |--------------------------------------------------------------------------
 */

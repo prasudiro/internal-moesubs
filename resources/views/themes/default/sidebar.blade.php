@@ -35,7 +35,7 @@
                         <a data-toggle="modal" data-target="#belumada" title="Proyek"><i class="fa fa-area-chart"></i> <span class="nav-label">Proyek</span></a>
                     </li>
                     <li>
-                        <a data-toggle="modal" data-target="#belumada" title="Kategori"><i class="fa fa-bars"></i> <span class="nav-label">Kategori</span></a>
+                        <a href="{{ URL('kategori')}}" title="Kategori"><i class="fa fa-bars"></i> <span class="nav-label">Kategori</span></a>
                     </li>
                     <li>
                         <a href="#" title="Setoran"><i class="fa fa-book"></i> <span class="nav-label">Setoran</span><span class="fa arrow"></span></a></a>
