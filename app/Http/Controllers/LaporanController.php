@@ -26,34 +26,34 @@ class LaporanController extends Controller
 
       $setoran_edit     = Setoran::where('setoran_type', '=', '0')
                               ->where('status', '=', '0')
-                              ->where('updated_at', '>=', Carbon::today())
+                              ->where('created_at', '>=', Carbon::today())
                               ->get()
                               ->count();
 
       $tanggal_edit     = Setoran::where('setoran_type', '=', '0')
                               ->where('status', '=', '0')
-                              ->where('updated_at', '>=', Carbon::today())
-                              ->orderBy('updated_at', 'desc')
+                              ->where('created_at', '>=', Carbon::today())
+                              ->orderBy('created_at', 'desc')
                               ->first();
 
       $setoran_qc       = Setoran::where('setoran_type', '=', '1')
                               ->where('status', '=', '0')
-                              ->where('updated_at', '>=', Carbon::today())
+                              ->where('created_at', '>=', Carbon::today())
                               ->count();
 
       $tanggal_qc       = Setoran::where('setoran_type', '=', '1')
                               ->where('status', '=', '0')
-                              ->where('updated_at', '>=', Carbon::today())
-                              ->orderBy('updated_at', 'desc')
+                              ->where('created_at', '>=', Carbon::today())
+                              ->orderBy('created_at', 'desc')
                               ->first();
 
-      $laporan_qc       = LaporanIsi::where('updated_at', '>=', Carbon::today())
+      $laporan_qc       = LaporanIsi::where('created_at', '>=', Carbon::today())
                               ->where('status', '=', '0')
                               ->count();
 
-      $tanggal_laporan  = LaporanIsi::where('updated_at', '>=', Carbon::today())
+      $tanggal_laporan  = LaporanIsi::where('created_at', '>=', Carbon::today())
                               ->where('status', '=', '0')
-                              ->orderBy('updated_at', 'desc')
+                              ->orderBy('created_at', 'desc')
                               ->first();
 
       $total_pemberitahuan = $setoran_edit + $setoran_qc + $laporan_qc;
@@ -215,8 +215,20 @@ class LaporanController extends Controller
               {
                 return redirect('laporan')->with('error_msg', 'Sehat? Anda sudah pernah melapor!');
               }
-            
-            //Send email notification
+
+            //Save new laporan isi dan update laporan
+            $laporan_isi = array("laporan_id"     => $get_laporan['laporan_id'],
+                             "laporan_isi_detail" => base64_encode($request['laporan_isi']),
+                             "user_id"            => $request['user_id'],
+                             "created_at"         => date('Y-m-d H:i:s'),
+                             "updated_at"         => date('Y-m-d H:i:s'),
+                             );
+
+            $laporan_isi_save = LaporanIsi::Insert($laporan_isi);
+
+            $laporan_update   = Laporan::where('laporan_id', '=', $get_laporan['laporan_id'])->update(array('updated_at' => date('Y-m-d H:i:s')));
+
+            //Send email notification if not local
               $emails = User::select('name','email')->where('level', '>', 1)->where('email', 'NOT LIKE', '%change.me%')->get()->toArray();
 
               $episode_detail = "Episode";
@@ -235,12 +247,15 @@ class LaporanController extends Controller
 
               $laporan_episode = $laporan["laporan_media"] != 1 ? $laporan["laporan_episode"] < 10 ? '0'.$laporan["laporan_episode"] : $laporan["laporan_episode"] :  '';
 
-              foreach ($emails as $key => $value) 
-              { 
-                Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $laporan, $kategori, $episode_detail, $laporan_episode, $user_info) {
-                  $m->from('admin@moesubs.com', 'Moesubs');
-                  $m->to($value['email'], $value['name'])->subject('[Laporan QC] '.$kategori['judul'].' - '.$episode_detail.' '.$laporan_episode.' ['.$user_info["name"].']');
-                });
+              if(config('app.env') != 'local')
+              {
+                foreach ($emails as $key => $value) 
+                { 
+                  Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $laporan, $kategori, $episode_detail, $laporan_episode, $user_info) {
+                    $m->from('admin@moesubs.com', 'Moesubs');
+                    $m->to($value['email'], $value['name'])->subject('[Laporan QC] '.$kategori['judul'].' - '.$episode_detail.' '.$laporan_episode.' ['.$user_info["name"].']');
+                  });
+                }
               }
             //End of send email notification
 
@@ -274,15 +289,6 @@ class LaporanController extends Controller
                 }
                 //End of it
             //End of update session		    		
-
-	    			$laporan_isi = array("laporan_id"			=> $get_laporan['laporan_id'],
-	    											 "laporan_isi_detail" => base64_encode($request['laporan_isi']),
-	    											 "user_id"						=> $request['user_id'],
-			    									 "created_at"					=> date('Y-m-d H:i:s'),
-			    									 "updated_at"			  	=> date('Y-m-d H:i:s'),
-	    											 );
-
-	    			$laporan_isi_save = LaporanIsi::Insert($laporan_isi);
 
 	    			return redirect('laporan')->with('success_msg', 'Laporan berhasil ditambahkan!');
 	    	}
@@ -328,12 +334,15 @@ class LaporanController extends Controller
 
         $laporan_episode = $laporan["laporan_media"] != 1 ? $laporan["laporan_episode"] < 10 ? '0'.$laporan["laporan_episode"] : $laporan["laporan_episode"] :  '';
 
-        foreach ($emails as $key => $value) 
-        { 
-          Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $laporan, $kategori, $episode_detail, $laporan_episode, $user_info) {
-            $m->from('admin@moesubs.com', 'Moesubs');
-            $m->to($value['email'], $value['name'])->subject('[Laporan QC] '.$kategori['judul'].' - '.$episode_detail.' '.$laporan_episode.' ['.$user_info["name"].']');
-          });
+        if(config('app.env') != 'local')
+        {   
+          foreach ($emails as $key => $value) 
+          { 
+            Mail::send('html.mail.laporan', ['data' => $laporan, 'user' => $value, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $laporan, $kategori, $episode_detail, $laporan_episode, $user_info) {
+              $m->from('admin@moesubs.com', 'Moesubs');
+              $m->to($value['email'], $value['name'])->subject('[Laporan QC] '.$kategori['judul'].' - '.$episode_detail.' '.$laporan_episode.' ['.$user_info["name"].']');
+            });
+          }
         }
       //End of send email notification
 
@@ -430,6 +439,7 @@ class LaporanController extends Controller
     //Get data and edit laporan
     public function update(Request $request)
     {
+      $user_info                  = Auth::user();
     	$data['laporan_isi_id'] 		= $request['laporan_isi_id'];
     	$data['laporan_isi_detail'] = base64_encode($request['laporan_isi_detail']);
 
@@ -439,6 +449,48 @@ class LaporanController extends Controller
     	{
     		return redirect()->back()->withInput()->with('error_msg', 'Kesalahan dalam penyimpanan!<br><br>Harap dicoba lagi!');
     	}
+
+      //Update session
+        $laporan_isi_detail = LaporanIsi::leftjoin('laporan', 'laporan.laporan_id', '=', 'laporan_isi.laporan_id')
+                                        ->leftjoin('tags', 'tags.id', '=', 'laporan.laporan_category')
+                                        ->where('laporan_isi.laporan_isi_id', '=', $data['laporan_isi_id'])
+                                        ->first();
+
+        $laporan_isi_owner  = User::where('id', '=', $laporan_isi_detail['user_id'])->first();
+
+        $session_detail = array(
+                                "full_url"        => base64_encode($request->fullUrl()),
+                                "laporan_isi"     => array(
+                                                          "laporan_name" => $laporan_isi_detail['judul'],
+                                                          "laporan_owner"=> $laporan_isi_owner['name'],
+                                                      ),
+                          );
+
+        $data_session   = array(
+                                "users_sessions_detail" => json_encode($session_detail),
+                                "user_id"               => $user_info['id'],
+                                "users_sessions_time"   => date('Y-m-d H:i:s'),
+                                "users_sessions_module" => 'Laporan QC',
+                                "users_sessions_action" => 'update',
+                          );
+
+        $check_session = UserSession::where('user_id', '=', $data_session['user_id'])
+                                      ->where('users_sessions_module', '=', 'Laporan QC')
+                                      ->where('users_sessions_action', '=', 'update')
+                                      ->where('users_sessions_detail', json_encode($session_detail))
+                                      ->first();
+
+          //Check if this session's page already exists, update it or just create a now of it
+          if (count($check_session) > 0)
+          {
+              $update_session = UserSession::where('users_sessions_id', '=', $check_session['users_sessions_id'])->update(array('users_sessions_time' => date('Y-m-d H:i:s')));
+          }
+          else
+          {
+              $create_session = UserSession::insert($data_session);
+          }
+          //End of it
+      //End of update session
 
     	return redirect('laporan')->with('success_msg', 'Laporan berhasil diperbarui!');
     }

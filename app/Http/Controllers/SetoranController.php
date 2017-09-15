@@ -26,34 +26,34 @@ class SetoranController extends Controller
 
       $setoran_edit     = Setoran::where('setoran_type', '=', '0')
                               ->where('status', '=', '0')
-                              ->where('updated_at', '>=', Carbon::today())
+                              ->where('created_at', '>=', Carbon::today())
                               ->get()
                               ->count();
 
       $tanggal_edit     = Setoran::where('setoran_type', '=', '0')
                               ->where('status', '=', '0')
-                              ->where('updated_at', '>=', Carbon::today())
-                              ->orderBy('updated_at', 'desc')
+                              ->where('created_at', '>=', Carbon::today())
+                              ->orderBy('created_at', 'desc')
                               ->first();
 
       $setoran_qc       = Setoran::where('setoran_type', '=', '1')
                               ->where('status', '=', '0')
-                              ->where('updated_at', '>=', Carbon::today())
+                              ->where('created_at', '>=', Carbon::today())
                               ->count();
 
       $tanggal_qc       = Setoran::where('setoran_type', '=', '1')
                               ->where('status', '=', '0')
-                              ->where('updated_at', '>=', Carbon::today())
-                              ->orderBy('updated_at', 'desc')
+                              ->where('created_at', '>=', Carbon::today())
+                              ->orderBy('created_at', 'desc')
                               ->first();
 
-      $laporan_qc       = LaporanIsi::where('updated_at', '>=', Carbon::today())
+      $laporan_qc       = LaporanIsi::where('created_at', '>=', Carbon::today())
                               ->where('status', '=', '0')
                               ->count();
 
-      $tanggal_laporan  = LaporanIsi::where('updated_at', '>=', Carbon::today())
+      $tanggal_laporan  = LaporanIsi::where('created_at', '>=', Carbon::today())
                               ->where('status', '=', '0')
-                              ->orderBy('updated_at', 'desc')
+                              ->orderBy('created_at', 'desc')
                               ->first();
 
       $total_pemberitahuan = $setoran_edit + $setoran_qc + $laporan_qc;
@@ -141,12 +141,15 @@ class SetoranController extends Controller
 
         $setoran_episode = $store["setoran_media"] != 1 ? $store["setoran_episode"] < 10 ? "0".$store["setoran_episode"] : $store["setoran_episode"] :  "";
 
-        foreach ($emails as $key => $value) 
-        { 
-          Mail::send('html.mail.setoran', ['data' => $store, 'user' => $value, 'type' => $type, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $type, $store, $kategori, $episode_detail, $setoran_episode, $user_info) {
-            $m->from('admin@moesubs.com', 'Moesubs');
-            $m->to($value['email'], $value['name'])->subject('[Setoran Siap '.strtoupper($type).'] '.$kategori["judul"].' - '.$episode_detail.' '.$setoran_episode.' ['.$user_info["name"].']');
-          });
+      if(config('app.env') != 'local')
+        {
+          foreach ($emails as $key => $value) 
+          { 
+            Mail::send('html.mail.setoran', ['data' => $store, 'user' => $value, 'type' => $type, 'kategori' => $kategori, 'proyek' => $proyek, 'user_info' => $user_info], function ($m) use ($value, $type, $store, $kategori, $episode_detail, $setoran_episode, $user_info) {
+              $m->from('admin@moesubs.com', 'Moesubs');
+              $m->to($value['email'], $value['name'])->subject('[Setoran Siap '.strtoupper($type).'] '.$kategori["judul"].' - '.$episode_detail.' '.$setoran_episode.' ['.$user_info["name"].']');
+            });
+          }
         }
       //End of send email notification
 

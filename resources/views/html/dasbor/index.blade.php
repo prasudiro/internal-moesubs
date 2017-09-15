@@ -143,24 +143,10 @@ Dasbor
                   </div>
               </div>
               <div class="ibox-content inspinia-timeline">
-              @if(count($activity['list']) > 0)
-                @foreach($activity['list'] as $list)
+              @if(count($activity['activity']) > 0)
+                @foreach($activity['activity'] as $list)
                   <?php $detail = json_decode($list['users_sessions_detail'], TRUE); ?>
-                  @if($list['users_sessions_action'] == 'visit')
-                  <div class="timeline-item">
-                      <div class="row">
-                          <div class="col-xs-3 date">
-                              <i class="fa fa-flag"></i>
-                              {{ date("d M Y", strtotime($list['users_sessions_time']))}}<br/>
-                              <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
-                          </div>
-                          <div class="col-xs-9 content no-top-border">
-                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong></p>
-                              Mengunjungi laman {{ $list['users_sessions_module']}}.<br>
-                          </div>
-                      </div>
-                  </div>
-                  @elseif($list['users_sessions_action'] == 'form')
+                  @if($list['users_sessions_action'] == 'form')
                   <div class="timeline-item">
                       <div class="row">
                           <div class="col-xs-3 date">
@@ -169,7 +155,7 @@ Dasbor
                               <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
                           </div>
                           <div class="col-xs-9 content no-top-border">
-                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong></p>
+                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-info">form</span></p>
                               Membuka formulir untuk menambahkan {{ $list['users_sessions_module']}} baru.<br>
                           </div>
                       </div>
@@ -183,8 +169,22 @@ Dasbor
                               <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
                           </div>
                           <div class="col-xs-9 content no-top-border">
-                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong></p>
+                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-warning">edit</span></p>
                               Membuka formulir untuk mengubah {{ $list['users_sessions_module']}} dengan judul <b><i>{{ $detail['laporan_isi']['laporan_name']}}</i></b> milik <b>{{ $detail['laporan_isi']['laporan_owner']}}</b>.<br>
+                          </div>
+                      </div>
+                  </div>
+                  @elseif($list['users_sessions_action'] == 'update')
+                  <div class="timeline-item">
+                      <div class="row">
+                          <div class="col-xs-3 date">
+                              <i class="fa fa-edit"></i>
+                              {{ date("d M Y", strtotime($list['users_sessions_time']))}}<br/>
+                              <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
+                          </div>
+                          <div class="col-xs-9 content no-top-border">
+                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-success">perbarui</span></p>
+                              Memperbarui {{ $list['users_sessions_module']}} dengan judul <b><i>{{ $detail['laporan_isi']['laporan_name']}}</i></b> milik <b>{{ $detail['laporan_isi']['laporan_owner']}}</b>.<br>
                           </div>
                       </div>
                   </div>
@@ -197,8 +197,8 @@ Dasbor
                               <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
                           </div>
                           <div class="col-xs-9 content no-top-border">
-                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong></p>
-                              Menyelesaikan formulir untuk menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ $detail['setoran_name']}}</i></b> milik <b>{{ $detail['setoran_type']}}</b>.<br>
+                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-primary">tambah</span></p>
+                              Menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ $detail['setoran_name']}}</i></b> milik <b>{{ $detail['setoran_type']}}</b>.<br>
                           </div>
                       </div>
                   </div>
@@ -211,8 +211,8 @@ Dasbor
                               <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
                           </div>
                           <div class="col-xs-9 content no-top-border">
-                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong></p>
-                              Menyelesaikan formulir untuk menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ $detail['laporan_name']}}</i></b>.<br>
+                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-primary">tambah</span></p>
+                              Menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ $detail['laporan_name']}}</i></b>.<br>
                           </div>
                       </div>
                   </div>
@@ -225,7 +225,7 @@ Dasbor
                               <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
                           </div>
                           <div class="col-xs-9 content no-top-border">
-                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong></p>
+                              <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-danger">hapus</span></p>
                               Menghapus setoran {{ $list['users_sessions_module']}} dengan judul <b><i>{{ $detail['setoran_name']}}</i></b> milik <b>{{ $detail['setoran_owner']}}</b>.<br>
                           </div>
                       </div>
@@ -242,8 +242,8 @@ Dasbor
        <div class="col-lg-6">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
-                  <h5>Proyek</h5>
-                  <span class="label label-danger">Proses berjalan</span>
+                  <h5>Riwayat</h5>
+                  <span class="label label-danger">Kunjungan</span>
                   <div class="ibox-tools">
                       <a class="collapse-link">
                           <i class="fa fa-chevron-up"></i>
@@ -251,22 +251,26 @@ Dasbor
                   </div>
               </div>
               <div class="ibox-content inspinia-timeline">
-                <div class="timeline-item">
-                    <div class="row">
-                        <div class="col-xs-3 date">
-                            <i class="fa fa-film"></i>
-                            {Tanggal}
-                            <br/>
-                            <small class="text-navy">{Jam}</small>
-                        </div>
-                        <div class="col-xs-7 content no-top-border">
-                            <p class="m-b-xs"><strong>{Judul Kartun}</strong></p>
-
-                            <p>{Belum ada data}</p>
-
-                        </div>
-                    </div>
-                </div>
+                @if(count($activity['visit']) > 0)
+                @foreach($activity['visit'] as $visit)
+                  <?php $detail = json_decode($list['users_sessions_detail'], TRUE); ?>
+                  @if($visit['users_sessions_action'] == 'visit')
+                  <div class="timeline-item">
+                      <div class="row">
+                          <div class="col-xs-3 date">
+                              <i class="fa fa-flag"></i>
+                              {{ date("d M Y", strtotime($visit['users_sessions_time']))}}<br/>
+                              <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
+                          </div>
+                          <div class="col-xs-9 content no-top-border">
+                              <p class="m-b-xs"><strong>{{ $visit['users_sessions_module']}}</strong></p>
+                              Mengunjungi laman {{ $visit['users_sessions_module']}}.<br>
+                          </div>
+                      </div>
+                  </div>
+                  @endif
+                @endforeach
+                @endif
               </div>
           </div>
         </div>

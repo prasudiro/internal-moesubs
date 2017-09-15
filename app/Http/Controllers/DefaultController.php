@@ -23,34 +23,34 @@ class DefaultController extends Controller
 
         $setoran_edit     = Setoran::where('setoran_type', '=', '0')
                                 ->where('status', '=', '0')
-                                ->where('updated_at', '>=', Carbon::today())
+                                ->where('created_at', '>=', Carbon::today())
                                 ->get()
                                 ->count();
 
         $tanggal_edit     = Setoran::where('setoran_type', '=', '0')
                                 ->where('status', '=', '0')
-                                ->where('updated_at', '>=', Carbon::today())
-                                ->orderBy('updated_at', 'desc')
+                                ->where('created_at', '>=', Carbon::today())
+                                ->orderBy('created_at', 'desc')
                                 ->first();
 
         $setoran_qc       = Setoran::where('setoran_type', '=', '1')
                                 ->where('status', '=', '0')
-                                ->where('updated_at', '>=', Carbon::today())
+                                ->where('created_at', '>=', Carbon::today())
                                 ->count();
 
         $tanggal_qc       = Setoran::where('setoran_type', '=', '1')
                                 ->where('status', '=', '0')
-                                ->where('updated_at', '>=', Carbon::today())
-                                ->orderBy('updated_at', 'desc')
+                                ->where('created_at', '>=', Carbon::today())
+                                ->orderBy('created_at', 'desc')
                                 ->first();
 
-        $laporan_qc       = LaporanIsi::where('updated_at', '>=', Carbon::today())
+        $laporan_qc       = LaporanIsi::where('created_at', '>=', Carbon::today())
                                 ->where('status', '=', '0')
                                 ->count();
 
-        $tanggal_laporan  = LaporanIsi::where('updated_at', '>=', Carbon::today())
+        $tanggal_laporan  = LaporanIsi::where('created_at', '>=', Carbon::today())
                                 ->where('status', '=', '0')
-                                ->orderBy('updated_at', 'desc')
+                                ->orderBy('created_at', 'desc')
                                 ->first();
 
         $total_pemberitahuan = $setoran_edit + $setoran_qc + $laporan_qc;
@@ -169,8 +169,9 @@ class DefaultController extends Controller
                                     ])->count();
         $rilisan['total'] = Rilisan::count();
 
-        $activity['list'] = UserSession::where('user_id', '=', $user_info['id'])->orderBy('users_sessions_time', 'desc')->limit(5)->get()->toArray();
-        $activity['last'] = UserSession::where('user_id', '=', $user_info['id'])->orderBy('users_sessions_time', 'desc')->first();
+        $activity['activity'] = UserSession::where('user_id', '=', $user_info['id'])->where('users_sessions_action', '!=', 'visit')->orderBy('users_sessions_time', 'desc')->limit(5)->get()->toArray();
+        $activity['visit']    = UserSession::where('user_id', '=', $user_info['id'])->where('users_sessions_action', '=', 'visit')->orderBy('users_sessions_time', 'desc')->limit(5)->get()->toArray();
+        $activity['last']     = UserSession::where('user_id', '=', $user_info['id'])->orderBy('users_sessions_time', 'desc')->first();
 
         // //Update session
         //   $session_detail = array(
