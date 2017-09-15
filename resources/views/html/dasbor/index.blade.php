@@ -198,7 +198,7 @@ Dasbor
                           </div>
                           <div class="col-xs-9 content no-top-border">
                               <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-primary">tambah</span></p>
-                              Menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ $detail['setoran_name']}}</i></b> milik <b>{{ $detail['setoran_type']}}</b>.<br>
+                              Menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ isset($detail['setoran_name']) ? $detail['setoran_name'] : $detail['name']}}</i></b>.<br>
                           </div>
                       </div>
                   </div>
