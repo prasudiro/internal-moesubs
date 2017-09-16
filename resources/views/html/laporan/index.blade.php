@@ -32,12 +32,12 @@ Laporan
           <tbody>
           @foreach($laporan as $lapor)
           <tr>
-          	<td style="vertical-align: middle !important;">{{ $lapor['laporan_name']}}</th>
+          	<td style="vertical-align: middle !important;">{{ $lapor['laporan_name']}} {!! \Carbon\Carbon::parse($lapor["updated_at"])->istoday() ? "<small class='label label-info'>baru</small>" : "" !!}</th>
             <td style="vertical-align: middle !important;">
             	@foreach($laporan_isi as $isi)
             		@if($isi['laporan_id'] != $lapor['laporan_id'])
             		@else
-            			<a data-toggle="modal" data-target="#myModal{{ $isi['laporan_isi_id']}}"><img src="{{ URL($isi['avatar']) }}" class="img-circle" width="32" data-toggle="tooltip" title="Laporan dari {{ $isi['name']}}"></a>&nbsp;
+            			<a data-toggle="modal" data-target="#myModal{{ $isi['laporan_isi_id']}}"><img src="{{ URL($isi['avatar']) }}" class="img-circle" width="32" data-toggle="tooltip" title="Laporan dari {{ $isi['name']}}"></a>
             		@endif
             	@endforeach
             </th>

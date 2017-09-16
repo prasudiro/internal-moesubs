@@ -37,7 +37,7 @@ Dasbor
       <div class="col-lg-3">
           <div class="ibox float-e-margins">
               <div class="ibox-title">
-                  <a data-toggle="modal" data-target="#belumada"><span class="label label-danger pull-right">Export</span></a>
+                  <a data-toggle="modal" data-target="#belumada"><span class="label label-danger pull-right">Ekspor</span></a>
                   <h5>Setoran Edit</h5>
               </div>
               <div class="ibox-content">
@@ -60,7 +60,7 @@ Dasbor
       <div class="col-lg-3">
           <div class="ibox float-e-margins">
               <div class="ibox-title">
-                  <a data-toggle="modal" data-target="#belumada"><span class="label label-danger pull-right">Export</span></a>
+                  <a data-toggle="modal" data-target="#belumada"><span class="label label-danger pull-right">Ekspor</span></a>
                   <h5>Setoran QC</h5>
               </div>
               <div class="ibox-content">
@@ -83,7 +83,7 @@ Dasbor
       <div class="col-lg-3">
           <div class="ibox float-e-margins">
               <div class="ibox-title">
-                  <a data-toggle="modal" data-target="#belumada"><span class="label label-danger pull-right">Export</span></a>
+                  <a data-toggle="modal" data-target="#belumada"><span class="label label-danger pull-right">Ekspor</span></a>
                   <h5>Laporan</h5>
               </div>
               <div class="ibox-content">
@@ -106,7 +106,7 @@ Dasbor
       <div class="col-lg-3">
           <div class="ibox float-e-margins">
               <div class="ibox-title">
-                  <a data-toggle="modal" data-target="#belumada"><span class="label label-danger pull-right">Export</span></a>
+                  <a data-toggle="modal" data-target="#belumada"><span class="label label-danger pull-right">Ekspor</span></a>
                   <h5>Rilisan</h5>
               </div>
               <div class="ibox-content">
@@ -277,8 +277,8 @@ Dasbor
                   }
                 ?>
                   <div class="feed-element">
-                      <a href="profile.html" class="pull-left">
-                          <img alt="image" class="img-circle" src="{{ URL($public['avatar'])}}">
+                      <a data-toggle="modal" data-target="#belumada" class="pull-left">
+                          <img data-toggle="tooltip" title="Aktitivas dari {{ $public['name']}}" alt="image" class="img-circle" src="{{ URL($public['avatar'])}}">
                       </a>
                       <div class="media-body ">
                           <small class="pull-right">{!! $label !!} {{ $public['users_sessions_action']}}</span></small>

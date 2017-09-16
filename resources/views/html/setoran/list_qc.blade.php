@@ -51,7 +51,7 @@ Setoran QC
               <td style="vertical-align: middle !important;">
               <a href="{{ URL('setoran/download/'.base64_encode($setor['setoran_name']))}}" title="Unduh skrip {{ $setor['judul']}} - {{ $episode_detail}} {{ $setor["setoran_media"] != 1 ? $setor["setoran_episode"] < 10 ? "0".$setor["setoran_episode"] : $setor["setoran_episode"] :  ""}}">
               <b><i class="fa fa-paperclip text-danger"></i> </b>
-              {{ $setor['judul']}} - {{ $episode_detail}} {{ $setor["setoran_media"] != 1 ? $setor["setoran_episode"] < 10 ? "0".$setor["setoran_episode"] : $setor["setoran_episode"] :  ""}}</td>
+              {{ $setor['judul']}} - {{ $episode_detail}} {{ $setor["setoran_media"] != 1 ? $setor["setoran_episode"] < 10 ? "0".$setor["setoran_episode"] : $setor["setoran_episode"] :  ""}} {!! \Carbon\Carbon::parse($setor["tanggal"])->istoday() ? "<small class='label label-info'>baru</small>" : "" !!}</td>
               <td align="center" style="vertical-align: middle !important;">
               <img src="{{ URL($setor['avatar']) }}" class="img-circle" width="32" data-toggle="tooltip" title="Setoran dari {{ $setor['name']}}">
               </td>
