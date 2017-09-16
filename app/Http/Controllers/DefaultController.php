@@ -169,10 +169,19 @@ class DefaultController extends Controller
                                     ])->count();
         $rilisan['total'] = Rilisan::count();
 
-        $activity['activity'] = UserSession::where('user_id', '=', $user_info['id'])->where('users_sessions_action', '!=', 'visit')->orderBy('users_sessions_time', 'desc')->limit(5)->get()->toArray();
-        $activity['visit']    = UserSession::where('user_id', '=', $user_info['id'])->where('users_sessions_action', '=', 'visit')->orderBy('users_sessions_time', 'desc')->limit(5)->get()->toArray();
+        //Activity self
+        $activity['activity'] = UserSession::where('user_id', '=', $user_info['id'])->where('users_sessions_action', '!=', 'visit')->orderBy('users_sessions_time', 'desc')->limit(6)->get()->toArray();
+        $activity['visit']    = UserSession::where('user_id', '=', $user_info['id'])->where('users_sessions_action', '=', 'visit')->orderBy('users_sessions_time', 'desc')->limit(6)->get()->toArray();
         $activity['last']     = UserSession::where('user_id', '=', $user_info['id'])->orderBy('users_sessions_time', 'desc')->first();
 
+        //Activity other
+        $activity['public'] = UserSession::leftjoin('users', 'users.id', '=', 'users_sessions.user_id')
+                                         ->where('user_id', '!=', $user_info['id'])
+                                         ->where('users_sessions_action', '!=', 'form')
+                                         ->where('users_sessions_action', '!=', 'edit')
+                                         ->where('users_sessions_action', '!=', 'visit')
+                                         ->orderBy('users_sessions_time', 'desc')
+                                         ->limit(5)->get()->toArray();
         // //Update session
         //   $session_detail = array(
         //                           "full_url"        => base64_encode($request->fullUrl()),

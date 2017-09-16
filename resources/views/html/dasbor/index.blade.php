@@ -134,14 +134,11 @@ Dasbor
        <div class="col-lg-6">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
-                  <h5>Riwayat</h5>
-                  <span class="label label-danger">Aktivitas</span>
-                  <div class="ibox-tools">
-                      <a class="collapse-link">
-                          <i class="fa fa-chevron-up"></i>
-                      </a>
-                  </div>
-              </div>
+                <h5>Riwayat Aktivitas</h5>
+                <div class="ibox-tools">
+                    <span class="label label-danger">Pribadi</span>
+                </div>
+            </div>
               <div class="ibox-content inspinia-timeline">
               @if(count($activity['activity']) > 0)
                 @foreach($activity['activity'] as $list)
@@ -170,7 +167,7 @@ Dasbor
                           </div>
                           <div class="col-xs-9 content no-top-border">
                               <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-warning">edit</span></p>
-                              Membuka formulir untuk mengubah {{ $list['users_sessions_module']}} dengan judul <b><i>{{ $detail['laporan_isi']['laporan_name']}}</i></b> milik <b>{{ $detail['laporan_isi']['laporan_owner']}}</b>.<br>
+                              Membuka formulir untuk mengubah {{ $list['users_sessions_module']}} dengan judul <b><i>{{ $detail['name']}}</i></b> milik <b>{{ $detail['owner']}}</b>.<br>
                           </div>
                       </div>
                   </div>
@@ -184,7 +181,7 @@ Dasbor
                           </div>
                           <div class="col-xs-9 content no-top-border">
                               <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-success">perbarui</span></p>
-                              Memperbarui {{ $list['users_sessions_module']}} dengan judul <b><i>{{ $detail['laporan_isi']['laporan_name']}}</i></b> milik <b>{{ $detail['laporan_isi']['laporan_owner']}}</b>.<br>
+                              Memperbarui {{ $list['users_sessions_module']}} dengan judul <b><i>{{ $detail['name']}}</i></b> milik <b>{{ $detail['owner']}}</b>.<br>
                           </div>
                       </div>
                   </div>
@@ -198,7 +195,7 @@ Dasbor
                           </div>
                           <div class="col-xs-9 content no-top-border">
                               <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-primary">tambah</span></p>
-                              Menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ isset($detail['setoran_name']) ? $detail['setoran_name'] : $detail['name']}}</i></b>.<br>
+                              Menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ isset($detail['name']) ? $detail['name'] : $detail['name']}}</i></b>.<br>
                           </div>
                       </div>
                   </div>
@@ -212,7 +209,7 @@ Dasbor
                           </div>
                           <div class="col-xs-9 content no-top-border">
                               <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-primary">tambah</span></p>
-                              Menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ $detail['laporan_name']}}</i></b>.<br>
+                              Menambahkan {{ $list['users_sessions_module']}} baru dengan judul <b><i>{{ $detail['name']}}</i></b>.<br>
                           </div>
                       </div>
                   </div>
@@ -226,7 +223,7 @@ Dasbor
                           </div>
                           <div class="col-xs-9 content no-top-border">
                               <p class="m-b-xs"><strong>{{ $list['users_sessions_module']}}</strong> <span class="label label-danger">hapus</span></p>
-                              Menghapus setoran {{ $list['users_sessions_module']}} dengan judul <b><i>{{ $detail['setoran_name']}}</i></b> milik <b>{{ $detail['setoran_owner']}}</b>.<br>
+                              Menghapus setoran {{ $list['users_sessions_module']}} dengan judul <b><i>{{ $detail['name']}}</i></b> milik <b>{{ $detail['owner']}}</b>.<br>
                           </div>
                       </div>
                   </div>
@@ -235,44 +232,80 @@ Dasbor
               @else
               <center><strong>Tidak ada data</strong></center>
               @endif
+              <hr>
+                <a data-toggle="modal" data-target="#belumada" class="btn btn-danger btn-block m-t"><i class="fa fa-arrow-down"></i> Tampilkan Semua</a>
               </div>
           </div>
         </div>
 
        <div class="col-lg-6">
-            <div class="ibox float-e-margins">
-              <div class="ibox-title">
-                  <h5>Riwayat</h5>
-                  <span class="label label-danger">Kunjungan</span>
-                  <div class="ibox-tools">
-                      <a class="collapse-link">
-                          <i class="fa fa-chevron-up"></i>
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Riwayat Aktivitas</h5>
+                <div class="ibox-tools">
+                    <span class="label label-danger">Umum</span>
+                </div>
+            </div>
+            <div class="ibox-content">
+
+              <div>
+                <div class="feed-activity-list">
+                @foreach($activity['public'] as $public)
+                <?php
+                  $detail = json_decode($public['users_sessions_detail'], TRUE);
+                  $action = "entah melakukan apa";
+                  $label  = "<span class='label label-default'><i class='fa fa-question'></i>";
+                  if ($public['users_sessions_action'] == 'add') 
+                  {
+                    $action = "menambahkan data";
+                    $label  = "<span class='label label-info'><i class='fa fa-plus'></i>";
+                  }
+                  elseif ($public['users_sessions_action'] == 'update')
+                  {
+                    $action = "memperbarui data";
+                    $label  = "<span class='label label-warning'><i class='fa fa-check'></i>";
+                  }
+                  elseif ($public['users_sessions_action'] == 'delete')
+                  {
+                    $action = "menghapus data";
+                    $label  = "<span class='label label-danger'><i class='fa fa-trash'></i>";
+                  }
+                  elseif ($public['users_sessions_action'] == 'lapor')
+                  {
+                    $action = "melaporkan pengecekan";
+                    $label  = "<span class='label label-info'><i class='fa fa-briefcase'></i>";
+                  }
+                ?>
+                  <div class="feed-element">
+                      <a href="profile.html" class="pull-left">
+                          <img alt="image" class="img-circle" src="{{ URL($public['avatar'])}}">
                       </a>
-                  </div>
-              </div>
-              <div class="ibox-content inspinia-timeline">
-                @if(count($activity['visit']) > 0)
-                @foreach($activity['visit'] as $visit)
-                  <?php $detail = json_decode($list['users_sessions_detail'], TRUE); ?>
-                  @if($visit['users_sessions_action'] == 'visit')
-                  <div class="timeline-item">
-                      <div class="row">
-                          <div class="col-xs-3 date">
-                              <i class="fa fa-flag"></i>
-                              {{ date("d M Y", strtotime($visit['users_sessions_time']))}}<br/>
-                              <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
-                          </div>
-                          <div class="col-xs-9 content no-top-border">
-                              <p class="m-b-xs"><strong>{{ $visit['users_sessions_module']}}</strong></p>
-                              Mengunjungi laman {{ $visit['users_sessions_module']}}.<br>
+                      <div class="media-body ">
+                          <small class="pull-right">{!! $label !!} {{ $public['users_sessions_action']}}</span></small>
+                          <strong>{{ $public['name']}}</strong> {{ $action}} di <strong>{{ $public['users_sessions_module']}}</strong>.<br>
+                          <i class="fa fa-clock-o"></i> <small class="text-muted">{{ date("d M Y H:i", strtotime($public['users_sessions_time']))}}</small>
+                          <div class="well">
+                            @if($public['users_sessions_action'] == 'add')
+                            Menambahkan {{ $public['users_sessions_module']}} baru dengan judul <b><i>{{ $detail['name']}}</i></b>.
+                            @elseif($public['users_sessions_action'] == 'update')
+                            Memperbarui {{ $public['users_sessions_module']}} dengan judul <b><i>{{ $detail['name']}}</i></b> milik <b>{{ $detail['owner']}}</b>.
+                            @elseif($public['users_sessions_action'] == 'delete')
+                            Menghapus {{ $public['users_sessions_module']}} dengan judul <b><i>{{ $detail['name']}}</i></b> milik <b>{{ $detail['owner']}}</b>.
+                            @elseif($public['users_sessions_action'] == 'lapor')
+                            Melaporkan {{ $public['users_sessions_module']}} dengan judul <b><i>{{ $detail['name']}}</i></b>.
+                            @endif
                           </div>
                       </div>
                   </div>
-                  @endif
                 @endforeach
-                @endif
+
+                </div>
+                <a data-toggle="modal" data-target="#belumada" class="btn btn-danger btn-block m-t"><i class="fa fa-arrow-down"></i> Tampilkan Semua</a>
+
               </div>
-          </div>
+
+            </div>
+        </div>  
         </div>
 
 

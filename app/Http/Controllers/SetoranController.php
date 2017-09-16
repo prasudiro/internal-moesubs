@@ -156,8 +156,8 @@ class SetoranController extends Controller
       //Update session
         $type_add = $type == "qc" ? strtoupper($type) : ucfirst($type);
         $session_detail = array(
-                                "setoran_name"        => $kategori['judul']." ".$episode_detail." ".$setoran_episode,
-                                "setoran_type"        => "Setoran Siap ".$type_add,
+                                "name"        => $kategori['judul']." ".$episode_detail." ".$setoran_episode,
+                                "type"        => "Setoran Siap ".$type_add,
                           );
 
         $data_session   = array(
@@ -236,9 +236,9 @@ class SetoranController extends Controller
         $setoran_name    = $kategori['judul']." - ".$episode_detail." ".$setoran_episode;
 
         $session_detail = array(
-                                "setoran_name"        => $setoran_name,
-                                "setoran_type"        => $setoran_type,
-                                "setoran_owner"       => $setoran_owner['name'],
+                                "name"        => $setoran_name,
+                                "type"        => $setoran_type,
+                                "owner"       => $setoran_owner['name'],
                           );
 
         $data_session   = array(

@@ -261,7 +261,7 @@ class LaporanController extends Controller
 
             //Update session
               $session_detail = array(
-                                      "laporan_name"        => $kategori['judul']." ".$episode_detail." ".$laporan_episode,
+                                      "name"        => $kategori['judul']." ".$episode_detail." ".$laporan_episode,
                                 );
 
               $data_session   = array(
@@ -348,7 +348,7 @@ class LaporanController extends Controller
 
       //Update session
         $session_detail = array(
-                                "laporan_name"        => $kategori['judul']." ".$episode_detail." ".$laporan_episode,
+                                "name"        => $kategori['judul']." ".$episode_detail." ".$laporan_episode,
                           );
 
         $data_session   = array(
@@ -398,10 +398,8 @@ class LaporanController extends Controller
       //Update session
         $session_detail = array(
                                 "full_url"        => base64_encode($request->fullUrl()),
-                                "laporan_isi"     => array(
-                                                          "laporan_name" => $laporan_isi_name,
-                                                          "laporan_owner"=> $laporan_isi_owner['name'],
-                                                      ),
+                                "name"            => $laporan_isi_name,
+                                "owner"           => $laporan_isi_owner['name'],
                           );
 
         $data_session   = array(
@@ -460,10 +458,8 @@ class LaporanController extends Controller
 
         $session_detail = array(
                                 "full_url"        => base64_encode($request->fullUrl()),
-                                "laporan_isi"     => array(
-                                                          "laporan_name" => $laporan_isi_detail['judul'],
-                                                          "laporan_owner"=> $laporan_isi_owner['name'],
-                                                      ),
+                                "name"    => $laporan_isi_detail['judul'],
+                                "owner"   => $laporan_isi_owner['name'],
                           );
 
         $data_session   = array(
