@@ -67,7 +67,7 @@
 								<td style="padding-top: 13px; padding-left: 17px; padding-bottom: 2px;">
 									<p style="font-size: 20px; color: #e1e1e1; font-family: Arial, Helvetica, sans-serif; margin:0; padding:0;">
 										<a href="http://internal.moesubs.com/laporan" style="text-decoration:none; color: #ffffff;">
-											{{ $data['judul']}}	-
+											{{ $data['judul']}}
 											</a>
 									</p>
 																				<p style="color: #7CB8E4; padding: 0; margin: 0; font-size: 12px;">
