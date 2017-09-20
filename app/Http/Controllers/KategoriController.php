@@ -205,6 +205,37 @@ class KategoriController extends Controller
 
       $metadata_save = Metadata::insert($metadata_data);
 
+      //Send email notification
+      $emails = User::leftjoin('metadata', 'metadata.user_id', '=', 'users.id')
+                    // ->select('name','email', 'metadata_detail')
+                    ->where('level', '>', 1)
+                    ->where('email', 'NOT LIKE', '%change.me%')
+                    ->where('metadata_module', '=', 'notifikasi')
+                    // ->where('metadata_detail', 'LIKE', '%"setoran_edit":"1"%')
+                    ->get()
+                    ->toArray();
+
+      foreach ($emails as $key => $value) 
+      {
+          $active = json_decode($value['metadata_detail'], TRUE);
+          if ($active['kategori'] != 1) 
+          {
+              unset($emails[$key]);
+          }
+      }
+
+      if(config('app.env') != 'local')
+        {
+          foreach ($emails as $key => $value) 
+          { 
+            Mail::send('html.mail.kategori', ['data' => $request, 'user' => $value, 'user_info' => $user_info], function ($m) use ($value, $request, $user_info) {
+              $m->from('admin@moesubs.com', 'Moesubs');
+              $m->to($value['email'], $value['name'])->subject('[Kategori Baru] '.$request['judul'].' ['.$user_info["name"].']');
+            });
+          }
+        }
+      //End of send email notification
+
       //Update session
         $session_detail = array(
                                 "name"        => $request['judul'],

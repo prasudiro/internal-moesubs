@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Ada Judul Kartun Baru!</title>
+	<title>Ada Kategori Baru!</title>
 		<style media="all" type="text/css">
 		td, p, h1, h3, a {
 			font-family: Helvetica, Arial, sans-serif;
@@ -67,26 +67,11 @@
 								<td style="padding-top: 13px; padding-left: 17px; padding-bottom: 2px;">
 									<p style="font-size: 20px; color: #e1e1e1; font-family: Arial, Helvetica, sans-serif; margin:0; padding:0;">
 										<a href="http://internal.moesubs.com/laporan" style="text-decoration:none; color: #ffffff;">
-											{{ $kategori['judul']}}	-
-											<?php
-							          $episode_detail = "Episode";
-							          if ($data["laporan_media"] == 1) 
-							          {
-							          	$episode_detail = "Film Layar Lebar";
-							          }
-							          elseif ($data["laporan_media"] == 2) 
-							          {
-							          	$episode_detail = "OVA";
-							          }
-							          elseif ($data["laporan_media"] == 3) 
-							          {
-							          	$episode_detail = "SP";
-							          }
-						          ?>
-						          {{ $episode_detail}} {{ $data["laporan_media"] != 1 ? $data["laporan_episode"] < 10 ? "0".$data["laporan_episode"] : $data["laporan_episode"] :  ""}}								</a>
+											{{ $data['judul']}}	-
+											</a>
 									</p>
 																				<p style="color: #7CB8E4; padding: 0; margin: 0; font-size: 12px;">
-												Diterbitkan pada {{ date("d M Y - H:i", strtotime($data["created_at"]))}}	WIB										</p>
+												Diterbitkan pada {{ date("d M Y - H:i")}}	WIB										</p>
 																																				</td>
 							</tr>
 						</table>
@@ -103,7 +88,7 @@
 													<table width="100%" height="34" cellpadding="0" cellspacing="0">
 														<tr height="34" style="background-color: #000000;">
 															<td height="34" width="" style="background-color: #4c6b22; font-size: 16px; line-height: 34px; color: #FFFFFF; text-align: center; white-space: nowrap; overflow: hidden;">
-																Pelapor
+																Penerbit
 															</td>
 															<td height="34" width="" style="padding-right: 12px; text-align: right; white-space: nowrap; overflow: hidden;">
 																<span style="color: #D6D7D8; font-size: 12px;">{{ $user_info['name']}}</span>
