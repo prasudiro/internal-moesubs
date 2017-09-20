@@ -230,7 +230,23 @@ class LaporanController extends Controller
             $laporan_update   = Laporan::where('laporan_id', '=', $get_laporan['laporan_id'])->update(array('updated_at' => date('Y-m-d H:i:s')));
 
             //Send email notification if not local
-              $emails = User::select('name','email')->where('level', '>', 1)->where('email', 'NOT LIKE', '%change.me%')->get()->toArray();
+              $emails = User::leftjoin('metadata', 'metadata.user_id', '=', 'users.id')
+                      // ->select('name','email', 'metadata_detail')
+                      ->where('level', '>', 1)
+                      ->where('email', 'NOT LIKE', '%change.me%')
+                      ->where('metadata_module', '=', 'notifikasi')
+                      // ->where('metadata_detail', 'LIKE', '%"setoran_edit":"1"%')
+                      ->get()
+                      ->toArray();
+
+              foreach ($emails as $key => $value) 
+              {
+                  $active = json_decode($value['metadata_detail'], TRUE);
+                  if ($active['laporan_qc'] != 1) 
+                  {
+                      unset($emails[$key]);
+                  }
+              }
 
               $episode_detail = "Episode";
               if ($laporan["laporan_media"] == 1) 
@@ -317,7 +333,23 @@ class LaporanController extends Controller
       }
 
       //Send email notification
-        $emails = User::select('name','email')->where('level', '>', 1)->where('email', 'NOT LIKE', '%change.me%')->get()->toArray();
+        $emails = User::leftjoin('metadata', 'metadata.user_id', '=', 'users.id')
+                      // ->select('name','email', 'metadata_detail')
+                      ->where('level', '>', 1)
+                      ->where('email', 'NOT LIKE', '%change.me%')
+                      ->where('metadata_module', '=', 'notifikasi')
+                      // ->where('metadata_detail', 'LIKE', '%"setoran_edit":"1"%')
+                      ->get()
+                      ->toArray();
+
+        foreach ($emails as $key => $value) 
+        {
+            $active = json_decode($value['metadata_detail'], TRUE);
+            if ($active['laporan_qc'] != 1) 
+            {
+                unset($emails[$key]);
+            }
+        }
 
         $episode_detail = "Episode";
         if ($laporan["laporan_media"] == 1) 

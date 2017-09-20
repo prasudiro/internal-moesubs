@@ -13,6 +13,7 @@ use App\LaporanIsi;
 use App\Rilisan;
 use App\User;
 use App\UserSession;
+use App\Metadata;
 
 class DefaultController extends Controller
 {
