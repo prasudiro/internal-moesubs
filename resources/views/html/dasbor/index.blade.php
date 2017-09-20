@@ -17,12 +17,15 @@ Dasbor
     <div class="ibox-content">
       <div class="row">
         <div class="col-lg-12">
-          <div class="col-lg-6">
-            <i class="label label-danger">Sesi terakhir: {{ date("d M Y H:i", strtotime($user_info['last_login']))." WIB"}}</i>
-            {{-- {{ base64_decode($activity['last']['users_sessions_detail'])}} --}}
+          <div class="col-lg-9">
+            <h2><b>Informasi</b></h2>
+                    <div class="hr-line-dashed"></div>
+            <ul class="list-group-item" style="border: none;">
+              <li>Notifikasi email dapat diaktifkan/matikan melalui menu <a href="{{ URL('pengaturan')}}">Pengaturan</a> <small><i class="fa fa-arrow-right"></i></small> <a href="{{ URL('pengaturan/notifikasi')}}">Notifikasi</a></li>
+            </ul>
           </div>
-          <div class="col-lg-6">
-            <h3><b class="pull-right">{{ date("d M 'y - H:i")}}</b></h3>
+          <div class="col-lg-3">
+            <i class="label label-danger pull-right">Sesi terakhir: {{ date("d M Y H:i", strtotime($user_info['last_login']))." WIB"}}</i>
           </div>
         </div>
       </div>    
