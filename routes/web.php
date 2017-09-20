@@ -55,3 +55,12 @@ Route::get('laporan/add', 'LaporanController@add');
 Route::post('laporan/add', 'LaporanController@store');
 Route::get('laporan/edit/{id}', 'LaporanController@edit');
 Route::post('laporan/update', 'LaporanController@update');
+
+/*
+|--------------------------------------------------------------------------
+| Pengaturan Route
+|--------------------------------------------------------------------------
+*/
+Route::get('pengaturan', 'PengaturanController@index');
+Route::get('pengaturan/notifikasi', 'PengaturanController@notifikasi');
+Route::post('pengaturan/notifikasi', 'PengaturanController@notifikasi_save');

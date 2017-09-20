@@ -29,6 +29,9 @@
 	<link href="{{ URL('css/plugins/summernote/summernote.css')}}" rel="stylesheet">
 	<link href="{{ URL('css/plugins/summernote/summernote-bs3.css')}}" rel="stylesheet">
 
+	<!-- iChecks -->
+	<link href="{{ URL('css/plugins/iCheck/custom.css')}}" rel="stylesheet">
+
 	<link href="{{ URL('css/animate.css')}}" rel="stylesheet">
 	<link href="{{ URL('css/style.css')}}" rel="stylesheet">
 
@@ -236,7 +239,6 @@
 	<script src="{{ URL('js/inspinia.js')}}"></script>
 	<script src="{{ URL('js/plugins/pace/pace.min.js')}}"></script>
 
-
 	<!-- GITTER -->
 	<script src="{{ URL('js/plugins/gritter/jquery.gritter.min.js')}}"></script>
 
@@ -264,6 +266,8 @@
 	<!-- SUMMERNOTE -->
 	<script src="{{ URL('js/plugins/summernote/summernote.min.js')}}"></script>
 
+	<!-- iCheck -->
+  <script src="{{ URL('js/plugins/iCheck/icheck.min.js')}}"></script>
 
 	<script>
 		$(document).ready(function() {
@@ -347,8 +351,6 @@
 
 			});
 
-
-
 			$('.dataTables-kategori').dataTable({
 				responsive: true,
 				// "order": [[ 3, "desc" ]],
@@ -382,6 +384,11 @@
 			$('.summernote').summernote();
 
 			$('[data-toggle="tooltip"]').tooltip();
+
+			$('.i-checks').iCheck({
+			              checkboxClass: 'icheckbox_square-green',
+			              radioClass: 'iradio_square-green',
+			         });
 
 			var data1 = [
 				[0,4],[1,8],[2,5],[3,10],[4,4],[5,16],[6,5],[7,11],[8,6],[9,11],[10,30],[11,10],[12,13],[13,4],[14,3],[15,3],[16,6]

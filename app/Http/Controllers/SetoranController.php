@@ -16,6 +16,7 @@ use App\UserSession;
 use App\Setoran;
 use App\Laporan;
 use App\LaporanIsi;
+use App\Metadata;
 
 class SetoranController extends Controller
 {

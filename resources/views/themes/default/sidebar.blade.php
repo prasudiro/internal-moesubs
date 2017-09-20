@@ -17,22 +17,22 @@
                              @endif
                              <b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a data-toggle="modal" data-target="#belumada">Profil</a></li>
-                                <li><a data-toggle="modal" data-target="#belumada">Pesan</a></li>
-                                <li><a data-toggle="modal" data-target="#belumada">Pengaturan</a></li>
+                                <li><a data-toggle="modal" data-target="#belumada">Profil <i class="fa fa-lock text-muted"></i></a></li>
+                                <li><a data-toggle="modal" data-target="#belumada">Pesan <i class="fa fa-lock text-muted"></i></a></li>
+                                <li><a href="{{ URL('pengaturan')}}" title="Pengaturan">Pengaturan</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{{ URL('logout')}}">Keluar</a></li>
                             </ul>
                         </div>
                     </li>
                     <li class="active">
-                        <a href="{{ URL('/')}}" title="Dasbor"><i class="fa fa-th-large"></i> <span class="nav-label">Dasbor</span></a>
+                        <a href="{{ URL('/')}}" title="Dasbor"><i class="fa fa-th-large"></i> <span class="nav-label">Dasbor</span> </a> 
                     </li>
                     <li>
-                        <a data-toggle="modal" data-target="#belumada" title="Rilisan"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rilisan</span></a>
+                        <a data-toggle="modal" data-target="#belumada" title="Rilisan"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rilisan <i class="fa fa-lock text-muted"></i></span></a>
                     </li>
                     <li>
-                        <a data-toggle="modal" data-target="#belumada" title="Proyek"><i class="fa fa-area-chart"></i> <span class="nav-label">Proyek</span></a>
+                        <a data-toggle="modal" data-target="#belumada" title="Proyek"><i class="fa fa-area-chart"></i> <span class="nav-label">Proyek <i class="fa fa-lock text-muted"></i></span></a>
                     </li>
                     <li>
                         <a href="{{ URL('kategori')}}" title="Kategori"><i class="fa fa-bars"></i> <span class="nav-label">Kategori</span></a>
@@ -50,10 +50,10 @@
                     <li>
                         <a href="#" title="Pengaturan"><i class="fa fa-gear"></i> <span class="nav-label">Pengaturan</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a data-toggle="modal" data-target="#belumada">Notifikasi</a></li>
-                            <li><a data-toggle="modal" data-target="#belumada">Ubah Profil</a></li>
-                            <li><a data-toggle="modal" data-target="#belumada">Ganti STNK</a></li>
-                            <li><a data-toggle="modal" data-target="#belumada">Keluar</a></li>
+                            <li><a href="{{ URL('pengaturan/notifikasi')}}" title="Notifikasi">Notifikasi</a></li>
+                            <li><a data-toggle="modal" data-target="#belumada">Ubah Profil <i class="fa fa-lock text-muted"></i></a></li>
+                            <li><a data-toggle="modal" data-target="#belumada">Ganti STNK <i class="fa fa-lock text-muted"></i></a></li>
+                            <li><a href="{{ URL('logout')}}" title="Keluar">Keluar</a></li>
                         </ul>
                     </li>
                 </ul>
