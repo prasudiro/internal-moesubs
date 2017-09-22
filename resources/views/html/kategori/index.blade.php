@@ -50,7 +50,7 @@ Kategori
                   &nbsp;
                   @if($user_info['level'] == 3)
                     <a href="#" title="Edit"><i class="fa fa-edit text-warning" data-toggle="tooltip" title="Edit"></i></a>
-                  @elseif($user_info['level'] != 3 && isset($kat['metadata']->user_id) == $user_info['id'])
+                  @elseif($user_info['level'] != 3 && isset($kat['metadata']->user_id) && $kat['metadata']->user_id == $user_info['id'])
                     <a href="#" title="Edit"><i class="fa fa-edit text-warning" data-toggle="tooltip" title="Edit"></i></a>
                   @else
                     <a href="#" title="Edit"><i class="fa fa-edit text-muted" data-toggle="tooltip" title="Ini bukan data milik Anda!"></i></a>
