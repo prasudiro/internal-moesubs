@@ -45,7 +45,7 @@ Kategori
                 <img src="{{ URL($avatar) }}" class="img-circle" width="32" data-toggle="tooltip" title="Penerbit {{ $name}}">
                 </td>
                 {{-- <td style="vertical-align: middle !important;">{{ $kat['tanggal'] }}</td> --}}
-                <td style="vertical-align: middle !important;">
+                <td class="text-center" style="vertical-align: middle !important;">
                   <a href="#" title="Detail"><i class="fa fa-gamepad text-info"></i></a>
                   &nbsp;
                   @if($user_info['level'] == 3)
@@ -58,7 +58,7 @@ Kategori
                   &nbsp;
                   @if($user_info['level'] == 3)
                     <a data-toggle="modal" data-target="#bolehadmin{{ $kat['id']}}"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
-                  @elseif($user_info['level'] != 3 && isset($kat['metadata']->user_id) == $user_info['id'])
+                  @elseif($user_info['level'] != 3 && isset($kat['metadata']->user_id) && $kat['metadata']->user_id == $user_info['id'])
                     <a data-toggle="modal" data-target="#bolehproduser{{ $kat['id']}}"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
                   @else
                     <a data-toggle="modal" data-target="#tidakboleh"><i class="fa fa-trash text-muted" data-toggle="tooltip" title="Ini bukan data milik Anda!"></i></a>
