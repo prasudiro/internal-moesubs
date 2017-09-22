@@ -4941,7 +4941,7 @@ body.skin-3 {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
-    min-height: 960px;
+    min-height: 1080px;
   }
   .navbar-static-side {
     z-index: 101;
