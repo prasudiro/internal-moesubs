@@ -159,7 +159,6 @@ class LaporanController extends Controller
     //Store a new data for laporan
     public function store(Request $request)
     {
-      print"<pre>";print_r($request->all());exit();
     	$episode_detail = "Episode";
       if ($request['laporan_media'] == 1) 
       {

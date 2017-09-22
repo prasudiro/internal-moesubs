@@ -8,7 +8,7 @@ Dasbor
 
 @section('content')
 
-<div class="wrapper wrapper-content animated fadeInDown">
+<div class="row animated fadeInDown">
 
   <div class="col-lg-12">
     <div class="row">
