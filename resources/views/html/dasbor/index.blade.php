@@ -20,8 +20,9 @@ Dasbor
           <div class="col-lg-9">
             <h2><b>Informasi</b></h2>
                     <div class="hr-line-dashed"></div>
-            <ul class="list-group-item" style="border: none;">
+            <ul class="list-group-item" style="border: none; line-height: 25px;">
               <li>Notifikasi email dapat diaktifkan/matikan melalui menu <a href="{{ URL('pengaturan')}}">Pengaturan</a> <small><i class="fa fa-arrow-right"></i></small> <a href="{{ URL('pengaturan/notifikasi')}}">Notifikasi</a></li>
+              <li>Harap membuat <a href="{{ URL('kategori/add')}}">Kategori</a> baru bila judul kartun yang dipilih belum tersedia.</li>
             </ul>
           </div>
           <div class="col-lg-3">
@@ -150,7 +151,7 @@ Dasbor
                   <div class="timeline-item">
                       <div class="row">
                           <div class="col-xs-3 date">
-                              <i class="fa fa-edit"></i>
+                              <i class="fa fa-newspaper-o"></i>
                               {{ date("d M Y", strtotime($list['users_sessions_time']))}}<br/>
                               <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
                           </div>
@@ -177,7 +178,7 @@ Dasbor
                   @elseif($list['users_sessions_action'] == 'update')
                   <div class="timeline-item">
                       <div class="row">
-                          <div class="col-xs-3 date">
+                          <div class="col-xs-3 check-square">
                               <i class="fa fa-edit"></i>
                               {{ date("d M Y", strtotime($list['users_sessions_time']))}}<br/>
                               <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
@@ -192,7 +193,7 @@ Dasbor
                   <div class="timeline-item">
                       <div class="row">
                           <div class="col-xs-3 date">
-                              <i class="fa fa-edit"></i>
+                              <i class="fa fa-book"></i>
                               {{ date("d M Y", strtotime($list['users_sessions_time']))}}<br/>
                               <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
                           </div>
@@ -205,7 +206,7 @@ Dasbor
                   @elseif($list['users_sessions_action'] == 'lapor')
                   <div class="timeline-item">
                       <div class="row">
-                          <div class="col-xs-3 date">
+                          <div class="col-xs-3 briefcase">
                               <i class="fa fa-edit"></i>
                               {{ date("d M Y", strtotime($list['users_sessions_time']))}}<br/>
                               <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
@@ -250,9 +251,9 @@ Dasbor
                 </div>
             </div>
             <div class="ibox-content">
-
               <div>
                 <div class="feed-activity-list">
+              @if(count($activity['activity']) > 0)
                 @foreach($activity['public'] as $public)
                 <?php
                   $detail = json_decode($public['users_sessions_detail'], TRUE);
@@ -301,12 +302,12 @@ Dasbor
                       </div>
                   </div>
                 @endforeach
-
+              @else
+              <center><strong>Tidak ada data</strong></center>
+              @endif
                 </div>
                 <a data-toggle="modal" data-target="#belumada" class="btn btn-danger btn-block m-t"><i class="fa fa-arrow-down"></i> Tampilkan Semua</a>
-
-              </div>
-
+                </div>
             </div>
         </div>  
         </div>

@@ -93,23 +93,6 @@ Setoran Edit
    </div>
 </div>
 
-<div class="modal inmodal" id="tidakboleh" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-    <div class="modal-content animated bounceIn">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h1 class="text-danger"><b>PERINGATAN!!!</b></h1>
-            </div>
-            <div class="modal-body">
-                <h3 class="text-center text-danger"><i class="fa fa-warning" style="font-size:40px;"></i> <br><br>Ini bukan data milik Anda!!!</h3>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">Tutup</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 @foreach($setoran as $setor2)
 @if($user_info['level'] == 3)
 <div class="modal inmodal" id="bolehadmin{{ $setor2['setoran_id']}}" tabindex="-1" role="dialog" aria-hidden="true">

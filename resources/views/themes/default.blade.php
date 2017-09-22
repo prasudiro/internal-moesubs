@@ -217,6 +217,23 @@
 	</div>
 </div>
 
+<div class="modal inmodal" id="tidakboleh" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+    <div class="modal-content animated bounceIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h1 class="text-danger"><b>PERINGATAN!!!</b></h1>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center text-danger"><i class="fa fa-warning" style="font-size:40px;"></i> <br><br>Ini bukan data milik Anda!!!</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 	<!-- Mainly scripts -->
 	<script src="{{ URL('js/jquery-2.1.1.js')}}"></script>
 	<script src="{{ URL('js/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
@@ -270,6 +287,9 @@
   <script src="{{ URL('js/plugins/iCheck/icheck.min.js')}}"></script>
 
 	<script>
+	
+
+			$('[data-toggle="tooltip"]').tooltip();
 		$(document).ready(function() {
 			@if(Session::has('error_msg'))
 				setTimeout(function() {
@@ -381,9 +401,36 @@
 				}
 			});  
 
-			$('.summernote').summernote();
+			$('.dataTables-rilisan').dataTable({
+				responsive: true,
+				"order": [[ 2, "desc" ]],
+				"columnDefs": [
+				  { "targets": [4], "orderable": false }
+				],
+				"language": {
+					"zeroRecords": "<center><h3><b>Tidak ada data</b></h3><center>",
+					"paginate": {
+						"first":    'Pertama',
+						"previous": 'Mundur',
+						"next":     'Maju',
+						"last":     'Terakhir'
+					},
+					"search": "",
+					"searchPlaceholder": "Pencarian",
+					"lengthMenu": '<select class=form-control>'+
+					  '<option value="10">10</option>'+
+					  '<option value="30">30</option>'+
+					  '<option value="50">50</option>'+
+					  '<option value="100">100</option>'+
+					  '<option value="-1">Semua</option>'+
+					  '</select>&nbsp;&nbsp;data per halaman',
+					"info": "Total _TOTAL_ data",
+					"infoEmpty": "",
+					"infoFiltered": ""
+				}
+			});  
 
-			$('[data-toggle="tooltip"]').tooltip();
+			$('.summernote').summernote();
 
 			$('.i-checks').iCheck({
 			              checkboxClass: 'icheckbox_square-green',
