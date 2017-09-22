@@ -18,6 +18,16 @@ Route::get('logout', 'Auth\LoginController@logout');
 
 /*
 |--------------------------------------------------------------------------
+| Rilisan Route
+|--------------------------------------------------------------------------
+*/
+
+Route::get('rilisan', 'RilisanController@index');
+Route::get('rilisan/edit/{id}', 'RilisanController@edit');
+Route::post('rilisan/update', 'RilisanController@update');
+
+/*
+|--------------------------------------------------------------------------
 | Kategori Route
 |--------------------------------------------------------------------------
 */
