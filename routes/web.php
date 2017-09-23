@@ -23,6 +23,8 @@ Route::get('logout', 'Auth\LoginController@logout');
 */
 
 Route::get('rilisan', 'RilisanController@index');
+Route::get('rilisan/add', 'RilisanController@add');
+Route::post('rilisan/add', 'RilisanController@store');
 Route::get('rilisan/edit/{id}', 'RilisanController@edit');
 Route::post('rilisan/update', 'RilisanController@update');
 

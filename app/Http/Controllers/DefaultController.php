@@ -171,8 +171,8 @@ class DefaultController extends Controller
         $rilisan['total'] = Rilisan::count();
 
         //Activity self
-        $activity['activity'] = UserSession::where('user_id', '=', $user_info['id'])->where('users_sessions_action', '!=', 'visit')->orderBy('users_sessions_time', 'desc')->limit(6)->get()->toArray();
-        $activity['visit']    = UserSession::where('user_id', '=', $user_info['id'])->where('users_sessions_action', '=', 'visit')->orderBy('users_sessions_time', 'desc')->limit(6)->get()->toArray();
+        $activity['activity'] = UserSession::where('user_id', '=', $user_info['id'])->where('users_sessions_action', '!=', 'visit')->orderBy('users_sessions_time', 'desc')->limit(10)->get()->toArray();
+        $activity['visit']    = UserSession::where('user_id', '=', $user_info['id'])->where('users_sessions_action', '=', 'visit')->orderBy('users_sessions_time', 'desc')->limit(10)->get()->toArray();
         $activity['last']     = UserSession::where('user_id', '=', $user_info['id'])->orderBy('users_sessions_time', 'desc')->first();
 
         //Activity other

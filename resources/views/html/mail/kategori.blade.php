@@ -53,7 +53,7 @@
 										<tr>
 					<td valign="top" bgcolor="#17212e" style="padding-top: 10px;">
 						<span style="font-size: 10px; color: #CCC8BF; font-family: Arial, Helvetica, sans-serif; text-transform: uppercase">
-							<a href="http://internal.moesubs.com/laporan"><img src="{{ isset($proyek['gambar']) ? $proyek['gambar'] : 'https://puu.sh/xxK7d.png' }}" alt="The Labyrinth of Grisaia" border="0" style="margin: 0; padding: 0;" width="100%"></a>
+							<a href="http://internal.moesubs.com/kategori"><img src="{{ isset($proyek['gambar']) ? $proyek['gambar'] : 'https://puu.sh/xxK7d.png' }}" alt="Kategori {{ $data['judul']}}" border="0" style="margin: 0; padding: 0;" width="100%"></a>
 						</span>
 					</td>
 				</tr>
@@ -66,7 +66,7 @@
 							<tr>
 								<td style="padding-top: 13px; padding-left: 17px; padding-bottom: 2px;">
 									<p style="font-size: 20px; color: #e1e1e1; font-family: Arial, Helvetica, sans-serif; margin:0; padding:0;">
-										<a href="http://internal.moesubs.com/laporan" style="text-decoration:none; color: #ffffff;">
+										<a href="http://internal.moesubs.com/kategori" style="text-decoration:none; color: #ffffff;">
 											{{ $data['judul']}}
 											</a>
 									</p>

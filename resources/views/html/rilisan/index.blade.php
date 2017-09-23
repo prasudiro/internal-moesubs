@@ -44,11 +44,11 @@ Rilisan
               <td style="vertical-align: middle !important;" data-order="{{ $date_order }}>{{ $rilis['tayang']}}">{{ date("d M y", strtotime($rilis['tanggal']))}} - {{ date("H:i", strtotime($rilis['jam']))}}</td>
               <td class="text-center" style="vertical-align: middle !important;">{!! $rilis['tayang'] == 1 ? '<small class="label label-primary">Rilis</small>' : '<small class="label label-danger">Konsep</small>' !!}</td>
               <td class="text-center" style="vertical-align: middle !important;">
-                <a href="#" title="Detail"><i class="fa fa-gamepad text-info"></i></a>
+                <a href="#" title="Detail"><i class="fa fa-gamepad text-muted"></i></a>
                 &nbsp;
                 <a href="{{ URL('rilisan/edit/'.base64_encode($rilis['id_rilisan'].'rilisan'))}}" title="Edit"><i class="fa fa-edit text-warning" data-toggle="tooltip" title="Edit"></i></a>
                 &nbsp;
-                <a data-toggle="modal" data-target="#bolehadmin{{ $rilis['id_rilisan']}}"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
+                <a data-toggle="modal" data-target="#bolehadmin{{ $rilis['id_rilisan']}}"><i class="fa fa-trash text-muted" data-toggle="tooltip" title="Hapus"></i></a>
               </td>
             </tr>
             @endforeach

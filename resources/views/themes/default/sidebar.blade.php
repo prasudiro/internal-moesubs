@@ -29,7 +29,7 @@
                         <a href="{{ URL('/')}}" title="Dasbor"><i class="fa fa-th-large"></i> <span class="nav-label">Dasbor</span> </a> 
                     </li>
                     <li>
-                        <a data-toggle="modal" data-target="#belumada" title="Rilisan"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rilisan <i class="fa fa-lock text-muted"></i></span></a>
+                        <a href="{{ URL('rilisan')}}" title="Rilisan"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rilisan </span></a>
                     </li>
                     <li>
                         <a data-toggle="modal" data-target="#belumada" title="Proyek"><i class="fa fa-area-chart"></i> <span class="nav-label">Proyek <i class="fa fa-lock text-muted"></i></span></a>

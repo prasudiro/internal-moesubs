@@ -178,8 +178,8 @@ Dasbor
                   @elseif($list['users_sessions_action'] == 'update')
                   <div class="timeline-item">
                       <div class="row">
-                          <div class="col-xs-3 check-square">
-                              <i class="fa fa-edit"></i>
+                          <div class="col-xs-3 date">
+                              <i class="fa fa-check-square"></i>
                               {{ date("d M Y", strtotime($list['users_sessions_time']))}}<br/>
                               <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
                           </div>
@@ -206,8 +206,8 @@ Dasbor
                   @elseif($list['users_sessions_action'] == 'lapor')
                   <div class="timeline-item">
                       <div class="row">
-                          <div class="col-xs-3 briefcase">
-                              <i class="fa fa-edit"></i>
+                          <div class="col-xs-3 date">
+                              <i class="fa fa-book"></i>
                               {{ date("d M Y", strtotime($list['users_sessions_time']))}}<br/>
                               <small class="text-navy">{{ date("H:i", strtotime($list['users_sessions_time']))}} WIB</small>
                           </div>
