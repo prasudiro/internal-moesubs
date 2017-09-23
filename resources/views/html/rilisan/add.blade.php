@@ -93,7 +93,7 @@ Tambah Rilisan
                     <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-2">
                             <button class="btn btn-warning" type="reset">Ulang</button>
-                            <button class="btn btn-danger" type="submit">Perbarui</button>
+                            <button class="btn btn-danger" type="submit">Tambah</button>
                         </div>
                     </div>
                 </form>

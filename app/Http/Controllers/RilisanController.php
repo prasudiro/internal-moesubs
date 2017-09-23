@@ -171,7 +171,7 @@ class RilisanController extends Controller
           { 
             Mail::send('html.mail.rilisan', ['data' => $request, 'user' => $value, 'user_info' => $user_info], function ($m) use ($value, $request, $user_info) {
               $m->from('admin@moesubs.com', 'Moesubs');
-              $m->to($value['email'], $value['name'])->subject('[Rilisan Baru] '.$request['judul'].' ['.$user_info["name"].']');
+              $m->to($value['email'], $value['name'])->subject('[Rilisan Baru] '.$request['judul_rilisan'].' ['.$user_info["name"].']');
             });
           }
         }
