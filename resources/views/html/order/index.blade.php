@@ -22,13 +22,18 @@
 
 <div class="wrapper wrapper-content">
   <div class="row">
-      <div class="col-md-4 col-md-push-4">
+      <div class="col-md-6 col-md-push-3">
           <div class="ibox float-e-margins">
               <div class="ibox-title">
-                  <h3><center><b>Gantungan Kunci Logo Moesubs</b></center></h3>
+                  <h2 style="margin-top:-5px;"><center><b>Gantungan Kunci Logo Moesubs</b></center></h2>
+                  <div class="ibox-tools" style="margin-top:-30px;">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>
               </div>
               <div class="ibox-content">
-                  <div class="carousel slide" id="carousel1">
+                  <div class="carousel slide" id="gachi-logo-moe">
                       <div class="carousel-inner">
                           <div class="item active">
                               <img alt="image" class="img-responsive" src="{{ URL('img/store/'.$gachi['shops_id'].'/1.jpg')}}">
@@ -40,10 +45,10 @@
 											    @endfor
 
                       </div>
-                      <a data-slide="prev" href="#carousel1" class="left carousel-control">
+                      <a data-slide="prev" href="#gachi-logo-moe" class="left carousel-control">
                           <span class="icon-prev"></span>
                       </a>
-                      <a data-slide="next" href="#carousel1" class="right carousel-control">
+                      <a data-slide="next" href="#gachi-logo-moe" class="right carousel-control">
                           <span class="icon-next"></span>
                       </a>
                   </div>
@@ -51,6 +56,42 @@
           </div>
       </div>
 	</div>
+
+	<div class="row">
+      <div class="col-md-6 col-md-push-3">
+          <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                  <h2 style="margin-top:-5px;"><center><b>Formulir Pemesanan</b></center></h2>
+              </div>
+              <div class="ibox-content">
+              <label class="label label-danger"><i>Semua harus diisi lengkap dan sebenar-benarnya</i></label>
+                <div class="hr-line-dashed"></div>
+              	<div class="form-group">
+              		<input type="text" class="form-control" name="fullname" Placeholder="Nama Lengkap" value="" required>
+              	</div>
+                <div class="hr-line-dashed"></div>
+              	<div class="form-group">
+              		<textarea class="form-control" name="alamat" Placeholder="Alamat Lengkap" rows="5" required></textarea>
+              	</div>
+                <div class="hr-line-dashed"></div>
+              	<div class="form-group">
+              		<input type="text" class="form-control" name="hp" Placeholder="Nomor HP" value="" required>
+              	</div>
+                <div class="hr-line-dashed"></div>
+              	<div class="form-group">
+              		<input type="number" class="form-control" name="pesanan" Placeholder="Jumlah Pesanan" value="" required min="0">
+              	</div>
+              	<div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                            <button class="btn btn-warning" type="reset">Ulang</button>
+                            <button class="btn btn-danger" type="submit">Pesan</button>
+              							<label class="label label-info pull-right"><i>(PO sampai {{ date("d F Y", strtotime($gachi['shops_closed']))}})</i></label>
+                        </div>
+                    </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>	
 
   <!-- Mainly scripts -->
