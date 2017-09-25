@@ -2,6 +2,15 @@
 
 /*
 |--------------------------------------------------------------------------
+| Order Route
+|--------------------------------------------------------------------------
+*/
+Route::group(['domain' => 'shop.moesubs.com'], function(){
+    Route::get('/', 'OrderController@order');
+});
+
+/*
+|--------------------------------------------------------------------------
 | Main Route (Dasbor and Auth)
 |--------------------------------------------------------------------------
 */
@@ -84,12 +93,3 @@ Route::post('pengaturan/notifikasi', 'PengaturanController@notifikasi_save');
 */
 Route::get('shops', 'ShopsController@index');
 Route::get('shops/detail/{id}', 'ShopsController@detail');
-
-/*
-|--------------------------------------------------------------------------
-| Order Route
-|--------------------------------------------------------------------------
-*/
-Route::group(['domain' => 'shop.moesubs.com'], function(){
-    Route::get('/', ['uses' => 'OrderController@order', 'as' => 'shop.moesubs.com']);
-});

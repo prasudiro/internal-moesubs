@@ -69,7 +69,7 @@ class OrderController extends Controller
     }
     
     //Pemesanan form
-    public function order(, Request $request)
+    public function order(Request $request)
     {
     	echo"Pemesanan";
     	exit();
