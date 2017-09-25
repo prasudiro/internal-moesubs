@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login Internal | [Moesubs] Jagonya Ngesub</title>
+    <title>Pre-Order Gantungan Kunci Logo Moesubs | [Moeshops] Jagonya Ngehobi</title>
 
     <link href="{{ URL('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ URL('font-awesome/css/font-awesome.css')}}" rel="stylesheet">
