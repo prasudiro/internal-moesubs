@@ -56,6 +56,10 @@
                             <li><a href="{{ URL('logout')}}" title="Keluar">Keluar</a></li>
                         </ul>
                     </li>
+                    <hr style="border: 1px dashed #AAAAAA; margin:0px;">
+                    <li>
+                        <a href="{{ URL('shops')}}" title="Laporan QC"><i class="fa fa-shopping-cart"></i> <span class="nav-label">Moeshops</span></a>
+                    </li>
                 </ul>
 
             </div>

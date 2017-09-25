@@ -76,3 +76,20 @@ Route::post('laporan/update', 'LaporanController@update');
 Route::get('pengaturan', 'PengaturanController@index');
 Route::get('pengaturan/notifikasi', 'PengaturanController@notifikasi');
 Route::post('pengaturan/notifikasi', 'PengaturanController@notifikasi_save');
+
+/*
+|--------------------------------------------------------------------------
+| Shops Route
+|--------------------------------------------------------------------------
+*/
+Route::get('shops', 'ShopsController@index');
+Route::get('shops/detail/{id}', 'ShopsController@detail');
+
+/*
+|--------------------------------------------------------------------------
+| Order Route
+|--------------------------------------------------------------------------
+*/
+Route::group(['domain' => 'shop.moesubs.com'], function(){
+    Route::get('/', 'OrderController@order');
+});

@@ -53,6 +53,15 @@ Rilisan
             </tr>
             @endforeach
           </tbody>
+          <tfoot>
+            <tr>
+              <th>Judul Rilisan</th>
+              <th>Musim</th>
+              <th>Dirilis pada</th>
+              <th>Status</th>
+              <th>Pengaturan</th>
+          </tr>
+          </tfoot>
           </table>
 
 
