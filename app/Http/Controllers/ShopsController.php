@@ -102,7 +102,7 @@ class ShopsController extends Controller
       $user_info = Auth::user();
       $get_id    = preg_replace("/[^0-9]/", "", base64_decode($id));
       $product	 = Shops::where('shops_id', '=', $get_id)->first();
-      $detail    = ShopsDetail::where('shops_id', '=', $id)->get()->toArray();
+      $detail    = ShopsDetail::where('shops_id', '=', $product['shops_id'])->get()->toArray();
 
     	return view('html.shops.detail')
     						->with('product', $product)

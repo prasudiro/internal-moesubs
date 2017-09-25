@@ -78,4 +78,51 @@ class OrderController extends Controller
             ->with('gachi', $gachi)
             ->with('user_info', $user_info);
     }
+
+    //Pemesanan save and validation
+    public function order_add(Request $request)
+    {
+      return redirect()->back()->with('error_msg', 'Pemesanan belum dibuka!<br>Tunggu informasi lanjutan!');
+      exit();
+      $user_info = Auth::user();
+      $gachi     = Shops::where('shops_id', '=', 1)->first();
+
+      if (base64_decode($request['shops_price']) != $gachi['shops_price']) 
+      {
+        return redirect()->back()->withInput()->with('error_msg', 'Total harga tidak sesuai!<br>Silakan coba lagi!');
+      }
+
+      $information  = array(
+                            'nama'      => $request['fullname'],
+                            'alamat'    => $request['alamat'],
+                            'nohp'      => $request['hp'],
+                            'email'     => $request['email'],
+                            'pesanan'   => $request['pesanan']
+                      );
+
+      $order_data = array(
+                          'shops_id'                  => $request['shops_id'],
+                          'shops_detail_quantity'     => $request['pesanan'],
+                          'shops_detail_buyer'        => $request['fullname'],
+                          'shops_detail_information'  => json_encode($information),
+                          'created_at'                => date("Y-m-d H:i:s"),
+                          'updated_at'                => date("Y-m-d H:i:s"),
+                    );
+
+      $order_save = ShopsDetail::insert($order_data);
+
+      if (!$order_data) 
+      {
+        return redirect()->back()->withInput()->with('error_msg', 'Pesanan gagal!<br>Silakan coba lagi!');
+      }
+
+      if(config('app.env') == 'local') 
+      {
+        return redirect()->back()->with('success_msg', 'Pemesanan berhasil! <br>Silakan cek email untuk lebih detailnya!');
+      }
+      else
+      {
+        return redirect()->back()->with('success_msg', 'Pemesanan berhasil! <br>Silakan cek email untuk lebih detailnya!');
+      }
+    }
 }

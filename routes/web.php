@@ -9,11 +9,13 @@
 if(config('app.env') == 'local') 
 {
 	Route::get('order', 'OrderController@order');
+  Route::post('order/add', 'OrderController@order_add');
 }
 
 //live version
 Route::group(['domain' => 'shop.moesubs.com'], function(){
     Route::get('/', 'OrderController@order');
+    Route::post('order/add', 'OrderController@order_add');
 });
 
 /*

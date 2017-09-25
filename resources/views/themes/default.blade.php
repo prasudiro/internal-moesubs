@@ -464,6 +464,38 @@
 
 			});
 
+			$('.dataTables-shopsdetail').dataTable({
+				responsive: true,
+				"order": [[ 4, "desc" ]],
+				"columnDefs": [
+				  { "targets": [1], "orderable": false },
+				  { "targets": [2], "orderable": false },
+				  { "targets": [5], "orderable": false },
+				],
+				"language": {
+					"zeroRecords": "<center><h3><b>Tidak ada data</b></h3><center>",
+					"paginate": {
+						"first":    'Pertama',
+						"previous": 'Mundur',
+						"next":     'Maju',
+						"last":     'Terakhir'
+					},
+					"search": "",
+					"searchPlaceholder": "Pencarian",
+					"lengthMenu": '<select class=form-control>'+
+					  '<option value="10">10</option>'+
+					  '<option value="30">30</option>'+
+					  '<option value="50">50</option>'+
+					  '<option value="100">100</option>'+
+					  '<option value="-1">Semua</option>'+
+					  '</select>&nbsp;&nbsp;data per halaman',
+					"info": "Total _TOTAL_ data",
+					"infoEmpty": "",
+					"infoFiltered": ""
+				}
+
+			});
+
 			$('.summernote').summernote();
 
 			$('.i-checks').iCheck({

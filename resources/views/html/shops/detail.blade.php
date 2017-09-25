@@ -26,8 +26,9 @@ Shops "{{ $product['shops_product']}}"
           <tr>
                 <th width="50%">Nama Pemesan</th>
                 <th width="5%">Jumlah</th>
-                <th width="5%">Total</th>
-                <th width="8%">Status</th>
+                <th width="8%">Total</th>
+                <th width="7%">Status</th>
+                <th width="16%">Tanggal Pesan</th>
                 <th width="8%">Pengaturan</th>
           </tr>
           </thead>
@@ -35,11 +36,26 @@ Shops "{{ $product['shops_product']}}"
           @if(count($detail) > 0)
             @foreach($detail as $data)
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="vertical-align: middle !important;">{{ $data['shops_detail_buyer']}}</td>
+                <td class="text-center" style="vertical-align: middle !important;">{{ $data['shops_detail_quantity']}}</td>
+                <td class="text-right" style="vertical-align: middle !important;">{{ number_format($data['shops_detail_quantity'] * $product['shops_price'])}}</td>
+                <td class="text-center" style="vertical-align: middle !important;">
+                  <?php 
+                    $status = "<label class='label label-danger'>Proses</label>";
+                  if ($data['shops_detail_status'] == 1) 
+                  {
+                    $status = "<label class='label label-primary'>Lunas</label>";
+                  }
+                  elseif($data['shops_detail_status'] == 2) 
+                  {
+                    $status = "<label class='label label-muted'>Dikirim</label>";
+                  }
+                  ?>
+                {!! $status!!}
+                </td>
+                <td data-order="{{ strtotime($data['created_at'])}}" style="vertical-align: middle !important;">{{ date("d F y - H:i", strtotime($data['created_at']))}}</td>
+                <td style="vertical-align: middle !important;">
+                </td>
               </tr>
             @endforeach
           @else
@@ -54,6 +70,7 @@ Shops "{{ $product['shops_product']}}"
                 <th>Jumlah</th>
                 <th>Total</th>
                 <th>Status</th>
+                <th>Tanggal Pesan</th>
                 <th>Pengaturan</th>
             </tr>
           </tfoot>

@@ -14,7 +14,8 @@
     <link href="{{ URL('css/animate.css')}}" rel="stylesheet">
     <link href="{{ URL('css/style.css')}}" rel="stylesheet">
 
-    <link rel="shortcut icon" type="image/icon" href="https://puu.sh/wbdmk.png" width="64">
+		<!-- Toastr style -->
+		<link href="{{ URL('css/plugins/toastr/toastr.min.css')}}" rel="stylesheet">
 
 </head>
 
@@ -52,6 +53,9 @@
                           <span class="icon-next"></span>
                       </a>
                   </div>
+                <div class="hr-line-dashed"></div>
+              <h2><center><b>{{ number_format($gachi['shops_price']) }} IDR</b></center></h2>
+              </div>
               </div>
           </div>
       </div>
@@ -64,6 +68,10 @@
                   <h2 style="margin-top:-5px;"><center><b>Formulir Pemesanan</b></center></h2>
               </div>
               <div class="ibox-content">
+              <form class="form-horizontal" role="form" method="post" action="{{ URL('order/add')}}" accept-charset="utf-8" enctype="multipart/form-data">
+                {{ csrf_field()}}
+              <input type="hidden" value="1" name="shops_id">
+              <input type="hidden" value="{{ base64_encode($gachi['shops_price'])}}" name="shops_price">
               <label class="label label-danger"><i>Semua harus diisi lengkap dan sebenar-benarnya</i></label>
                 <div class="hr-line-dashed"></div>
               	<div class="form-group">
@@ -71,11 +79,15 @@
               	</div>
                 <div class="hr-line-dashed"></div>
               	<div class="form-group">
-              		<textarea class="form-control" name="alamat" Placeholder="Alamat Lengkap" rows="5" required></textarea>
+              		<textarea class="form-control" name="alamat" Placeholder="Alamat Lengkap (Jalan, No, RT/RW, Kode Pos, Kab/Kota, Provinsi)" rows="5" required></textarea>
               	</div>
                 <div class="hr-line-dashed"></div>
               	<div class="form-group">
               		<input type="text" class="form-control" name="hp" Placeholder="Nomor HP" value="" required>
+              	</div>
+                <div class="hr-line-dashed"></div>
+              	<div class="form-group">
+              		<input type="email" class="form-control" name="email" Placeholder="Email" value="" required>
               	</div>
                 <div class="hr-line-dashed"></div>
               	<div class="form-group">
@@ -86,8 +98,8 @@
                             <button class="btn btn-warning" type="reset">Ulang</button>
                             <button class="btn btn-danger" type="submit">Pesan</button>
               							<label class="label label-info pull-right"><i>(PO sampai {{ date("d F Y", strtotime($gachi['shops_closed']))}})</i></label>
-                        </div>
                     </div>
+                </form>
               </div>
           </div>
       </div>
@@ -104,6 +116,36 @@
   <script src="js/inspinia.js"></script>
   <script src="js/plugins/pace/pace.min.js"></script>
 
+	<!-- Toastr -->
+	<script src="{{ URL('js/plugins/toastr/toastr.min.js')}}"></script>
+
+	<script>
+		$(document).ready(function() {
+			@if(Session::has('error_msg'))
+				setTimeout(function() {
+						toastr.options = {
+							closeButton: true,
+							progressBar: true,
+							showMethod: 'slideDown',
+							timeOut: 4000,
+						};
+						toastr.error('{!! Session::get("error_msg") !!}');
+
+					}, 500);
+			@elseif(Session::has('success_msg'))
+				setTimeout(function() {
+					toastr.options = {
+						closeButton: true,
+						progressBar: true,
+						showMethod: 'slideDown',
+						timeOut: 4000
+					};
+					toastr.success('{!! Session::get("success_msg") !!}');
+
+				}, 500);
+			@endif
+		});
+	</script>
 </body>
 
 </html>
