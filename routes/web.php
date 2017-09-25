@@ -91,5 +91,5 @@ Route::get('shops/detail/{id}', 'ShopsController@detail');
 |--------------------------------------------------------------------------
 */
 Route::group(['domain' => 'shop.moesubs.com'], function(){
-    Route::get('/', 'OrderController@order');
+    Route::get('/', ['uses' => 'OrderController@order', 'as' => 'shop.moesubs.com']);
 });
