@@ -5,6 +5,13 @@
 | Order Route
 |--------------------------------------------------------------------------
 */
+//localhost
+if(config('app.env') == 'local') 
+{
+	Route::get('order', 'OrderController@order');
+}
+
+//live version
 Route::group(['domain' => 'shop.moesubs.com'], function(){
     Route::get('/', 'OrderController@order');
 });

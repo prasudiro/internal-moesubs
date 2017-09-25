@@ -71,7 +71,11 @@ class OrderController extends Controller
     //Pemesanan form
     public function order(Request $request)
     {
-    	echo"Pemesanan";
-    	exit();
+      $user_info = Auth::user();
+      $gachi     = Shops::where('shops_id', '=', 1)->first();
+
+    	return view('html.order.index')
+            ->with('gachi', $gachi)
+            ->with('user_info', $user_info);
     }
 }
