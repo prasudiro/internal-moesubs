@@ -32,6 +32,12 @@
 	<!-- iChecks -->
 	<link href="{{ URL('css/plugins/iCheck/custom.css')}}" rel="stylesheet">
 
+	<!-- Datapicker -->
+	<link href="{{ URL('css/plugins/datapicker/datepicker3.css')}}" rel="stylesheet">
+
+	<!-- Gallery -->
+  <link href="{{ URL('css/plugins/blueimp/css/blueimp-gallery.min.css')}}" rel="stylesheet">
+
 	<link href="{{ URL('css/animate.css')}}" rel="stylesheet">
 	<link href="{{ URL('css/style.css')}}" rel="stylesheet">
 
@@ -286,6 +292,12 @@
 	<!-- iCheck -->
   <script src="{{ URL('js/plugins/iCheck/icheck.min.js')}}"></script>
 
+   <!-- Datapicker -->
+   <script src="{{ URL('js/plugins/datapicker/bootstrap-datepicker.js')}}"></script>
+
+  <!-- blueimp gallery -->
+  <script src="{{ URL('js/plugins/blueimp/jquery.blueimp-gallery.min.js')}}"></script>
+
 	<script>
 	
 
@@ -502,6 +514,15 @@
 			              checkboxClass: 'icheckbox_square-green',
 			              radioClass: 'iradio_square-green',
 			         });
+
+			$('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+               	format: 'yyyy-mm-dd',
+            });
 
 			var data1 = [
 				[0,4],[1,8],[2,5],[3,10],[4,4],[5,16],[6,5],[7,11],[8,6],[9,11],[10,30],[11,10],[12,13],[13,4],[14,3],[15,3],[16,6]

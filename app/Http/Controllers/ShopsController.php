@@ -103,13 +103,201 @@ class ShopsController extends Controller
       $get_id    = preg_replace("/[^0-9]/", "", base64_decode($id));
       $product	 = Shops::where('shops_id', '=', $get_id)->first();
       $detail    = ShopsDetail::where('shops_id', '=', $product['shops_id'])->get()->toArray();
+      $metadata  = Metadata::where('metadata_module', '=', 'shops')->where('metadata_module_id', '=', $get_id)->first();
+
+      $meta_detail = json_decode($metadata['metadata_detail'], TRUE);
 
     	return view('html.shops.detail')
     						->with('product', $product)
                 ->with('detail', $detail)
+                ->with('meta_detail', $meta_detail)
                 ->with('user_info', $user_info);
 
     }
 
+    //Add new data
+    public function add(Request $request)
+    {      
+      $user_info = Auth::user();
+
+      return view('html.shops.add')
+                ->with('user_info', $user_info);
+    }
+
+    //Save new data
+    public function store(Request $request)
+    { 
+      $user_info = Auth::user();
+
+      $product_data = array(
+                            'shops_product'           => $request['shops_product'],
+                            'shops_detail'            => $request['shops_detail'],
+                            'shops_price'             => $request['shops_price'],
+                            'shops_discount'          => $request['shops_discount'],
+                            'shops_discount_percent'  => $request['shops_discount_percent'],
+                            'shops_status'            => $request['shops_status'],
+                            'shops_closed'            => $request['shops_closed'],
+                            'user_id'                 => $request['user_id'],
+                      );
+
+      $product_save = Shops::create($product_data);
+
+      if (!$product_save) 
+      {
+        return redirect()->back()->withInput()->with('error_msg', 'Produk gagal ditambahkan!<br>Silakan dicoba lagi!');
+      }
+
+      $path        = 'uploads/shops/'.$product_save->shops_id.'/';
+
+      $file1       = $request['gambar1'];
+      $file2       = $request['gambar2'];
+      $file3       = $request['gambar3'];
+
+      $filename1   = strtolower(str_replace(" ", "_", $request['shops_product'])).'_1.'.$file1->getClientOriginalExtension();
+      $filename2   = strtolower(str_replace(" ", "_", $request['shops_product'])).'_2.'.$file2->getClientOriginalExtension();
+      $filename3   = strtolower(str_replace(" ", "_", $request['shops_product'])).'_3.'.$file3->getClientOriginalExtension();
+
+      $file1->move($path, $filename1);
+      $file2->move($path, $filename2);
+      $file3->move($path, $filename3);
+
+      $metadata_detail  = array(
+                                'bank'      => $request['bank'],
+                                'gambar1'   => $filename1,
+                                'gambar2'   => $filename2,
+                                'gambar3'   => $filename3,
+                          );
+
+      $metadata   = array(
+                          'metadata_module_id'    => $product_save->shops_id,
+                          'metadata_module'       => 'shops',
+                          'metadata_detail'       => json_encode($metadata_detail),
+                          'user_id'               => $request['user_id'],
+                          'created_at'            => date("y-m-d H:i:s"),
+                          'updated_at'            => date("y-m-d H:i:s"),
+                    );
+
+      $metadata_save  = Metadata::insert($metadata);
+
+      return redirect('shops')->with('success_msg', 'Produk berhasil ditambahkan!');
+    }
+
+    //Edit data
+    public function edit($id, Request $request)
+    {      
+      $user_info = Auth::user();
+      $get_id    = preg_replace("/[^0-9]/", "", base64_decode($id));
+      $product   = Shops::where('shops_id', '=', $get_id)->first();
+      $metadata  = Metadata::where('metadata_module', '=', 'shops')->where('metadata_module_id', '=', $get_id)->first();
+
+      $meta_detail = json_decode($metadata['metadata_detail'], TRUE);
+
+      return view('html.shops.edit')
+                ->with('product', $product)
+                ->with('meta_detail', $meta_detail)
+                ->with('user_info', $user_info);
+    }
+
+    //Update data
+    public function update(Request $request)
+    { 
+      $user_info = Auth::user();
+      $product   = Shops::where('shops_id', '=', $request['shops_id'])->first();
+      $metadata  = Metadata::where('metadata_module', '=', 'shops')->where('metadata_module_id', '=', $request['shops_id'])->first();
+
+      $meta_detail = json_decode($metadata['metadata_detail'], TRUE);
+      $path        = 'uploads/shops/'.$request['shops_id'].'/';
+
+      if (!isset($request['gambar1'])) 
+      {
+        $filename1 = $meta_detail['gambar1'];
+      }
+      else
+      {
+        $file1       = $request['gambar1'];
+        $filename1   = strtolower(str_replace(" ", "_", $request['shops_product'])).'_1.'.$file1->getClientOriginalExtension();
+        $file1->move($path, $filename1);
+      }
+
+      if (!isset($request['gambar2'])) 
+      {
+        $filename2 = $meta_detail['gambar2'];
+      }
+      else
+      {
+        
+        $file2       = $request['gambar2'];
+        $filename2   = strtolower(str_replace(" ", "_", $request['shops_product'])).'_2.'.$file2->getClientOriginalExtension();
+        $file2->move($path, $filename2);
+      }
+
+      if (!isset($request['gambar3'])) 
+      {
+        $filename3 = $meta_detail['gambar3'];;
+      }
+      else
+      {
+        
+        $file3       = $request['gambar3'];
+        $filename3   = strtolower(str_replace(" ", "_", $request['shops_product'])).'_3.'.$file3->getClientOriginalExtension();
+        $file3->move($path, $filename3);
+      }
+
+      $shops_data = array(
+                          'user_id'                 => $request['user_id'],
+                          'shops_product'           => $request['shops_product'],
+                          'shops_detail'            => $request['shops_detail'],
+                          'shops_price'             => $request['shops_price'],
+                          'shops_discount'          => $request['shops_discount'],
+                          'shops_discount_percent'  => $request['shops_discount_percent'],
+                          'shops_status'            => $request['shops_status'],
+                          'shops_closed'            => $request['shops_closed'],
+
+                    );
+
+      $shops_update = Shops::where('shops_id', '=', $request['shops_id'])->update($shops_data);
+
+      if (!$shops_update) 
+      {
+        return redirect()->back()->withInput()->with('error_msg', 'Produk gagal diperbarui!<br>Silakan dicoba lagi!');
+      }
+
+      $metadata_detail  = array(
+                                'bank'    => $request['bank'],
+                                'gambar1' => $filename1,
+                                'gambar2' => $filename2,
+                                'gambar3' => $filename3,
+                          );
+
+      $metadata   = array(
+                          'metadata_detail'       => json_encode($metadata_detail),
+                          'user_id'               => $request['user_id'],
+                    );
+
+      $metadata_save  = Metadata::where('metadata_module', '=', 'shops')->where('metadata_module_id', '=', $request['shops_id'])->update($metadata);
+
+      return redirect('shops')->with('success_msg', 'Produk berhasil diperbaruii');
+    }
+
+    //Delete data
+    public function delete(Request $request)
+    {
+      if ($request['product_delete'] != "HAPUS") 
+      {
+        return redirect()->back()->with('error_msg', 'Produk gagal dihapus!<br>Silakan dicoba lagi!');
+      }
+
+      $user_info      = Auth::user();
+      $delete         = array('status' => '1');
+      $product_delete = Shops::where('shops_id', '=', $request['shops_id'])->update($delete);
+      $meta_delete    = Metadata::where('metadata_module', '=', 'shops')->where('metadata_module_id', '=', $request['shops_id'])->update($delete);
+
+      if (!$product_delete) 
+      {
+        return redirect('shops')->with('error_msg', 'Produk gagal dihapus!<br>Silakan dicoba lagi!');
+      }
+
+      return redirect('shops')->with('success_msg', 'Produk berhasil dihapus!');
+    }
 
 }

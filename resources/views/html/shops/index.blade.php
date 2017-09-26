@@ -16,7 +16,7 @@ Shops
 	        <h5>Shops <small>(berisikan daftar penjualan dan pemesaran, serta konfirmasi pembayaran).</small></h5>
 	      </div>
 	      <div class="col-md-6 text-right">
-	        <a data-toggle="modal" data-target="#belumada"  class="btn-sm btn-danger"><i class="fa fa-plus"></i> Tambah Produk</a>
+	        <a href="{{ URL('shops/add')}}" class="btn-sm btn-danger"><i class="fa fa-plus"></i> Tambah Produk</a>
 	      </div>
       </div>
       <div class="ibox-content">
@@ -44,16 +44,16 @@ Shops
               </td>
               <td class="text-center" style="vertical-align: middle !important;">{!! $data['shops_status'] == 0 ? '<label class="label label-info">Pre Order</label>' : '<label class="label label-success">Ready Stock</label>'!!}</td>
               <td class="text-center" style="vertical-align: middle !important;">{{ $data['shops_order']}}</td>
-              <td class="text-center" style="vertical-align: middle !important;">{{ $data['shops_order']}}</td>
-              <td class="text-center" style="vertical-align: middle !important;">{{ $data['shops_order']}}</td>
-              <td class="text-center" style="vertical-align: middle !important;">{{ $data['shops_order']}}</td>
+              <td class="text-center" style="vertical-align: middle !important;">{{ $data['shops_unpaid']}}</td>
+              <td class="text-center" style="vertical-align: middle !important;">{{ $data['shops_paid']}}</td>
+              <td class="text-center" style="vertical-align: middle !important;">{{ $data['shops_delivered']}}</td>
               <td style="vertical-align: middle !important;">{{ date("d M y H:i", strtotime($data['shops_closed']))}}</td>
               <td class="text-center" style="vertical-align: middle !important;">
-                <a data-toggle="modal" data-target="#belumada" title="Detail"><i class="fa fa-gamepad text-danger"></i></a>
+                <a data-toggle="modal" data-target="#belumada"><i data-toggle="tooltip" title="Detail" class="fa fa-gamepad text-muted"></i></a>
                 &nbsp;
-                <a data-toggle="modal" data-target="#belumada" title="Edit"><i class="fa fa-edit text-danger" data-toggle="tooltip" title="Edit"></i></a>
+                <a href="{{ URL('shops/edit/'.base64_encode($data['shops_id'].'shops'))}}"><i data-toggle="tooltip" title="Edit" class="fa fa-edit text-info" data-toggle="tooltip" title="Edit"></i></a>
                 &nbsp;
-                <a data-toggle="modal" data-target="#belumada" title="Hapus"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
+                <a data-toggle="modal" data-target="#delete{{ $data['shops_id']}}" title="Hapus"><i class="fa fa-trash text-danger" data-toggle="tooltip" title="Hapus"></i></a>
               </td>
             </tr>
           @endforeach
@@ -77,5 +77,57 @@ Shops
      </div>
    </div>
 </div>
+
+@foreach ($product as $data2) 
+<div class="modal inmodal" id="delete{{ $data2['shops_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+    <div class="modal-content animated bounceIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h1 class="text-danger"><b>PERINGATAN!!!</b></h1>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center text-info"><i class="fa fa-question" style="font-size:40px;"></i> <br><br>Anda yakin ingin menghapusnya?</h3>
+                  <center>
+                    {{ $data2['shops_product']}}
+                  </center>
+            </div>
+            <div class="modal-footer">
+              <div align="center">
+                <a href="#" class="btn btn-primary" data-dismiss="modal">Tidak</a>
+                &nbsp;&nbsp;&nbsp;
+                <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#confirmdelete{{ $data2['shops_id']}}">Yakin</a>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
+@foreach($product as $data3)
+<div class="modal inmodal" id="confirmdelete{{ $data3['shops_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+    <div class="modal-content animated bounceIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h1 class="text-danger"><b>Apa Anda benar-benar yakin?</b></h1>
+            </div>
+            <div class="modal-body">
+            <form class="form-horizontal" role="form" method="post" action="{{ URL('shops/delete')}}" accept-charset="utf-8" enctype="multipart/form-data">
+              {{ csrf_field()}}
+              <input name="shops_id" value="{{ $data3['shops_id']}}" type="hidden">
+              <div align="center">
+                <input class="form-control" name="product_delete" value="" type="text" placeholder="Ketik HAPUS pada kolom ini dan tekan ENTER"></div>
+            </form>
+            </div>
+            <div class="modal-footer">
+              <div align="center">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Batal</button>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 @endsection

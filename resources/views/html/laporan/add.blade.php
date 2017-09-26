@@ -54,7 +54,7 @@ Tambah Laporan QC
                     <div class="form-group"><label class="col-sm-2 control-label">Isi Laporan</label>
                         <div class="col-sm-8">
                         <div  style="border: 1px dashed #AAAAAA;">
-                            <textarea class="summernote" name="laporan_isi"></textarea>
+                            <textarea class="summernote" name="laporan_isi" required></textarea>
                         </div>
                         </div>
                     </div>

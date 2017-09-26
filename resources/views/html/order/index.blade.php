@@ -26,7 +26,7 @@
       <div class="col-md-6 col-md-push-3">
           <div class="ibox float-e-margins">
               <div class="ibox-title">
-                  <h2 style="margin-top:-5px;"><center><b>Gantungan Kunci Logo Moesubs</b></center></h2>
+                  <h3 style="margin-top:0px;"><center><b>Gantungan Kunci Logo Moesubs</b></center></h3>
                   <div class="ibox-tools" style="margin-top:-30px;">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -37,11 +37,11 @@
                   <div class="carousel slide" id="gachi-logo-moe">
                       <div class="carousel-inner">
                           <div class="item active">
-                              <img alt="image" class="img-responsive" src="{{ URL('img/store/'.$gachi['shops_id'].'/1.jpg')}}">
+                              <img alt="image" class="img-responsive" src="{{ URL('uploads/shops/'.$gachi['shops_id'])}}/{{ $meta_detail['gambar1']}}">
                           </div>
-											    @for ($i=2; $i <= 5; $i++) 
+											    @for ($i=2; $i <= 3; $i++) 
                           <div class="item">
-                              <img alt="image" class="img-responsive" src="{{ URL('img/store/'.$gachi['shops_id'].'/'.$i.'.jpg')}}">
+                              <img alt="image" class="img-responsive" src="{{ URL('uploads/shops/'.$gachi['shops_id'])}}/{{ $meta_detail['gambar'.$i]}}">
                           </div>
 											    @endfor
 
@@ -53,6 +53,11 @@
                           <span class="icon-next"></span>
                       </a>
                   </div>
+                <div class="hr-line-dashed"></div>
+                {!! $gachi['shops_detail']!!}
+                <div class="text-right">
+                  <label class="label label-danger"><i>(PO hanya sampai {{ date("d F Y", strtotime($gachi['shops_closed']))}})</i></label>
+                </div>
                 <div class="hr-line-dashed"></div>
               <h2><center><b>{{ number_format($gachi['shops_price']) }} IDR</b></center></h2>
               </div>
@@ -68,9 +73,11 @@
                   <h2 style="margin-top:-5px;"><center><b>Formulir Pemesanan</b></center></h2>
               </div>
               <div class="ibox-content">
+              <div class="row">
+              <div class="col-md-10 col-md-push-1">
               <form class="form-horizontal" role="form" method="post" action="{{ URL('order/add')}}" accept-charset="utf-8" enctype="multipart/form-data">
                 {{ csrf_field()}}
-              <input type="hidden" value="1" name="shops_id">
+              <input type="hidden" value="{{ $gachi['shops_id']}}" name="shops_id">
               <input type="hidden" value="{{ base64_encode($gachi['shops_price'])}}" name="shops_price">
               <label class="label label-danger"><i>Semua harus diisi lengkap dan sebenar-benarnya</i></label>
                 <div class="hr-line-dashed"></div>
@@ -97,9 +104,11 @@
                     <div class="form-group">
                             <button class="btn btn-warning" type="reset">Ulang</button>
                             <button class="btn btn-danger" type="submit">Pesan</button>
-              							<label class="label label-info pull-right"><i>(PO sampai {{ date("d F Y", strtotime($gachi['shops_closed']))}})</i></label>
+                            <span class="pull-right"><a href="#" title="Kontak Personal">Tidak dapat memesan? Hubungi kami.</a></span>
                     </div>
                 </form>
+              </div>
+              </div>
               </div>
           </div>
       </div>

@@ -5,18 +5,21 @@
 | Order Route
 |--------------------------------------------------------------------------
 */
-//localhost
 if(config('app.env') == 'local') 
 {
+	//localhost
 	Route::get('order', 'OrderController@order');
   Route::post('order/add', 'OrderController@order_add');
+  Route::get('order/template_view', 'OrderController@template_view');
 }
-
-//live version
-Route::group(['domain' => 'shop.moesubs.com'], function(){
-    Route::get('/', 'OrderController@order');
-    Route::post('order/add', 'OrderController@order_add');
-});
+else
+{
+	//live version
+	Route::group(['domain' => 'shop.moesubs.com'], function(){
+	  Route::get('/', 'OrderController@order');
+	  Route::post('order/add', 'OrderController@order_add');
+	});
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -102,3 +105,8 @@ Route::post('pengaturan/notifikasi', 'PengaturanController@notifikasi_save');
 */
 Route::get('shops', 'ShopsController@index');
 Route::get('shops/detail/{id}', 'ShopsController@detail');
+Route::get('shops/add', 'ShopsController@add');
+Route::post('shops/add', 'ShopsController@store');
+Route::get('shops/edit/{id}', 'ShopsController@edit');
+Route::post('shops/edit', 'ShopsController@update');
+Route::post('shops/delete', 'ShopsController@delete');

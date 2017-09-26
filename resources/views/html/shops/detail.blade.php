@@ -12,15 +12,24 @@ Shops "{{ $product['shops_product']}}"
   <div class="col-lg-12">
     <div class="ibox float-e-margins">
       <div class="ibox-title">
-	      <div class="col-md-6">
-	        <h5>{{ $product['shops_product']}} <small>({{ $product['shops_detail']}}).</small></h5>
+	      <div class="col-md-10">
+	        <h5>{{ $product['shops_product']}} <small>(Detail daftar pemesanan produk {{ $product['shops_product']}}).</small></h5>
 	      </div>
-	      <div class="col-md-6 text-right">
+	      <div class="col-md-2 text-right">
 	        <a data-toggle="modal" data-target="#belumada"  class="btn-sm btn-danger"><i class="fa fa-plus"></i> Tambah Pemesan</a>
 	      </div>
       </div>
       <div class="ibox-content">
-	      
+      <center>
+	      <div class="lightBoxGallery">
+        @for ($i=1; $i <= 3; $i++)
+          <a href="{{ URL('uploads/shops/'.$product['shops_id'])}}/{{ $meta_detail['gambar'.$i]}}" title="{{ $product['shops_product']}} - {{ $i}}" data-gallery="">
+            <img src="{{ URL('uploads/shops/'.$product['shops_id'])}}/{{ $meta_detail['gambar'.$i]}}" width="200" height="150">
+          </a>
+        @endfor
+      </div>
+      </center>
+      <p><br></p>
 	     <table class="table table-striped table-bordered table-hover dataTables-shopsdetail" >
           <thead>
           <tr>
@@ -28,12 +37,11 @@ Shops "{{ $product['shops_product']}}"
                 <th width="5%">Jumlah</th>
                 <th width="8%">Total</th>
                 <th width="7%">Status</th>
-                <th width="16%">Tanggal Pesan</th>
+                <th width="20%">Tanggal Pesan</th>
                 <th width="8%">Pengaturan</th>
           </tr>
           </thead>
           <tbody>
-          @if(count($detail) > 0)
             @foreach($detail as $data)
               <tr>
                 <td style="vertical-align: middle !important;">{{ $data['shops_detail_buyer']}}</td>
@@ -53,16 +61,18 @@ Shops "{{ $product['shops_product']}}"
                   ?>
                 {!! $status!!}
                 </td>
-                <td data-order="{{ strtotime($data['created_at'])}}" style="vertical-align: middle !important;">{{ date("d F y - H:i", strtotime($data['created_at']))}}</td>
-                <td style="vertical-align: middle !important;">
+                <td data-order="{{ strtotime($data['created_at'])}}" style="vertical-align: middle !important;">{{ date("d F Y - H:i", strtotime($data['created_at']))}}</td>
+                <td class="text-center" style="vertical-align: middle !important;">
+                @if($data['shops_detail_buyer'] == 'Kurniawan Prasetyo')
+                  <a href="#" class="btn-sm btn-success">Konfirmasi</a>
+                @elseif($data['shops_detail_status'] == 1)
+                  Lunas
+                @else
+                  <span class="text-danger">Menunggu</span>
+                @endif
                 </td>
               </tr>
             @endforeach
-          @else
-              <tr>
-                <td colspan="5" class="text-center"><h3><b>Tidak ada data</b></h3></td>
-              </tr>
-          @endif
           </tbody>
           <tfoot>
             <tr>
@@ -82,4 +92,14 @@ Shops "{{ $product['shops_product']}}"
    </div>
 </div>
 
+<!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
 @endsection
