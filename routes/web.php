@@ -10,7 +10,8 @@ if(config('app.env') == 'local')
 	//localhost
 	Route::get('order', 'OrderController@order');
   Route::post('order/add', 'OrderController@order_add');
-  Route::get('order/template_view', 'OrderController@template_view');
+  Route::get('order/status/{id}/{code}', 'OrderController@status');
+  Route::post('order/confirm/add', 'OrderController@add_confirm');
 }
 else
 {
@@ -18,6 +19,7 @@ else
 	Route::group(['domain' => 'shop.moesubs.com'], function(){
 	  Route::get('/', 'OrderController@order');
 	  Route::post('order/add', 'OrderController@order_add');
+		Route::get('order', 'OrderController@returning');
 	});
 }
 

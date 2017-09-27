@@ -44,7 +44,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        if (env('APP_ENV') == 'local')
+        {
+          return parent::render($request, $exception);
+        }
+        else
+        {
+          return response()->view('html.errors.404');
+        }
     }
 
     /**

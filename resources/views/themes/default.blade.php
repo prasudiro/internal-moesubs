@@ -292,8 +292,8 @@
 	<!-- iCheck -->
   <script src="{{ URL('js/plugins/iCheck/icheck.min.js')}}"></script>
 
-   <!-- Datapicker -->
-   <script src="{{ URL('js/plugins/datapicker/bootstrap-datepicker.js')}}"></script>
+  <!-- Datapicker -->
+ 	<script src="{{ URL('js/plugins/datapicker/bootstrap-datepicker.js')}}"></script>
 
   <!-- blueimp gallery -->
   <script src="{{ URL('js/plugins/blueimp/jquery.blueimp-gallery.min.js')}}"></script>

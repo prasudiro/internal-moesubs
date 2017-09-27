@@ -10,20 +10,21 @@
 
 <body>
 <p><strong>Pesanan Baru dari:</strong></p>
-
 {{ $data['fullname']}}<br />
-{{ $data['alamat']}}<br /><br />
+{{ $data['alamat']}}<br />
+{{ $data['kecamatan']}}, {{ $data['kabkota']}}<br />
+{{ $data['provinsi']}} {{ $data['kodepos']}}<br />
 Nomor HP: {{ $data['hp']}}
 <hr>
 
 <p><strong>Detail Pemesanan:</strong></p>
-Barang: {{ $produk['shops_product']}}
-Jumlah: {{ $data['pesanan']}}
-Total : {{ number_format($produk['shops_price']*$data['pesanan'])}} IDR
+Barang: {{ $produk['shops_product']}}<br>
+Jumlah: {{ $data['pesanan']}}<br>
+Total : {{ number_format($produk['shops_price']*$data['pesanan'])}} IDR<br>
 <hr>
 
 Harap segera ditindaklanjuti di:<br>
-<a href="#" target="_blank">https://internal.moesubs.com/Linknya</a>
+<a href="https://internal.moesubs.com/shops" target="_blank">https://internal.moesubs.com/shops</a>
 
 </body>
 </html>

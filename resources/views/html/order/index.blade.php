@@ -86,8 +86,30 @@
               	</div>
                 <div class="hr-line-dashed"></div>
               	<div class="form-group">
-              		<textarea class="form-control" name="alamat" Placeholder="Alamat Lengkap (Jalan, No, RT/RW, Kode Pos, Kab/Kota, Provinsi)" rows="5" required></textarea>
+              		<textarea class="form-control" name="alamat" Placeholder="Alamat Lengkap" rows="3" required></textarea>
               	</div>
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="kecamatan" Placeholder="Kecamatan" value="" required>
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-md-push-2">
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="kabkota" Placeholder="Kotamadya/Kabupaten" value="" required>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="provinsi" Placeholder="Provinsi" value="" required>
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-md-push-2">
+                    <div class="form-group">
+                      <input type="number" class="form-control" name="kodepos" Placeholder="Kode Pos" value="" required>
+                    </div>
+                  </div>
+                </div>
                 <div class="hr-line-dashed"></div>
               	<div class="form-group">
               		<input type="text" class="form-control" name="hp" Placeholder="Nomor HP" value="" required>
@@ -116,17 +138,17 @@
 </div>	
 
   <!-- Mainly scripts -->
-  <script src="js/jquery-2.1.1.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-  <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+  <script src="{{ URL('js/jquery-2.1.1.js')}}"></script>
+  <script src="{{ URL('js/bootstrap.min.js')}}"></script>
+  <script src="{{ URL('js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
+  <script src="{{ URL('js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
 
   <!-- Custom and plugin javascript -->
-  <script src="js/inspinia.js"></script>
-  <script src="js/plugins/pace/pace.min.js"></script>
+  <script src="{{ URL('js/inspinia.js')}}"></script>
+  <script src="{{ URL('js/plugins/pace/pace.min.js')}}"></script>
 
-	<!-- Toastr -->
-	<script src="{{ URL('js/plugins/toastr/toastr.min.js')}}"></script>
+  <!-- Toastr -->
+  <script src="{{ URL('js/plugins/toastr/toastr.min.js')}}"></script>
 
 	<script>
 		$(document).ready(function() {

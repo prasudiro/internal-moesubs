@@ -48,9 +48,19 @@ Shops "{{ $product['shops_product']}}"
                 <td class="text-center" style="vertical-align: middle !important;">{{ $data['shops_detail_quantity']}}</td>
                 <td class="text-right" style="vertical-align: middle !important;">{{ number_format($data['shops_detail_quantity'] * $product['shops_price'])}}</td>
                 <td class="text-center" style="vertical-align: middle !important;">
-                  <?php 
-                    $status = "<label class='label label-danger'>Proses</label>";
-                  if ($data['shops_detail_status'] == 1) 
+                  <?php
+                  if ($data['shops_detail_status'] == 0) 
+                  {
+                    if ($data['confirmation']['status_penyetor'] == 'diterima') 
+                    {
+                      $status = "<label class='label label-info'>Dibayar</label>";
+                    }
+                    else
+                    {
+                      $status = "<label class='label label-danger'>Proses</label>";
+                    }
+                  } 
+                  elseif ($data['shops_detail_status'] == 1) 
                   {
                     $status = "<label class='label label-primary'>Lunas</label>";
                   }
@@ -63,13 +73,15 @@ Shops "{{ $product['shops_product']}}"
                 </td>
                 <td data-order="{{ strtotime($data['created_at'])}}" style="vertical-align: middle !important;">{{ date("d F Y - H:i", strtotime($data['created_at']))}}</td>
                 <td class="text-center" style="vertical-align: middle !important;">
-                @if($data['shops_detail_buyer'] == 'Kurniawan Prasetyo')
-                  <a href="#" class="btn-sm btn-success">Konfirmasi</a>
-                @elseif($data['shops_detail_status'] == 1)
-                  Lunas
-                @else
-                  <span class="text-danger">Menunggu</span>
-                @endif
+                  @if($data['confirmation']['status_penyetor'] == 'diterima')
+                    <a href="#" class="label label-info">Konfirmasi</a>
+                  @elseif($data['confirmation']['status_penyetor'] == 'dikonfirm')
+                    Sudah dikonfirm
+                  @elseif($data['confirmation']['status_penyetor'] == 'dikirim')
+                    Sudah dikirim
+                  @else
+                    Menunggu
+                  @endif
                 </td>
               </tr>
             @endforeach

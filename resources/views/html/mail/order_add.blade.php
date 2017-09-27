@@ -12,7 +12,9 @@
 
 <p><strong>Tagihan Pemesanan {{$produk['shops_product']}}</strong></p>
 {{ $data['fullname']}}<br />
-{{ $data['alamat']}}<br /><br />
+{{ $data['alamat']}}<br />
+{{ $data['kecamatan']}}, {{ $data['kabkota']}}<br />
+{{ $data['provinsi']}} {{ $data['kodepos']}}<br /><br />
 Nomor HP: {{ $data['hp']}}
 <hr>
 <table cellspacing="0" id="invoiceitemstable"><tr><td id="invoiceitemsheading" align="center" width="70%" style="border:1px solid #cccccc;border-bottom:0px;"><strong>Deskripsi</strong></td><td id="invoiceitemsheading" align="center" width="30%" style="border:1px solid #cccccc;border-left:0px;border-bottom:0px;"><strong>Jumlah</strong></td></tr>
@@ -29,11 +31,15 @@ Harap Melakukan Pembayaran ke salah satu rekening di bawah ini:
 <p>
 {!! $meta_detail['bank']!!}
 </p>
-<p><strong>CATATAN:</strong> Pembayaran wajib dilakukan sebelum tanggal {{ date("d F y", strtotime($produk['shops_closed']))}} atau pesanan dibatalkan.</p>
+<p><strong>CATATAN:</strong> Pembayaran wajib dilakukan sebelum tanggal {{ date("d F Y", strtotime($produk['shops_closed']))}} atau pesanan dibatalkan.</p>
 <hr>
 
 <p><strong>Konfirmasi Pembayaran</strong></p>
 Setelah melakukan pembayaran ke salah satu rekening di atas, harap melakukan konfirmasi pembayaran di<br>
-<a href="#" target="_blank">https://shop.moesubs.com/confirmation/1238912839Linknya</a>
+<a href="{{ URL('order/status/'.base64_encode('userid'.$order_save->shops_detail_id.'userdetailid').'/'.base64_encode($data['email'].'_usermail'))}}" target="_blank">
+{{ URL('order/status/'.base64_encode('userid'.$order_save->shops_detail_id.'userdetailid').'/'.base64_encode($data['email'].'_usermail'))}}
+</a>
+<hr>
+<b>PENTING!</b> Tautan di atas sekaligus untuk mengecek status pemesanan Anda, jadi harap disimpan.
 </body>
 </html>

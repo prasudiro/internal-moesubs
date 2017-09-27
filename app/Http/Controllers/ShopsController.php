@@ -107,6 +107,17 @@ class ShopsController extends Controller
 
       $meta_detail = json_decode($metadata['metadata_detail'], TRUE);
 
+      foreach ($detail as $key => $value) 
+      {        
+        $confirmation = Metadata::where('metadata_module', '=', 'confirmation')
+                                ->where('metadata_module_id', '=', $value['shops_id'])
+                                ->where('user_id', '=', $value['shops_detail_id'])->first();
+
+        $confirmation_detail  = json_decode($confirmation['metadata_detail'], TRUE);
+
+        $detail[$key]['confirmation'] = $confirmation_detail;
+      }
+
     	return view('html.shops.detail')
     						->with('product', $product)
                 ->with('detail', $detail)
