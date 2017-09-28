@@ -19,7 +19,7 @@ else
 	Route::group(['domain' => 'shop.moesubs.com'], function(){
 	  Route::get('/', 'OrderController@order');
 	  Route::post('order/add', 'OrderController@order_add');
-		Route::get('order', 'OrderController@returning');
+		// Route::get('order', 'OrderController@order');
 	});
 }
 

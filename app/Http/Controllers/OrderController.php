@@ -250,10 +250,10 @@ class OrderController extends Controller
     }
 
     //Return all invalid redirections
-    public function returning()
-    {
-      return redirect('/')->with('success_msg', 'Silakan melakukan pemesanan!');
-    }
+    // public function returning()
+    // {
+    //   return redirect('/')->with('success_msg', 'Silakan melakukan pemesanan!');
+    // }
 
     //View template
     public function template_view()
