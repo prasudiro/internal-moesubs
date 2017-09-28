@@ -290,6 +290,55 @@ class ShopsController extends Controller
       return redirect('shops')->with('success_msg', 'Produk berhasil diperbaruii');
     }
 
+    //Approving payment
+    public function approve(Request $request)
+    {
+      $request['shops_detail_id']   = preg_replace("/[^0-9]/", "", base64_decode($request['shops_detail_id']));
+      $request['shops_id']          = preg_replace("/[^0-9]/", "", base64_decode($request['shops_id']));
+
+      $user_info      = Auth::user();
+      $product        = Shops::where('shops_id', '=', $request['shops_id'])->first();
+      $shops_detail   = ShopsDetail::where('shops_detail_id', '=', $request['shops_detail_id'])->first();
+      $status_update  = ShopsDetail::where('shops_detail_id', '=', $request['shops_detail_id'])->update(array('shops_detail_status' => 1));
+      $metadata       = Metadata::where('metadata_module_id', '=', $request['shops_id'])
+                                ->where('metadata_module', '=', 'confirmation')
+                                ->where('user_id', '=', $request['shops_detail_id'])
+                                ->first();
+
+      $meta_detail    = json_decode($metadata['metadata_detail'], TRUE);
+
+      $meta_update    = array(
+                              'shops_detail_id' => $meta_detail['shops_detail_id'],
+                              'shops_id'        => $meta_detail['shops_id'],
+                              'nama_penyetor'   => $meta_detail['nama_penyetor'],
+                              'bank_penyetor'   => $meta_detail['bank_penyetor'],
+                              'norek_penyetor'  => $meta_detail['norek_penyetor'],
+                              'tujuan_penyetor'  => $meta_detail['tujuan_penyetor'],
+                              'jumlah_penyetor' => $meta_detail['jumlah_penyetor'],
+                              'gambar_penyetor' => $meta_detail['gambar_penyetor'],
+                              'status_penyetor' => 'dikonfirm'
+                        );
+
+      $metadata_update= Metadata::where('metadata_module_id', '=', $request['shops_id'])
+                                ->where('metadata_module', '=', 'confirmation')
+                                ->where('user_id', '=', $request['shops_detail_id'])
+                                ->update(array('metadata_detail' => json_encode($meta_update)));
+
+      if (!$status_update OR !$metadata_update) 
+      {
+        return redirect()->back()->with('error_msg', 'Konfirmasi gagal!<br> Silakan dicoba lagi');
+      }
+
+      //Email to user
+      Mail::send('html.mail.order_confirmed', ['request' => $request, 'user_info' => $user_info, 'product' => $product, 'shops_detail' => $shops_detail, 'meta_detail' => $meta_detail], function ($m) use ($shops_detail, $product) {
+              $m->from('admin@moesubs.com', 'Moeshops');
+              $m->to($shops_detail['shops_detail_email'], $shops_detail['shops_detail_buyer'])->subject('[Pre-Order] '.$product['shops_product'].' [Pembayaran Lunas]');
+            });
+
+      return redirect()->back()->with('success_msg', 'Konfirmasi berhasil!');
+
+    }
+
     //Delete data
     public function delete(Request $request)
     {

@@ -62,7 +62,7 @@ Shops "{{ $product['shops_product']}}"
                   } 
                   elseif ($data['shops_detail_status'] == 1) 
                   {
-                    $status = "<label class='label label-primary'>Lunas</label>";
+                    $status = "<label class='label label-success'>Lunas</label>";
                   }
                   elseif($data['shops_detail_status'] == 2) 
                   {
@@ -74,9 +74,9 @@ Shops "{{ $product['shops_product']}}"
                 <td data-order="{{ strtotime($data['created_at'])}}" style="vertical-align: middle !important;">{{ date("d F Y - H:i", strtotime($data['created_at']))}}</td>
                 <td class="text-center" style="vertical-align: middle !important;">
                   @if($data['confirmation']['status_penyetor'] == 'diterima')
-                    <a href="#" class="label label-info">Konfirmasi</a>
+                    <a data-toggle="modal" data-target="#confirmid{{ $data['shops_detail_id']}}" class="label label-info">Konfirmasi</a>
                   @elseif($data['confirmation']['status_penyetor'] == 'dikonfirm')
-                    Sudah dikonfirm
+                    <a href="#" class="label label-success">Kirim Resi</a>
                   @elseif($data['confirmation']['status_penyetor'] == 'dikirim')
                     Sudah dikirim
                   @else
@@ -97,8 +97,6 @@ Shops "{{ $product['shops_product']}}"
             </tr>
           </tfoot>
           </table>
-
-
       </div>
      </div>
    </div>
@@ -114,4 +112,84 @@ Shops "{{ $product['shops_product']}}"
     <a class="play-pause"></a>
     <ol class="indicator"></ol>
 </div>
+
+@foreach($detail as $data2)
+<div class="modal inmodal" id="confirmid{{ $data2['shops_detail_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+      <div class="modal-content animated flipInX">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h3>Konfirmasi Pembayaran</h3>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label class="control-label">Nama Penyetor</label><br>
+              {{ $data2['confirmation']['nama_penyetor']}}
+            </div>
+            <div class="form-group">
+              <label class="control-label">Bank</label><br>
+              {{ $data2['confirmation']['bank_penyetor']}}
+            </div>
+            <div class="form-group">
+              <label class="control-label">Nomor Rekening</label><br>
+              {{ $data2['confirmation']['norek_penyetor']}}
+            </div>
+            <div class="form-group">
+              <label class="control-label">Jumlah Transfer</label><br>
+              {{ number_format($data2['confirmation']['jumlah_penyetor'])}} IDR
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+              <label class="control-label">Tujuan Pembayaran</label><br>
+              {{ $data2['confirmation']['tujuan_penyetor']}}
+            </div>
+            <div class="form-group">
+              <label class="control-label">Bukti Pembayaran</label><br>
+              @if(isset($data2['confirmation']['gambar_penyetor']))
+              @else
+              @endif
+              <a href="{{ URL('uploads/confirmation/'.$data2['shops_id'].'/'.$data2['confirmation']['gambar_penyetor'])}}" target="_blank">
+                <i class="fa fa-paperclip"></i> Lihat bukti pembayaran
+              </a>              
+            </div>
+          </div>
+          <div class="modal-footer">
+            <center>
+              <button type="button" class="btn btn-white" data-dismiss="modal">Batal</button>
+              <button class="btn btn-info" data-toggle="modal" data-target="#approveid{{ $data2['shops_detail_id']}}">Konfirmasi</button>
+            </center>
+          </div>
+      </div>
+  </div>
+</div>
+@endforeach
+
+@foreach($detail as $data3)
+<div class="modal inmodal" id="approveid{{ $data3['shops_detail_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+      <div class="modal-content animated flipInX">
+        <form class="form-horizontal" role="form" method="post" action="{{ URL('shops/detail/approved')}}" accept-charset="utf-8" enctype="multipart/form-data">
+        {{ csrf_field()}}
+        <input type="hidden" name="shops_detail_id" value="{{ base64_encode('aprroved'.$data3['shops_detail_id'].'usershopsdetailid')}}">
+        <input type="hidden" name="shops_id" value="{{ base64_encode('product'.$data3['shops_id'].'usershopsid')}}">
+          <div class="modal-header">
+            <h3>Konfirmasi Pembayaran</h3>
+          </div>
+          <div class="modal-body">
+            <center>
+              <h3>Apakah pembayarannya ini sudah diperiksa dan valid?</h3>
+            </center>
+          </div>
+          <div class="modal-footer">
+            <center>
+              <button type="button" class="btn btn-white" data-dismiss="modal">Belum</button>
+              <button class="btn btn-info" type="submit">Sudah</button>
+            </center>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+@endforeach
+
 @endsection

@@ -136,7 +136,8 @@
                     <a data-toggle="modal" data-target="#cekkonfirmasi{{ $order_detail['shops_detail_id']}}" class="label label-success"><br>
                     Menunggu konfirmasi admin (klik di sini)</a>
                   @elseif($confirmation_detail['status_penyetor'] == 'dikonfirm')
-
+                    <b>Resi Pengiriman</b><br>
+                    <label class="label label-info">Pemaketan sedang diproses</label>
                   @elseif($confirmation_detail['status_penyetor'] == 'dikirim')
 
                   @else

@@ -17,6 +17,15 @@
 		<!-- Toastr style -->
 		<link href="{{ URL('css/plugins/toastr/toastr.min.css')}}" rel="stylesheet">
 
+    <!-- External -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+
+    <style type="text/css">
+      .note-editor{
+             border: none !important;
+            }
+    </style>
+
 </head>
 
 <body class="gray-bg">
@@ -124,18 +133,53 @@
               	</div>
               	<div class="hr-line-dashed"></div>
                     <div class="form-group">
-                            <button class="btn btn-warning" type="reset">Ulang</button>
-                            <button class="btn btn-danger" type="submit">Pesan</button>
-                            <span class="pull-right"><a href="#" title="Kontak Personal">Tidak dapat memesan? Hubungi kami.</a></span>
+                      <button class="btn btn-warning" type="reset">Ulang</button>
+                      <button class="btn btn-danger" type="submit">Pesan</button>
+                      <span class="pull-right text-right"><a data-toggle="modal" data-target="#contactus" title="Kontak Personal">Tidak dapat memesan atau ada pertanyaan? <br>Hubungi kami.</a></span>
                     </div>
                 </form>
               </div>
               </div>
               </div>
-          </div>
+          </div>a
       </div>
   </div>
-</div>	
+</div>
+
+<div class="modal inmodal" id="contactus" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+      <div class="modal-content animated flipInX">
+        <form class="form-horizontal" role="form" method="post" action="{{ URL('contact/send')}}" accept-charset="utf-8" enctype="multipart/form-data">
+        {{ csrf_field()}}
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h3>Hubungi Kami</h3>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Nama Lengkap" name="contact_name" required>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Email" name="contact_email" required>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Subjek" name="contact_subject" required>
+            </div>
+            <div class="form-group" style="border:0px;">
+              <textarea class="form-control" name="contact_body" placeholder="Isi pertanyaan Anda" rows="5" required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <center>
+              <button type="button" class="btn btn-white" data-dismiss="modal">Batal</button>
+              <button class="btn btn-danger" type="submit">Kirim</button>
+            </center>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
 
   <!-- Mainly scripts -->
   <script src="{{ URL('js/jquery-2.1.1.js')}}"></script>
@@ -149,6 +193,24 @@
 
   <!-- Toastr -->
   <script src="{{ URL('js/plugins/toastr/toastr.min.js')}}"></script>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+
+  <script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+          toolbar: [
+            // [groupName, [list of button]]
+            // ['style', ['bold', 'italic', 'underline', 'clear']],
+            // ['font', ['strikethrough', 'superscript', 'subscript']],
+            // ['fontsize', ['fontsize']],
+            // ['color', ['color']],
+            // ['para', ['ul', 'ol', 'paragraph']],
+            // ['height', ['height']]
+          ]
+        });
+    });
+  </script>
 
 	<script>
 		$(document).ready(function() {

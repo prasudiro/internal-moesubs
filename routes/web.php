@@ -25,7 +25,7 @@ else
 
 /*
 |--------------------------------------------------------------------------
-| Main Route (Dasbor and Auth)
+| Main Default Route (Dasbor and Auth)
 |--------------------------------------------------------------------------
 */
 Route::get('/', 'DefaultController@index');
@@ -38,6 +38,8 @@ Route::get('login', ['as' => 'login', 'uses' => 'Auth\LoginController@index']);
 Route::post('login', 'Auth\LoginController@login');
 
 Route::get('logout', 'Auth\LoginController@logout');
+
+Route::post('contact/send', 'DefaultController@contact_send');
 
 /*
 |--------------------------------------------------------------------------
@@ -112,3 +114,4 @@ Route::post('shops/add', 'ShopsController@store');
 Route::get('shops/edit/{id}', 'ShopsController@edit');
 Route::post('shops/edit', 'ShopsController@update');
 Route::post('shops/delete', 'ShopsController@delete');
+Route::post('shops/detail/approved', 'ShopsController@approve');

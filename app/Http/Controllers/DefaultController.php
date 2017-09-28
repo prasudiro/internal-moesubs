@@ -222,6 +222,17 @@ class DefaultController extends Controller
                 ->with('activity', $activity);
     }
 
+    public function contact_send(Request $request)
+    {
+        //Email to contant us
+        Mail::send('html.mail.contact_us', ['request' => $request], function ($m) use ($request) {
+                $m->from($request['contact_email'], $request['contact_name']);
+                $m->to('jagonyangesub@gmail.com', 'Moeshops')->subject('[Pesan Baru] '.$request['contact_subject'].' [ '.$request['contact_name'].' ]');
+              });
+
+        return redirect()->back()->with('success_msg', 'Pesan berhasil dikirim! <br>Kami akan segera mengirimkan balasan ke email Anda!');
+    }
+
     public function tests()
     {
         // $user_info = Auth::user();
