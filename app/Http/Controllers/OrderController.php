@@ -75,6 +75,11 @@ class OrderController extends Controller
       $gachi     = Shops::where('shops_product', 'LIKE', '%gantungan%')->where('status', '=', '0')->first();
       $metadata  = Metadata::where('metadata_module', '=', 'shops')->where('metadata_module_id', '=', $gachi['shops_id'])->first();
 
+      if (count($gachi) == 0) 
+      {
+        return redirect('undefined');
+      }
+
       $meta_detail = json_decode($metadata['metadata_detail'], TRUE);
 
     	return view('html.order.index')
