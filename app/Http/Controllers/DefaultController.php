@@ -70,6 +70,11 @@ class DefaultController extends Controller
     {
         $user_info = Auth::user();
 
+        if (!$user_info) 
+        {
+          return redirect('login');
+        }
+
         //Call setoran edit data
         $edit['today'] = Setoran::where('setoran_type', '=', '0')
                                 ->where('status', '=', '0')
