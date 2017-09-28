@@ -5,15 +5,7 @@
 | Order Route
 |--------------------------------------------------------------------------
 */
-if(config('app.env') == 'local') 
-{
-	//localhost
-	Route::get('order', 'OrderController@order');
-  Route::post('order/add', 'OrderController@order_add');
-  Route::get('order/status/{id}/{code}', 'OrderController@status');
-  Route::post('order/confirm/add', 'OrderController@add_confirm');
-}
-else
+if(config('app.env') != 'local') 
 {
 	//live version
 	Route::group(['domain' => 'shop.moesubs.com'], function(){
@@ -117,3 +109,13 @@ Route::post('shops/edit', 'ShopsController@update');
 Route::post('shops/delete', 'ShopsController@delete');
 Route::post('shops/detail/approved', 'ShopsController@approve');
 Route::get('shops/detail/{id}/buyer/{code}', 'ShopsController@buyer');
+
+/*
+|--------------------------------------------------------------------------
+| Order Route
+|--------------------------------------------------------------------------
+*/
+Route::get('order', 'OrderController@order');
+Route::post('order/add', 'OrderController@order_add');
+Route::get('order/status/{id}/{code}', 'OrderController@status');
+Route::post('order/confirm/add', 'OrderController@add_confirm');
