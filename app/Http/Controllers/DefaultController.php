@@ -21,6 +21,11 @@ class DefaultController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        
+        if (!Auth::check()) 
+        {
+              return redirect()->guest(route('login'));
+          }
 
         $setoran_edit     = Setoran::where('setoran_type', '=', '0')
                                 ->where('status', '=', '0')

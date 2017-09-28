@@ -51,9 +51,9 @@ class Handler extends ExceptionHandler
         }
         else
         {
-          if (!Auth::check()) {
-              return redirect()->guest(route('login'));
-          }
+          // if (!Auth::check()) {
+          //     return redirect()->guest(route('login'));
+          // }
           return response()->view('html.errors.404');
         }
     }
