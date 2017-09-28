@@ -201,6 +201,7 @@ class OrderController extends Controller
       $detail  = ShopsDetail::where('shops_detail_id', '=', $request['shops_detail_id'])->first();
 
       $payment_upload = "";
+      $proof_name     = "";
       if (isset($request['gambar_penyetor'])) 
       {
         $path         = 'uploads/confirmation/'.$request['shops_id'].'/';
