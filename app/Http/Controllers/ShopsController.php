@@ -339,6 +339,32 @@ class ShopsController extends Controller
 
     }
 
+    //Detail information of buyer
+    public function buyer($id, $code, Request $request)
+    {
+      $user_info = Auth::user();
+      $shops_id         = preg_replace("/[^0-9]/", "", base64_decode($id));
+      $shops_detail_id  = preg_replace("/[^0-9]/", "", base64_decode($code));
+      $product          = Shops::where('shops_id', '=', $shops_id)->first();
+      $detail           = ShopsDetail::where('shops_detail_id', '=', $shops_detail_id)->first();
+
+      $information  = json_decode($detail['shops_detail_information'], TRUE);
+
+      $confirmation = Metadata::where('metadata_module', '=', 'confirmation')
+                                ->where('metadata_module_id', '=', $shops_id)
+                                ->where('user_id', '=', $shops_detail_id)->first();
+
+      $confirmation_detail  = json_decode($confirmation['metadata_detail'], TRUE);
+
+      $detail['confirmation'] = $confirmation_detail;
+      $detail['information']  = $information;
+
+      return view('html.shops.buyer')
+            ->with('product', $product)
+            ->with('user_info', $user_info)
+            ->with('detail', $detail);
+    }
+
     //Delete data
     public function delete(Request $request)
     {

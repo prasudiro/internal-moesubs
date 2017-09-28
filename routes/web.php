@@ -115,3 +115,4 @@ Route::get('shops/edit/{id}', 'ShopsController@edit');
 Route::post('shops/edit', 'ShopsController@update');
 Route::post('shops/delete', 'ShopsController@delete');
 Route::post('shops/detail/approved', 'ShopsController@approve');
+Route::get('shops/detail/{id}/buyer/{code}', 'ShopsController@buyer');

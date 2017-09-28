@@ -33,7 +33,7 @@ Shops "{{ $product['shops_product']}}"
 	     <table class="table table-striped table-bordered table-hover dataTables-shopsdetail" >
           <thead>
           <tr>
-                <th width="50%">Nama Pemesan</th>
+                <th width="50%">Nama Pemesan </th>
                 <th width="5%">Jumlah</th>
                 <th width="8%">Total</th>
                 <th width="7%">Status</th>
@@ -44,7 +44,11 @@ Shops "{{ $product['shops_product']}}"
           <tbody>
             @foreach($detail as $data)
               <tr>
-                <td style="vertical-align: middle !important;">{{ $data['shops_detail_buyer']}}</td>
+                <td style="vertical-align: middle !important;">
+                <a href="{{ URL('shops/detail/'.base64_encode($product['shops_id'].'shops').'/buyer/'.base64_encode($data['shops_detail_id'].'shopsdetailid'))}}">
+                  {{ $data['shops_detail_buyer']}}
+                </a>
+                </td>
                 <td class="text-center" style="vertical-align: middle !important;">{{ $data['shops_detail_quantity']}}</td>
                 <td class="text-right" style="vertical-align: middle !important;">{{ number_format($data['shops_detail_quantity'] * $product['shops_price'])}}</td>
                 <td class="text-center" style="vertical-align: middle !important;">
