@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Auth;
 
 class Handler extends ExceptionHandler
 {
@@ -44,12 +45,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if (env('APP_ENV') == 'local')
+        if (env('APP_ENV') == 'locals')
         {
           return parent::render($request, $exception);
         }
         else
         {
+          if (!Auth::check()) {
+              return redirect()->guest(route('login'));
+          }
           return response()->view('html.errors.404');
         }
     }
