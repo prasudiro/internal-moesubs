@@ -13,6 +13,7 @@ if(config('app.env') != 'local')
 	  Route::post('order/add', 'OrderController@order_add');
   	Route::get('order/status/{id}/{code}', 'OrderController@status');
 		Route::post('order/confirm/add', 'OrderController@add_confirm');
+		Route::get('order/confirmation/{id}', 'OrderController@confirm_proof');
 		// Route::get('order', 'OrderController@order');
 	});
 }
@@ -34,6 +35,8 @@ Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::post('contact/send', 'DefaultController@contact_send');
+
+Route::get('tracking', 'DefaultController@tracking');
 
 /*
 |--------------------------------------------------------------------------
@@ -120,3 +123,4 @@ Route::get('order', 'OrderController@order');
 Route::post('order/add', 'OrderController@order_add');
 Route::get('order/status/{id}/{code}', 'OrderController@status');
 Route::post('order/confirm/add', 'OrderController@add_confirm');
+Route::get('order/confirmation/{id}', 'OrderController@confirm_proof');

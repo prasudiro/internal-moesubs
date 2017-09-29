@@ -25,7 +25,9 @@ Detail Pemesan
           <div class="col-md-3 text-center">
             <h3>Bukti Foto Pembayaran</h3>
             @if(isset($detail['confirmation']['gambar_penyetor']))
-            <img src="{{ URL('uploads/confirmation/'.$detail['shops_id'].'/'.$detail['confirmation']['gambar_penyetor'])}}" width="100%" alt="Bukti Pembayaran">
+            <a href="{{ URL('uploads/confirmation/'.$detail['shops_id'].'/'.$detail['confirmation']['gambar_penyetor'])}}" target="_blank" title="Bukti Foto Pembayaran">
+              <img src="{{ URL('uploads/confirmation/'.$detail['shops_id'].'/'.$detail['confirmation']['gambar_penyetor'])}}" width="100%" alt="Bukti Pembayaran">
+            </a>
             @else
               Tidak mengunggah <br>bukti pembayaran
             @endif
@@ -86,14 +88,14 @@ Detail Pemesan
                 <div class="col-sm-6">
                   <p>
                     <label class="control-label">Total Pembayaran</label><br>
-                    {{ number_format($detail['shops_detail_quantity']*$product['shops_price'])}} IDR
+                    {{ number_format(($detail['shops_detail_quantity']*$product['shops_price'])+$detail['information']['ongkir'])}} IDR (termasuk ongkos kirim)
                   </p>
                   <p>
                     <label class="control-label">Status Pesanan</label><br>
                     @if($detail['confirmation']['status_penyetor'] == 'diterima')
                       <span class="label label-info">Menunggu Konfirmasi</span>
                     @elseif($detail['confirmation']['status_penyetor'] == 'dikonfirm')
-                      <a href="#" class="label label-success">Kirim Resi</a>
+                      <a data-toggle="modal" data-target="#belumada" class="label label-success">Kirim Resi</a>
                     @elseif($detail['confirmation']['status_penyetor'] == 'dikirim')
                       Sudah dikirim
                     @else
@@ -199,7 +201,7 @@ Detail Pemesan
           </div>
           <div class="modal-body">
             <center>
-              <h3>Apakah pembayarannya ini sudah diperiksa dan valid?</h3>
+              <h3>Apakah pembayaran ini sudah diperiksa dan valid?</h3>
             </center>
           </div>
           <div class="modal-footer">

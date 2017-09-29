@@ -33,7 +33,8 @@ Shops "{{ $product['shops_product']}}"
 	     <table class="table table-striped table-bordered table-hover dataTables-shopsdetail" >
           <thead>
           <tr>
-                <th width="50%">Nama Pemesan </th>
+                <th width="35%">Nama Pemesan </th>
+                <th width="25%">Email </th>
                 <th width="5%">Jumlah</th>
                 <th width="8%">Total</th>
                 <th width="7%">Status</th>
@@ -47,6 +48,11 @@ Shops "{{ $product['shops_product']}}"
                 <td style="vertical-align: middle !important;">
                 <a href="{{ URL('shops/detail/'.base64_encode($product['shops_id'].'shops').'/buyer/'.base64_encode($data['shops_detail_id'].'shopsdetailid'))}}">
                   {{ $data['shops_detail_buyer']}}
+                </a>
+                </td>
+                <td style="vertical-align: middle !important;">
+                <a href="{{ URL('shops/detail/'.base64_encode($product['shops_id'].'shops').'/buyer/'.base64_encode($data['shops_detail_id'].'shopsdetailid'))}}">
+                  {{ $data['shops_detail_email']}}
                 </a>
                 </td>
                 <td class="text-center" style="vertical-align: middle !important;">{{ $data['shops_detail_quantity']}}</td>
@@ -80,7 +86,7 @@ Shops "{{ $product['shops_product']}}"
                   @if($data['confirmation']['status_penyetor'] == 'diterima')
                     <a data-toggle="modal" data-target="#confirmid{{ $data['shops_detail_id']}}" class="label label-info">Konfirmasi</a>
                   @elseif($data['confirmation']['status_penyetor'] == 'dikonfirm')
-                    <a href="#" class="label label-success">Kirim Resi</a>
+                    <a data-toggle="modal" data-target="#belumada" class="label label-success">Kirim Resi</a>
                   @elseif($data['confirmation']['status_penyetor'] == 'dikirim')
                     Sudah dikirim
                   @else
@@ -93,6 +99,7 @@ Shops "{{ $product['shops_product']}}"
           <tfoot>
             <tr>
                 <th>Nama Pemesan</th>
+                <th>Email</th>
                 <th>Jumlah</th>
                 <th>Total</th>
                 <th>Status</th>

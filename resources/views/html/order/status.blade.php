@@ -81,6 +81,15 @@
                 {{ $order_info['provinsi']}} {{ $order_info['kodepos']}}<br>
                 <b>Nomor HP: {{ $order_info['nohp']}}</b>
 
+                <!-- Bank Information --><hr>
+                <h3><b>Rekening Tujuan</b></h3>
+                <hr>
+                <div class="row">
+                  <div class="col-md-12">
+                    <p>{!! $meta_detail['bank']!!}</p>
+                  </div>
+                </div>
+
                 <!-- confirmation --><hr>
 
                 <h3><b>Detail Transaksi</b></h3>
@@ -95,15 +104,23 @@
                       <b>Pengiriman via</b><br>
                       JNE REG
                     </p>
+                    <p>
+                      <b>Estimasi Pengiriman</b><br>
+                      {{ $order_info['estimasi']}} hari
+                    </p>
                   </div>
                   <div class="col-md-6">
                     <p>
-                      <b>Harga barang (satuan)</b><br>
+                      <b>Harga Barang (satuan)</b><br>
                       {{ number_format($product['shops_price'])}} IDR
                     </p>
                     <p>
+                      <b>Ongkos kirim</b><br>
+                      {{ number_format($order_info['ongkir'])}} IDR
+                    </p>
+                    <p>
                       <b>Total Pembayaran</b><br>
-                      {{ number_format($order_detail['shops_detail_quantity']*$product['shops_price'])}} IDR
+                      {{ number_format(($order_detail['shops_detail_quantity']*$product['shops_price'])+$order_info['ongkir'])}} IDR
                     </p>
                   </div>
                   <div class="col-md-6">
@@ -137,12 +154,18 @@
                     Menunggu konfirmasi admin (klik di sini)</a>
                   @elseif($confirmation_detail['status_penyetor'] == 'dikonfirm')
                     <b>Resi Pengiriman</b><br>
-                    <label class="label label-info">Pemaketan sedang diproses</label>
+                    <label class="label label-info">Masuk antrian produksi</label>
                   @elseif($confirmation_detail['status_penyetor'] == 'dikirim')
 
                   @else
                     <a data-toggle="modal" data-target="#konfirmasi{{ $order_detail['shops_detail_id']}}" class="btn btn-primary">Konfirmasikan Pembayaran</a>
                   @endif
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-md-12">
+                      <p class="text-center"><a data-toggle="modal" data-target="#contactus" title="Kontak Personal">Ada pertanyaan? Hubungi kami.</a></p>
                   </div>
                 </div>
               </div>
@@ -186,7 +209,7 @@
             <div class="form-group">
               <b>Bukti Pembayaran:</b><br>
               @if(isset($confirmation_detail['gambar_penyetor']))
-                <i class="fa fa-paperclip"></i> <a href="{{ URL('uploads/confirmation/'.$order_detail['shops_id'].'/'.$confirmation_detail['gambar_penyetor'])}}" target="_blank">Lihat bukti pembayaran</a>
+                <i class="fa fa-paperclip"></i> <a data-toggle="modal" data-target="#bukti{{ $order_detail['shops_detail_id']}}" target="_blank">Lihat bukti pembayaran</a>
               @else
                 Tidak ada
               @endif
@@ -198,6 +221,16 @@
             </center>
           </div>
           </form>
+      </div>
+  </div>
+</div>
+
+<div class="modal inmodal" id="bukti{{ $order_detail['shops_detail_id']}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+      <div class="modal-content animated flipInX">
+          <div class="modal-header">
+          <img src="{{ URL('uploads/confirmation/'.$order_detail['shops_id'].'/'.$confirmation_detail['gambar_penyetor'])}}" width="100%">
+          </div>
       </div>
   </div>
 </div>
@@ -243,8 +276,8 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="control-label">Unggah Bukti (opsional)</label>
-               <input type="file" class="form-control" name="gambar_penyetor">
+              <label class="control-label">Unggah Bukti</label> </label> <span class="text-danger">*</span>
+               <input type="file" class="form-control" name="gambar_penyetor" required>
             </div>
           </div>
           <div class="modal-footer">
@@ -255,6 +288,42 @@
       </div>
   </div>
 </div>
+
+<div class="modal inmodal" id="contactus" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+      <div class="modal-content animated flipInX">
+        <form class="form-horizontal" role="form" method="post" action="{{ URL('contact/send')}}" accept-charset="utf-8" enctype="multipart/form-data">
+        {{ csrf_field()}}
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h3>Hubungi Kami</h3>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Nama Lengkap" name="contact_name" value="{{ $order_detail['shops_detail_buyer']}}" required>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Email" name="contact_email" value="{{ $order_detail['shops_detail_email']}}" required>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Subjek" name="contact_subject" required>
+            </div>
+            <div class="form-group" style="border:0px;">
+              <textarea class="form-control" name="contact_body" placeholder="Isi pertanyaan Anda" rows="5" required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <center>
+              <button type="button" class="btn btn-white" data-dismiss="modal">Batal</button>
+              <button class="btn btn-danger" type="submit">Kirim</button>
+            </center>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+
 
 <div class="row">
   <div class="col-md-6 col-md-push-3">

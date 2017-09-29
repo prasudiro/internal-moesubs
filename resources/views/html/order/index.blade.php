@@ -20,6 +20,9 @@
     <!-- External -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 
+    <!-- Chosen -->
+    <link href="{{ URL('css/plugins/chosen/chosen.css')}}" rel="stylesheet">
+
     <style type="text/css">
       .note-editor{
              border: none !important;
@@ -98,22 +101,29 @@
               		<textarea class="form-control" name="alamat" Placeholder="Alamat Lengkap" rows="3" required></textarea>
               	</div>
                 <div class="row">
-                  <div class="col-md-5">
+                  <div class="col-md-6">
                     <div class="form-group">
                       <input type="text" class="form-control" name="kecamatan" Placeholder="Kecamatan" value="" required>
                     </div>
                   </div>
-                  <div class="col-md-5 col-md-push-2">
+                  <div class="col-md-5 col-md-push-1">
                     <div class="form-group">
-                      <input type="text" class="form-control" name="kabkota" Placeholder="Kotamadya/Kabupaten" value="" required>
+                      <select required class="chosen-select" style="width:100%" tabindex="2"  name="kabkota" required>
+                        <option value="" style="display: none;">Kabupaten/Kotamadya</option>
+                        @foreach($city as $kota)
+                          <option value="{{ $kota['city_id']}}">{{ $kota['city_name']}} {{ $kota['type'] == 'Kota' ? '(Kota)' : ''}}</option>
+                        @endforeach
+                      </select>
                     </div>
                   </div>
-                  <div class="col-md-5">
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
                     <div class="form-group">
                       <input type="text" class="form-control" name="provinsi" Placeholder="Provinsi" value="" required>
                     </div>
                   </div>
-                  <div class="col-md-5 col-md-push-2">
+                  <div class="col-md-5 col-md-push-1">
                     <div class="form-group">
                       <input type="number" class="form-control" name="kodepos" Placeholder="Kode Pos" value="" required>
                     </div>
@@ -141,7 +151,7 @@
               </div>
               </div>
               </div>
-          </div>a
+          </div>
       </div>
   </div>
 </div>
@@ -194,7 +204,11 @@
   <!-- Toastr -->
   <script src="{{ URL('js/plugins/toastr/toastr.min.js')}}"></script>
 
+  <!-- Summernote -->
   <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+
+  <!-- Chosen -->
+  <script src="{{ URL('js/plugins/chosen/chosen.jquery.js')}}"></script>
 
   <script>
     $(document).ready(function() {
@@ -238,6 +252,17 @@
 				}, 500);
 			@endif
 		});
+
+    var config = {
+        '.chosen-select'           : {},
+        '.chosen-select-deselect'  : {allow_single_deselect:true},
+        '.chosen-select-no-single' : {disable_search_threshold:10},
+        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+        '.chosen-select-width'     : {width:"95%"}
+      }
+      for (var selector in config) {
+        $(selector).chosen(config[selector]);
+      }
 	</script>
 </body>
 

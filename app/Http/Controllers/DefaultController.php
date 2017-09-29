@@ -14,6 +14,7 @@ use App\Rilisan;
 use App\User;
 use App\UserSession;
 use App\Metadata;
+use App\City;
 
 class DefaultController extends Controller
 {
@@ -244,4 +245,5 @@ class DefaultController extends Controller
 
       return redirect('dasbor');
     }
+
 }

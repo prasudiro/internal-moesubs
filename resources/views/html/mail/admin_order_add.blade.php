@@ -12,7 +12,7 @@
 <p><strong>Pesanan Baru dari:</strong></p>
 {{ $data['fullname']}}<br />
 {{ $data['alamat']}}<br />
-{{ $data['kecamatan']}}, {{ $data['kabkota']}}<br />
+{{ $data['kecamatan']}}, {{ $ongkir['city']}}<br />
 {{ $data['provinsi']}} {{ $data['kodepos']}}<br />
 Nomor HP: {{ $data['hp']}}
 <hr>
@@ -20,7 +20,7 @@ Nomor HP: {{ $data['hp']}}
 <p><strong>Detail Pemesanan:</strong></p>
 Barang: {{ $produk['shops_product']}}<br>
 Jumlah: {{ $data['pesanan']}}<br>
-Total : {{ number_format($produk['shops_price']*$data['pesanan'])}} IDR<br>
+Total : {{ number_format(($produk['shops_price']*$data['pesanan'])+$ongkir['cost'])}} IDR (Sudah termasuk ongkos kirim)<br>
 <hr>
 
 Harap segera ditindaklanjuti di:<br>

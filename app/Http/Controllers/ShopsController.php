@@ -348,6 +348,11 @@ class ShopsController extends Controller
       $product          = Shops::where('shops_id', '=', $shops_id)->first();
       $detail           = ShopsDetail::where('shops_detail_id', '=', $shops_detail_id)->first();
 
+      if (count($detail) == 0) 
+      {
+        return redirect()->back()->with('error_msg', 'Eror! Detail pemesan tidak dapat ditemukan!');
+      }
+
       $information  = json_decode($detail['shops_detail_information'], TRUE);
 
       $confirmation = Metadata::where('metadata_module', '=', 'confirmation')

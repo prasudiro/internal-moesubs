@@ -19,6 +19,7 @@ use App\LaporanIsi;
 use App\Metadata;
 use App\Shops;
 use App\ShopsDetail;
+use App\City;
 
 class OrderController extends Controller
 { 
@@ -74,10 +75,17 @@ class OrderController extends Controller
       $user_info = Auth::user();
       $gachi     = Shops::where('shops_product', 'LIKE', '%gantungan%')->where('status', '=', '0')->first();
       $metadata  = Metadata::where('metadata_module', '=', 'shops')->where('metadata_module_id', '=', $gachi['shops_id'])->first();
+      $city      = City::orderBy('city_name', 'asc')->get()->toArray();
 
       if (count($gachi) == 0) 
       {
         return redirect('undefined');
+      }
+
+      if (strtotime($gachi['shops_closed']) < strtotime(date("y-m-d H:i:s"))) 
+      {
+        echo "Pemesanan ditutup";
+        exit();
       }
 
       $meta_detail = json_decode($metadata['metadata_detail'], TRUE);
@@ -85,7 +93,8 @@ class OrderController extends Controller
     	return view('html.order.index')
             ->with('gachi', $gachi)
             ->with('meta_detail', $meta_detail)
-            ->with('user_info', $user_info);
+            ->with('user_info', $user_info)
+            ->with('city', $city);
     }
 
     //Pemesanan save and validation
@@ -98,6 +107,11 @@ class OrderController extends Controller
       $gachi     = Shops::where('shops_product', 'LIKE', '%gantungan%')->where('status', '=', '0')->first();
       $detail    = ShopsDetail::where('shops_detail_email', '=', $request['email'])->first();
       $metadata  = Metadata::where('metadata_module', '=', 'shops')->where('metadata_module_id', '=', $gachi['shops_id'])->first();
+
+      $ongkir['city_id']    = $request['kabkota'];
+      $ongkir['cost']       = $this->tracking($request['kabkota'])['cost'];
+      $ongkir['etd']        = $this->tracking($request['kabkota'])['etd'];
+      $ongkir['city']       = $this->tracking($request['kabkota'])['city'];
 
       $meta_detail = json_decode($metadata['metadata_detail'], TRUE);
 
@@ -119,13 +133,15 @@ class OrderController extends Controller
       $information  = array(
                             'nama'        => $request['fullname'],
                             'alamat'      => $request['alamat'],
-                            'kabkota'     => $request['kabkota'],
+                            'kabkota'     => $ongkir['city'],
                             'kecamatan'   => $request['kecamatan'],
                             'provinsi'    => $request['provinsi'],
                             'kodepos'     => $request['kodepos'],
                             'nohp'        => $request['hp'],
                             'email'       => $request['email'],
-                            'pesanan'     => $request['pesanan']
+                            'pesanan'     => $request['pesanan'],
+                            'ongkir'      => $ongkir['cost'],
+                            'estimasi'    => $ongkir['etd'],
                       );
 
       $order_data = array(
@@ -144,15 +160,15 @@ class OrderController extends Controller
       }
 
       //Email to user
-      Mail::send('html.mail.order_add', ['data' => $request, 'user_info' => $user_info, 'produk' => $gachi, 'meta_detail' => $meta_detail, 'order_save' => $order_save], function ($m) use ($request, $gachi, $order_save) {
+      Mail::send('html.mail.order_add', ['data' => $request, 'ongkir' => $ongkir, 'user_info' => $user_info, 'produk' => $gachi, 'meta_detail' => $meta_detail, 'order_save' => $order_save], function ($m) use ($request, $gachi, $order_save) {
               $m->from('admin@moesubs.com', 'Moeshops');
               $m->to($request['email'], $request['fullname'])->subject('[Pre-Order] '.$gachi['shops_product'].' [Pemesanan Diterima]');
             });
 
       //Email to admin
-      $admin_email = ['symphoniaofdark@gmail.com', 'prassaiyan@gmail.com'];
-      $admin_name  = ['iLuminarie', 'Himeko'];
-      Mail::send('html.mail.admin_order_add', ['data' => $request, 'user_info' => $user_info, 'produk' => $gachi, 'meta_detail' => $meta_detail, 'order_save', $order_save], function ($m) use ($request, $gachi, $admin_email, $admin_name) {
+      $admin_email = [/*'symphoniaofdark@gmail.com',*/ 'prassaiyan@gmail.com'];
+      $admin_name  = [/*'iLuminarie',*/ 'Himeko'];
+      Mail::send('html.mail.admin_order_add', ['data' => $request, 'ongkir' => $ongkir, 'user_info' => $user_info, 'produk' => $gachi, 'meta_detail' => $meta_detail, 'order_save', $order_save], function ($m) use ($request, $gachi, $admin_email, $admin_name) {
               $m->from('admin@moesubs.com', 'Moeshops');
               $m->to($admin_email, $admin_name)->subject('[Pesanan Baru] '.$gachi['shops_product'].' ['.$request['fullname'].']');
             });
@@ -200,6 +216,8 @@ class OrderController extends Controller
       $product = Shops::where('shops_id', '=', $request['shops_id'])->first();
       $detail  = ShopsDetail::where('shops_detail_id', '=', $request['shops_detail_id'])->first();
 
+
+
       $payment_upload = "";
       $proof_name     = "";
       if (isset($request['gambar_penyetor'])) 
@@ -245,8 +263,8 @@ class OrderController extends Controller
             });
 
       //Email to admin
-      $admin_email = ['symphoniaofdark@gmail.com', 'prassaiyan@gmail.com'];
-      $admin_name  = ['iLuminarie', 'Himeko'];
+      $admin_email = [/*'symphoniaofdark@gmail.com',*/ 'prassaiyan@gmail.com'];
+      $admin_name  = [/*'iLuminarie',*/ 'Himeko'];
       Mail::send('html.mail.admin_order_confirm', ['data' => $request, 'user_info' => $user_info, 'product' => $product, 'detail' => $detail], function ($m) use ($request, $product, $detail, $admin_email, $admin_name) {
               $m->from('admin@moesubs.com', 'Moeshops');
               $m->to($admin_email, $admin_name)->subject('[Konfirmasi Baru] '.$product['shops_product'].' ['.$detail['shops_detail_buyer'].']');
@@ -265,5 +283,46 @@ class OrderController extends Controller
     public function template_view()
     {
       return view('html.mail.order_add');
+    }
+
+    //View confirmation proof
+    public function confirm_proof($id)
+    {
+      $proof_id = preg_replace("/[^0-9]/", "", base64_decode($id));
+      echo $proof_id;
+    }
+
+    //Tracking cost
+    public function tracking($destination=1)
+    {
+      $curl = curl_init();
+
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => "origin=23&destination=".$destination."&weight=1000&courier=jne",
+        CURLOPT_HTTPHEADER => array(
+          // "content-type: application/x-www-form-urlencoded",
+          "key: 57fb1f3af1513838e1e9dbeb15920a56"
+        ),
+      ));
+
+      $response = curl_exec($curl);
+      $err = curl_error($curl);
+
+      curl_close($curl);
+
+      $hasil = json_decode($response, TRUE);
+
+      $results['cost'] = isset($hasil['rajaongkir']['results'][0]['costs'][1]['cost'][0]['value']) ? $hasil['rajaongkir']['results'][0]['costs'][1]['cost'][0]['value'] : 60000;
+      $results['etd'] = isset($hasil['rajaongkir']['results'][0]['costs'][1]['cost'][0]['etd']) ? $hasil['rajaongkir']['results'][0]['costs'][1]['cost'][0]['etd'] : "3-7";      
+      $results['city'] = isset($hasil['rajaongkir']['destination_details']['city_name']) ? $hasil['rajaongkir']['destination_details']['city_name'] : "Konoha";      
+
+      return $results;
     }
 }

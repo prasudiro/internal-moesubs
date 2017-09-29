@@ -13,7 +13,7 @@
 <p><strong>Tagihan Pemesanan {{$produk['shops_product']}}</strong></p>
 {{ $data['fullname']}}<br />
 {{ $data['alamat']}}<br />
-{{ $data['kecamatan']}}, {{ $data['kabkota']}}<br />
+{{ $data['kecamatan']}}, {{ $ongkir['city']}}<br />
 {{ $data['provinsi']}} {{ $data['kodepos']}}<br /><br />
 Nomor HP: {{ $data['hp']}}
 <hr>
@@ -22,7 +22,11 @@ Nomor HP: {{ $data['hp']}}
 <td id="invoiceitemsrow" style="border:1px solid #cccccc;border-bottom:0px;">&nbsp;&nbsp;Pemesanan {{$produk['shops_product']}} x{{ $data['pesanan']}}&nbsp;&nbsp;</td>
 <td align="center" id="invoiceitemsrow" style="border:1px solid #cccccc;border-bottom:0px;border-left:0px;"> {{ number_format($produk['shops_price'])}} IDR</td>
 </tr>
-<tr><td id="invoiceitemsheading" style="border:1px solid #cccccc;"><div align="right">Total:&nbsp;&nbsp;</div></td><td id="invoiceitemsheading" align="center" style="border:1px solid #cccccc;border-left:0px;"><strong>{{ number_format($produk['shops_price']*$data['pesanan'])}} IDR</strong></td></tr>
+<tr bgcolor=#ffffff>
+<td id="invoiceitemsrow" style="border:1px solid #cccccc;border-bottom:0px;">&nbsp;&nbsp;Ongkos Kirim via JNE REG&nbsp;&nbsp;</td>
+<td align="center" id="invoiceitemsrow" style="border:1px solid #cccccc;border-bottom:0px;border-left:0px;"> {{ number_format($ongkir['cost'])}} IDR</td>
+</tr>
+<tr><td id="invoiceitemsheading" style="border:1px solid #cccccc;"><div align="right">Total:&nbsp;&nbsp;</div></td><td id="invoiceitemsheading" align="center" style="border:1px solid #cccccc;border-left:0px;"><strong>{{ number_format(($produk['shops_price']*$data['pesanan'])+$ongkir['cost'])}} IDR</strong></td></tr>
 </table>
 <hr>
 <p><strong>Pembayaran</strong></p>

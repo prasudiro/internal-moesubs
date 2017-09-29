@@ -478,11 +478,11 @@
 
 			$('.dataTables-shopsdetail').dataTable({
 				responsive: true,
-				"order": [[ 4, "desc" ]],
+				"order": [[ 5, "desc" ]],
 				"columnDefs": [
-				  { "targets": [1], "orderable": false },
 				  { "targets": [2], "orderable": false },
-				  { "targets": [5], "orderable": false },
+				  { "targets": [3], "orderable": false },
+				  { "targets": [6], "orderable": false },
 				],
 				"language": {
 					"zeroRecords": "<center><h3><b>Tidak ada data</b></h3><center>",
