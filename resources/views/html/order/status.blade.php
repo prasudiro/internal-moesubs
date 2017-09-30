@@ -56,6 +56,8 @@
                           <span class="icon-next"></span>
                       </a>
                   </div>
+                <div class="hr-line-dashed"></div>
+                {!! $product['shops_detail']!!}
               </div>
           </div>
       </div>
