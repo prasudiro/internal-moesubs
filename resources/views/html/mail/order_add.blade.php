@@ -40,8 +40,11 @@ Harap Melakukan Pembayaran ke salah satu rekening di bawah ini:
 
 <p><strong>Konfirmasi Pembayaran</strong></p>
 Setelah melakukan pembayaran ke salah satu rekening di atas, harap melakukan konfirmasi pembayaran di<br>
-<a href="{{ URL('order/status/'.base64_encode('userid'.$order_save->shops_detail_id.'userdetailid').'/'.base64_encode($data['email'].'_usermail'))}}" target="_blank">
+{{-- <a href="{{ URL('order/status/'.base64_encode('userid'.$order_save->shops_detail_id.'userdetailid').'/'.base64_encode($data['email'].'_usermail'))}}" target="_blank">
 {{ URL('order/status/'.base64_encode('userid'.$order_save->shops_detail_id.'userdetailid').'/'.base64_encode($data['email'].'_usermail'))}}
+</a> --}}
+<a href="https://shop.moesubs.com/order/status/{{base64_encode('userid'.$order_save->shops_detail_id.'userdetailid').'/'.base64_encode($data['email'].'_usermail')}}" target="_blank">
+https://shop.moesubs.com/order/status/{{base64_encode('userid'.$order_save->shops_detail_id.'userdetailid').'/'.base64_encode($data['email'].'_usermail')}}
 </a>
 <hr>
 <b>PENTING!</b> Tautan di atas sekaligus untuk mengecek status pemesanan Anda, jadi harap disimpan.
