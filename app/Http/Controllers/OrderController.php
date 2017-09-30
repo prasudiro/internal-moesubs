@@ -278,7 +278,7 @@ class OrderController extends Controller
         //Email to contant us
         $admin_email = ['symphoniaofdark@gmail.com', 'prassaiyan@gmail.com', 'handband.handband@gmail.com'];
         $admin_name  = ['iLuminarie', 'Himeko', 'HB-chan'];
-        Mail::send('html.mail.contact_us', ['request' => $request], function ($m) use ($request) {
+        Mail::send('html.mail.contact_us', ['request' => $request], function ($m) use ($request, $admin_email, #admin_name) {
                 $m->from($request['contact_email'], $request['contact_name']);
                 $m->to($admin_email, $admin_name)->subject('[Pesan Baru] '.$request['contact_subject'].' [ '.$request['contact_name'].' ]');
               });
