@@ -205,7 +205,7 @@
   <script src="{{ URL('js/plugins/toastr/toastr.min.js')}}"></script>
 
   <!-- Summernote -->
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
   <!-- Chosen -->
   <script src="{{ URL('js/plugins/chosen/chosen.jquery.js')}}"></script>
