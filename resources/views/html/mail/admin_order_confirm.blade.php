@@ -23,7 +23,7 @@ Jumlah Pembayaran: {{ number_format($data['jumlah_penyetor'])}} IDR<br />
 Barang: {{ $product['shops_product']}}<br>
 Harga: {{ number_format($product['shops_price'])}} IDR<br>
 Jumlah: {{ $detail['shops_detail_quantity']}}<br>
-Total : {{ number_format(($product['shops_price']*$detail['shops_detail_quantity']))}} IDR<br>
+Total : {{ number_format(($product['shops_price']*$detail['shops_detail_quantity'])+)}} IDR<br>
 <hr>
 
 Harap segera ditindaklanjuti di:<br>

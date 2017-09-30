@@ -18,7 +18,7 @@
 		<link href="{{ URL('css/plugins/toastr/toastr.min.css')}}" rel="stylesheet">
 
     <!-- External -->
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 
     <!-- Chosen -->
     <link href="{{ URL('css/plugins/chosen/chosen.css')}}" rel="stylesheet">
