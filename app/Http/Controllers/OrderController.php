@@ -166,12 +166,12 @@ class OrderController extends Controller
             });
 
       //Email to admin
-      // $admin_email = ['symphoniaofdark@gmail.com', 'prassaiyan@gmail.com', 'handband.handband@gmail.com'];
-      // $admin_name  = ['iLuminarie', 'Himeko', 'HB-chan'];
-      // Mail::send('html.mail.admin_order_add', ['data' => $request, 'ongkir' => $ongkir, 'user_info' => $user_info, 'produk' => $gachi, 'meta_detail' => $meta_detail, 'order_save', $order_save], function ($m) use ($request, $gachi, $admin_email, $admin_name) {
-      //         $m->from('admin@moesubs.com', 'Moeshops');
-      //         $m->to($admin_email, $admin_name)->subject('[Pesanan Baru] '.$gachi['shops_product'].' ['.$request['fullname'].']');
-      //       });
+      $admin_email = ['symphoniaofdark@gmail.com', 'prassaiyan@gmail.com', 'handband.handband@gmail.com'];
+      $admin_name  = ['iLuminarie', 'Himeko', 'HB-chan'];
+      Mail::send('html.mail.admin_order_add', ['data' => $request, 'ongkir' => $ongkir, 'user_info' => $user_info, 'produk' => $gachi, 'meta_detail' => $meta_detail, 'order_save', $order_save], function ($m) use ($request, $gachi, $admin_email, $admin_name) {
+              $m->from('admin@moesubs.com', 'Moeshops');
+              $m->to($admin_email, $admin_name)->subject('[Pesanan Baru] '.$gachi['shops_product'].' ['.$request['fullname'].']');
+            });
 
       return redirect()->back()->with('success_msg', 'Pemesanan berhasil! <br>Silakan cek email untuk lebih detailnya!');
     }
@@ -263,12 +263,12 @@ class OrderController extends Controller
             });
 
       //Email to admin
-      // $admin_email = ['symphoniaofdark@gmail.com', 'prassaiyan@gmail.com', 'handband.handband@gmail.com'];
-      // $admin_name  = ['iLuminarie', 'Himeko', 'HB-chan'];
-      // Mail::send('html.mail.admin_order_confirm', ['data' => $request, 'user_info' => $user_info, 'product' => $product, 'detail' => $detail], function ($m) use ($request, $product, $detail, $admin_email, $admin_name) {
-      //         $m->from('admin@moesubs.com', 'Moeshops');
-      //         $m->to($admin_email, $admin_name)->subject('[Konfirmasi Baru] '.$product['shops_product'].' ['.$detail['shops_detail_buyer'].']');
-      //       });
+      $admin_email = ['symphoniaofdark@gmail.com', 'prassaiyan@gmail.com', 'handband.handband@gmail.com'];
+      $admin_name  = ['iLuminarie', 'Himeko', 'HB-chan'];
+      Mail::send('html.mail.admin_order_confirm', ['data' => $request, 'user_info' => $user_info, 'product' => $product, 'detail' => $detail], function ($m) use ($request, $product, $detail, $admin_email, $admin_name) {
+              $m->from('admin@moesubs.com', 'Moeshops');
+              $m->to($admin_email, $admin_name)->subject('[Konfirmasi Baru] '.$product['shops_product'].' ['.$detail['shops_detail_buyer'].']');
+            });
 
       return redirect()->back()->with('success_msg', 'Konfirmasi akan segera diproses!<br>Silakan cek email dan laman ini untuk pembaruan status pemesanan');
     }
