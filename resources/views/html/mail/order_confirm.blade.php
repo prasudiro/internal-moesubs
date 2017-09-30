@@ -22,13 +22,13 @@ Jumlah Pembayaran: {{ number_format($data['jumlah_penyetor'])}} IDR<br />
 Barang: {{ $product['shops_product']}}<br>
 Harga: {{ number_format($product['shops_price'])}} IDR<br>
 Jumlah: {{ $detail['shops_detail_quantity']}}<br>
-Total : {{ number_format($product['shops_price']*$detail['shops_detail_quantity'])}} IDR<br>
+Total : {{ number_format($product['shops_price']*$detail['shops_detail_quantity'])}} IDR (di luar ongkos kirim<br>
 <hr>
 
 <p><strong>Periksa Status Pemesanan</strong></p>
 Setelah konfirmasi diterima dan diperiksa, harap lakukan pengecekan status pemesanan berkala di<br>
-<a href="https://shop.moesubs.com/order/status/{{base64_encode('userid'.$shops_detail["shops_detail_id"].'userdetailid').'/'.base64_encode($shops_detail['shops_detail_email'].'_usermail')}}" target="_blank">
-https://shop.moesubs.com/order/status/{{base64_encode('userid'.$shops_detail["shops_detail_id"].'userdetailid').'/'.base64_encode($shops_detail['shops_detail_email'].'_usermail')}}
+<a href="https://shop.moesubs.com/order/status/{{base64_encode('userid'.$detail["shops_detail_id"].'userdetailid').'/'.base64_encode($detail['shops_detail_email'].'_usermail')}}" target="_blank">
+https://shop.moesubs.com/order/status/{{base64_encode('userid'.$detail["shops_detail_id"].'userdetailid').'/'.base64_encode($detail['shops_detail_email'].'_usermail')}}
 </a>
 <hr>
 <b>PENTING!</b> Tautan di atas sekaligus untuk mengecek status pemesanan Anda, jadi harap disimpan.
