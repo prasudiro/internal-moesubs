@@ -40,11 +40,11 @@
                 <div class="carousel slide" id="gachi-logo-moe">
                       <div class="carousel-inner">
                           <div class="item active">
-                              <img alt="image" class="img-responsive" src="{{ URL('uploads/shops/'.$product['shops_id'])}}/{{ $meta_detail['gambar1']}}">
+                              <img alt="image" class="img-responsive" src="{{ URL('uploads/shops/'.$product['shops_id'])}}/{{ $meta_detail['gambar1']}}" width="100%">
                           </div>
                           @for ($i=2; $i <= 3; $i++) 
                           <div class="item">
-                              <img alt="image" class="img-responsive" src="{{ URL('uploads/shops/'.$product['shops_id'])}}/{{ $meta_detail['gambar'.$i]}}">
+                              <img alt="image" class="img-responsive" src="{{ URL('uploads/shops/'.$product['shops_id'])}}/{{ $meta_detail['gambar'.$i]}}" width="100%">
                           </div>
                           @endfor
 
