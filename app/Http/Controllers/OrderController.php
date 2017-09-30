@@ -273,6 +273,19 @@ class OrderController extends Controller
       return redirect()->back()->with('success_msg', 'Konfirmasi akan segera diproses!<br>Silakan cek email dan laman ini untuk pembaruan status pemesanan');
     }
 
+    public function contact_send(Request $request)
+    {
+        //Email to contant us
+        $admin_email = ['symphoniaofdark@gmail.com', 'prassaiyan@gmail.com', 'handband.handband@gmail.com'];
+        $admin_name  = ['iLuminarie', 'Himeko', 'HB-chan'];
+        Mail::send('html.mail.contact_us', ['request' => $request], function ($m) use ($request) {
+                $m->from($request['contact_email'], $request['contact_name']);
+                $m->to($admin_email, $admin_name)->subject('[Pesan Baru] '.$request['contact_subject'].' [ '.$request['contact_name'].' ]');
+              });
+
+        return redirect()->back()->with('success_msg', 'Pesan berhasil dikirim! <br>Kami akan segera mengirimkan balasan ke email Anda!');
+    }
+
     //Return all invalid redirections
     // public function returning()
     // {

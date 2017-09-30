@@ -19,13 +19,6 @@ Nomor Rekening: {{ $data['norek_penyetor']}}<br />
 Jumlah Pembayaran: {{ number_format($data['jumlah_penyetor'])}} IDR<br />
 <hr>
 
-<p><strong>Detail Pemesanan:</strong></p>
-Barang: {{ $product['shops_product']}}<br>
-Harga: {{ number_format($product['shops_price'])}} IDR<br>
-Jumlah: {{ $detail['shops_detail_quantity']}}<br>
-Total : {{ number_format(($product['shops_price']*$detail['shops_detail_quantity'])+)}} IDR<br>
-<hr>
-
 Harap segera ditindaklanjuti di:<br>
 <a href="https://internal.moesubs.com/shops" target="_blank">https://internal.moesubs.com/shops</a>
 
