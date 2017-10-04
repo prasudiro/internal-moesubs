@@ -84,8 +84,7 @@ class OrderController extends Controller
 
       if (strtotime($gachi['shops_closed']) < strtotime(date("y-m-d H:i:s"))) 
       {
-        echo "Pemesanan ditutup";
-        exit();
+        return view('html.errors.closed');
       }
 
       $meta_detail = json_decode($metadata['metadata_detail'], TRUE);
