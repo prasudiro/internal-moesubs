@@ -196,6 +196,11 @@ class OrderController extends Controller
       {
         return redirect('undefined');
       }
+      
+if($order_detail['status'] == '1')
+{
+return redirect('undefined');
+}
 
       return view('html.order.status')
             ->with('order_detail', $order_detail)

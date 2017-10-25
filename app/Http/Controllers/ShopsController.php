@@ -102,7 +102,7 @@ class ShopsController extends Controller
       $user_info = Auth::user();
       $get_id    = preg_replace("/[^0-9]/", "", base64_decode($id));
       $product	 = Shops::where('shops_id', '=', $get_id)->first();
-      $detail    = ShopsDetail::where('shops_id', '=', $product['shops_id'])->get()->toArray();
+      $detail    = ShopsDetail::where('shops_id', '=', $product['shops_id'])->where('status', '=', '0')->get()->toArray();
       $metadata  = Metadata::where('metadata_module', '=', 'shops')->where('metadata_module_id', '=', $get_id)->first();
 
       $meta_detail = json_decode($metadata['metadata_detail'], TRUE);

@@ -160,7 +160,11 @@
                   @elseif($confirmation_detail['status_penyetor'] == 'dikirim')
 
                   @else
-                    <a data-toggle="modal" data-target="#konfirmasi{{ $order_detail['shops_detail_id']}}" class="btn btn-primary">Konfirmasikan Pembayaran</a>
+	    	    @if(strtotime(date("Y-m-d H:i:s")) > strtotime("2017-10-12 23:59:59"))
+<span class="label label-danger">Pembayaran Sudah Ditutup</span>
+@else                    
+<a data-toggle="modal" data-target="#konfirmasi{{ $order_detail['shops_detail_id']}}" class="btn btn-primary">Konfirmasikan Pembayaran</a>
+@endif		    
                   @endif
                   </div>
                 </div>
